@@ -3,6 +3,7 @@ import HeroSection from '@/components/HeroSection'
 import BandeauSection from '@/components/BandeauSection'
 import ActivitesSection from '@/components/ActivitesSection'
 import ValorisationSection from '@/components/ValorisationSection'
+import FondationSection from '@/components/FondationSection'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <BandeauSection />
       <ActivitesSection />
       <ValorisationSection />
+      <FondationSection />
     </main>
   )
 }
