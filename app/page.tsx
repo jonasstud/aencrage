@@ -4,6 +4,7 @@ import BandeauSection from '@/components/BandeauSection'
 import ActivitesSection from '@/components/ActivitesSection'
 import ValorisationSection from '@/components/ValorisationSection'
 import FondationSection from '@/components/FondationSection'
+import DeposerSection from '@/components/DeposerSection'
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <ActivitesSection />
       <ValorisationSection />
       <FondationSection />
+      <DeposerSection />
     </main>
   )
 }
