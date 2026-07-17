@@ -1,6 +1,6 @@
 export default function BandeauSection() {
   return (
-    <section className="bg-plume text-papier px-14 py-7 flex items-center justify-between flex-wrap gap-6">
+    <section className="bg-plume text-papier px-6 md:px-14 py-7 flex items-center justify-between flex-wrap gap-6">
       <p className="font-display italic text-[20px] leading-[1.4] max-w-[760px] m-0">
         Vous conservez des écrits, photographies ou enregistrements liés à Mase ?
         La fondation recueille dès aujourd&apos;hui les premiers témoignages.
