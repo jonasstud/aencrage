@@ -28,7 +28,7 @@ export default function HeroSection() {
         <motion.h1
           {...fadeUp}
           transition={{ duration: 0.7, delay: 0.08, ease: "easeOut" }}
-          className="font-display font-normal text-[44px] md:text-[60px] leading-[1.1] max-w-[600px] m-0 mb-7 text-encre"
+          className="font-display font-normal text-[44px] md:text-[60px] leading-[1.1] max-w-150 m-0 mb-7 text-encre"
         >
           Sauvegarder la mémoire d&apos;un village, écrite et racontée
         </motion.h1>
@@ -36,7 +36,7 @@ export default function HeroSection() {
         <motion.p
           {...fadeUp}
           transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
-          className="font-body text-[17px] leading-[1.6] text-secondaire max-w-[500px] m-0 mb-8"
+          className="font-body text-[17px] leading-[1.6] text-secondaire max-w-125 m-0 mb-8"
         >
           La Fondation Æncrage rassemble, conserve et met en valeur le
           patrimoine immatériel lié à la société masatte — écrits, archives,
@@ -47,7 +47,7 @@ export default function HeroSection() {
           {...fadeUp}
           transition={{ duration: 0.7, delay: 0.24, ease: "easeOut" }}
           href="#deposer-1a"
-          className="inline-flex items-center px-[22px] py-[14px] bg-encre text-papier no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-[background-color,transform] duration-200 hover:bg-secondaire hover:-translate-y-0.5"
+          className="inline-flex items-center px-5.5 py-3.5 bg-encre text-papier no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-[background-color,transform] duration-200 hover:bg-secondaire hover:-translate-y-0.5"
         >
           Déposer un témoignage
         </motion.a>
