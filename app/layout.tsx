@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Newsreader, Instrument_Sans, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
+import NavHeader from '@/components/NavHeader'
 
 const newsreader = Newsreader({
   weight: ['400', '500'],
@@ -36,7 +37,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="fr"
       className={`${newsreader.variable} ${instrumentSans.variable} ${ibmPlexMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <NavHeader />
+        {children}
+      </body>
     </html>
   )
 }

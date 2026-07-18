@@ -6,10 +6,10 @@ import { ChevronDown } from "lucide-react";
 
 const navLinks = [
   { label: "La Fondation", href: "#fondation-1a", hasDropdown: true },
-  { label: "Activités",    href: "#activites-1a", hasDropdown: true },
+  { label: "Activités", href: "#activites-1a", hasDropdown: true },
   { label: "Valorisation", href: "#valorisation-1a", hasDropdown: true },
-  { label: "Déposer",      href: "#deposer-1a", hasDropdown: true },
-  { label: "Contact",      href: "#contact-1a", hasDropdown: false },
+  { label: "Déposer", href: "#deposer-1a", hasDropdown: true },
+  { label: "Contact", href: "#contact-1a", hasDropdown: false },
 ];
 
 export default function NavHeader() {
@@ -17,7 +17,7 @@ export default function NavHeader() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   return (
-    <header className="border-b border-encre">
+    <header className="border-b border-encre sticky top-0 z-50 bg-papier">
       {/* Desktop */}
       <div className="flex items-center justify-between px-6 md:px-14 py-5">
         <Image
@@ -73,7 +73,7 @@ export default function NavHeader() {
               >
                 {link.label}
               </a>
-            )
+            ),
           )}
         </nav>
         {/* Mobile burger */}
