@@ -9,7 +9,7 @@ import DeposerSection from "@/components/DeposerSection";
 export default function Home() {
   return (
     <main>
-      <div className="flex flex-col h-dvh overflow-hidden">
+      <div className="flex flex-col h-dvh">
         <NavHeader />
         <HeroSection />
         <BandeauSection />

@@ -21,7 +21,7 @@ export default function NavHeader() {
       {/* Desktop */}
       <div className="flex items-center justify-between px-6 md:px-14 py-5">
         <Image
-          src="aencrage-logo.svg"
+          src="/aencrage-logo.svg"
           alt="Fondation Æncrage"
           width={180}
           height={32}
