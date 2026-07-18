@@ -8,8 +8,8 @@ import Link from "next/link";
 const navLinks = [
   { label: "La Fondation", href: "#fondation-1a", hasDropdown: false },
   { label: "Activités", href: "#activites-1a", hasDropdown: true },
-  { label: "Valorisation", href: "#valorisation-1a", hasDropdown: true },
-  { label: "Déposer", href: "#deposer-1a", hasDropdown: true },
+  { label: "Thématiques", href: "#thematiques-1a", hasDropdown: true },
+  { label: "Fonds d'archives", href: "#deposer-1a", hasDropdown: true },
   { label: "Contact", href: "#contact-1a", hasDropdown: false },
 ];
 
@@ -25,8 +25,8 @@ export default function NavHeader() {
           <Image
             src="/aencrage-logo.svg"
             alt="Fondation Æncrage"
-            width={180}
-            height={32}
+            width={400}
+            height={80}
             className="w-auto h-12"
           />
         </Link>
