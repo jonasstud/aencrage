@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { actions, filterOptions, type FilterOption } from '@/lib/data'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { actions, filterOptions, type FilterOption } from "@/lib/data";
 
 export default function ActivitesSection() {
-  const [filter, setFilter] = useState<FilterOption>('Tous')
+  const [filter, setFilter] = useState<FilterOption>("Tous");
 
   const filteredActions =
-    filter === 'Tous' ? actions : actions.filter((a) => a.cat === filter)
+    filter === "Tous" ? actions : actions.filter((a) => a.cat === filter);
 
   return (
     <section id="activites-1a" className="px-14 py-24">
@@ -29,10 +29,10 @@ export default function ActivitesSection() {
             <button
               key={option}
               onClick={() => setFilter(option)}
-              className={`px-[14px] py-2 border border-encre rounded-[2px] font-mono text-[10.5px] font-medium tracking-[0.14em] uppercase cursor-pointer transition-[background-color,color] duration-200 ${
+              className={`px-3.5 py-2 border border-encre rounded-xs font-mono text-[10.5px] font-medium tracking-[0.14em] uppercase cursor-pointer transition-[background-color,color] duration-200 ${
                 filter === option
-                  ? 'bg-encre text-papier'
-                  : 'bg-velin text-encre'
+                  ? "bg-encre text-papier"
+                  : "bg-velin text-encre"
               }`}
             >
               {option}
@@ -51,10 +51,10 @@ export default function ActivitesSection() {
             key={`${action.cat}-${i}`}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: i * 0.05, ease: 'easeOut' }}
+            transition={{ duration: 0.45, delay: i * 0.05, ease: "easeOut" }}
             className="bg-papier px-8 py-7 transition-[box-shadow,transform] duration-200 hover:shadow-[0_8px_24px_rgba(117,143,178,0.18)] hover:-translate-y-0.5"
           >
-            <p className="font-mono text-[10px] font-medium tracking-[0.14em] uppercase text-plume mb-[10px] m-0">
+            <p className="font-mono text-[10px] font-medium tracking-[0.14em] uppercase text-plume mb-2.5 m-0">
               {action.cat}
             </p>
             <p className="font-body text-[15px] leading-[1.55] text-encre m-0">
@@ -64,5 +64,5 @@ export default function ActivitesSection() {
         ))}
       </div>
     </section>
-  )
+  );
 }

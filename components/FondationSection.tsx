@@ -1,21 +1,22 @@
-import { conseil } from '@/lib/data'
+import { conseil } from "@/lib/data";
 
 export default function FondationSection() {
   return (
-    <section id="fondation-1a" className="bg-velin px-14 py-[88px]">
+    <section id="fondation-1a" className="bg-velin px-14 py-22">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         {/* Left — description */}
         <div>
           <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
             La Fondation
           </p>
-          <h2 className="font-display font-normal text-[34px] leading-[1.15] max-w-[480px] m-0 mb-6 text-encre">
+          <h2 className="font-display font-normal text-[34px] leading-[1.15] max-w-120 m-0 mb-6 text-encre">
             Préserver le patrimoine immatériel de la société masatte
           </h2>
-          <p className="font-body text-[16px] leading-[1.65] text-secondaire max-w-[480px] m-0">
-            Fondée à l&apos;initiative d&apos;Annette Corbaz, la fondation soutient toutes les
-            actions de sauvegarde et de mise en valeur du patrimoine oral et écrit de
-            Mase — et peut contribuer à d&apos;autres activités poursuivant les mêmes buts.
+          <p className="font-body text-[16px] leading-[1.65] text-secondaire max-w-120 m-0">
+            Fondée à l&apos;initiative d&apos;Annette Corbaz, la fondation
+            soutient toutes les actions de sauvegarde et de mise en valeur du
+            patrimoine oral et écrit de Mase — et peut contribuer à
+            d&apos;autres activités poursuivant les mêmes buts.
           </p>
         </div>
 
@@ -33,7 +34,7 @@ export default function FondationSection() {
                 <span className="font-display font-normal text-[17px] text-encre">
                   {membre.name}
                 </span>
-                <span className="font-mono font-normal text-[12px] tracking-[0.05em] uppercase text-gris">
+                <span className="font-mono font-normal text-[12px] tracking-wider uppercase text-gris">
                   {membre.role}
                 </span>
               </div>
@@ -42,5 +43,5 @@ export default function FondationSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
