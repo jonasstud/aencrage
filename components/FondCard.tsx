@@ -1,36 +1,48 @@
-"use client"
+"use client";
 
-import { FondTypeIcon, TYPE_LABELS } from "@/components/FondIcons"
-import type { Fond } from "@/lib/fondsThemes"
+import { Camera, FileText, AudioLines, ChevronRight } from "lucide-react";
+
+const TYPE_LABELS: Record<"photo" | "ecrit" | "son", string> = {
+  photo: "Photographie",
+  ecrit: "Document écrit",
+  son: "Enregistrement sonore",
+};
+
+function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" }) {
+  if (type === "photo") return <Camera size={14} />;
+  if (type === "son") return <AudioLines size={14} />;
+  return <FileText size={14} />;
+}
+import type { Fond } from "@/lib/fondsThemes";
 
 type Props = {
-  fond: Fond
-  onOpen: (fond: Fond) => void
-}
+  fond: Fond;
+  onOpen: (fond: Fond) => void;
+};
 
 export default function FondCard({ fond, onOpen }: Props) {
-  const hasImage = fond.type === 'photo'
+  const hasImage = fond.type === "photo";
 
   return (
     <div
       className="border border-encre flex flex-col"
-      style={{ borderTop: '3px solid var(--color-laiton)' }}
+      style={{ borderTop: "3px solid var(--color-laiton)" }}
     >
       {hasImage && (
         <div
           className="w-full bg-placeholder"
-          style={{ aspectRatio: '16 / 9' }}
+          style={{ aspectRatio: "16 / 9" }}
           aria-hidden="true"
         />
       )}
       <div
         className="flex flex-col flex-1"
-        style={{ padding: hasImage ? '16px 22px 22px' : '24px 22px 22px' }}
+        style={{ padding: hasImage ? "16px 22px 22px" : "24px 22px 22px" }}
       >
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 text-gris">
             <FondTypeIcon type={fond.type} />
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-gris">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em]">
               {TYPE_LABELS[fond.type]}
             </span>
           </div>
@@ -48,11 +60,13 @@ export default function FondCard({ fond, onOpen }: Props) {
         <button
           type="button"
           onClick={() => onOpen(fond)}
-          className="font-mono text-[11px] uppercase tracking-[0.14em] text-plume self-start hover:opacity-70 transition-opacity duration-200"
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-plume self-start hover:opacity-70 transition-opacity duration-200 cursor-pointer"
         >
-          Voir la fiche →
+          <div className="flex items-center gap-1">
+            Voir la fiche <ChevronRight size={14} />
+          </div>
         </button>
       </div>
     </div>
-  )
+  );
 }

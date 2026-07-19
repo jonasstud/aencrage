@@ -1,43 +1,55 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { FondTypeIcon, TYPE_LABELS } from "@/components/FondIcons"
-import type { Fond } from "@/lib/fondsThemes"
+import { useEffect } from "react";
+import { Camera, FileText, AudioLines } from "lucide-react";
+
+const TYPE_LABELS: Record<"photo" | "ecrit" | "son", string> = {
+  photo: "Photographie",
+  ecrit: "Document écrit",
+  son: "Enregistrement sonore",
+};
+
+function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" }) {
+  if (type === "photo") return <Camera size={14} />;
+  if (type === "son") return <AudioLines size={14} />;
+  return <FileText size={14} />;
+}
+import type { Fond } from "@/lib/fondsThemes";
 
 type Props = {
-  fond: Fond | null
-  chapitreName: string
-  onClose: () => void
-}
+  fond: Fond | null;
+  chapitreName: string;
+  onClose: () => void;
+};
 
 export default function FondModal({ fond, chapitreName, onClose }: Props) {
   useEffect(() => {
-    if (!fond) return
-    document.body.style.overflow = 'hidden'
+    if (!fond) return;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', handler)
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
     return () => {
-      document.removeEventListener('keydown', handler)
-      document.body.style.overflow = ''
-    }
-  }, [fond, onClose])
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [fond, onClose]);
 
-  if (!fond) return null
+  if (!fond) return null;
 
-  const hasImage = fond.type === 'photo'
+  const hasImage = fond.type === "photo";
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(19,20,23,0.75)' }}
+      style={{ background: "rgba(19,20,23,0.75)" }}
       onClick={onClose}
     >
       <div
-        className={`bg-papier w-full overflow-y-auto ${hasImage ? 'max-w-[760px]' : 'max-w-[600px]'}`}
-        style={{ maxHeight: '90vh' }}
-        onClick={e => e.stopPropagation()}
+        className={`bg-papier w-full overflow-y-auto ${hasImage ? "max-w-190" : "max-w-150"}`}
+        style={{ maxHeight: "90vh" }}
+        onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label="Détails du fonds"
@@ -49,7 +61,7 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
               style={{
                 minHeight: 400,
                 clipPath:
-                  'polygon(0 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 35px))',
+                  "polygon(0 0, 100% 0, 100% 100%, 80px 100%, 0 calc(100% - 35px))",
               }}
               aria-hidden="true"
             />
@@ -66,7 +78,7 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function CloseButton({ onClose }: { onClose: () => void }) {
@@ -78,10 +90,16 @@ function CloseButton({ onClose }: { onClose: () => void }) {
     >
       ✕
     </button>
-  )
+  );
 }
 
-function ModalContent({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
+function ModalContent({
+  fond,
+  chapitreName,
+}: {
+  fond: Fond;
+  chapitreName: string;
+}) {
   return (
     <>
       <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-gris mb-1">
@@ -104,5 +122,5 @@ function ModalContent({ fond, chapitreName }: { fond: Fond; chapitreName: string
       </p>
       <p className="font-body text-[14px] text-secondaire">{fond.provenance}</p>
     </>
-  )
+  );
 }

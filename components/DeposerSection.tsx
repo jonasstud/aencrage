@@ -1,6 +1,6 @@
 export default function DeposerSection() {
   return (
-    <section id="deposer-1a" className="bg-encre text-papier px-14 py-22">
+    <footer id="deposer-1a" className="bg-encre text-papier px-14 py-22">
       {/* Grid: deposit info + contact */}
       <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-16 mb-16">
         {/* Left — deposit */}
@@ -50,6 +50,6 @@ export default function DeposerSection() {
           Fondation Æncrage © 2026
         </p>
       </div>
-    </section>
+    </footer>
   );
 }
