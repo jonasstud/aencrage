@@ -46,6 +46,7 @@ export default function FondCard({ fond, onOpen }: Props) {
         </p>
 
         <button
+          type="button"
           onClick={() => onOpen(fond)}
           className="font-mono text-[11px] uppercase tracking-[0.14em] text-plume self-start hover:opacity-70 transition-opacity duration-200"
         >

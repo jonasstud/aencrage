@@ -13,11 +13,15 @@ type Props = {
 export default function FondModal({ fond, chapitreName, onClose }: Props) {
   useEffect(() => {
     if (!fond) return
+    document.body.style.overflow = 'hidden'
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
+    return () => {
+      document.removeEventListener('keydown', handler)
+      document.body.style.overflow = ''
+    }
   }, [fond, onClose])
 
   if (!fond) return null
@@ -34,6 +38,9 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
         className={`bg-papier w-full overflow-y-auto ${hasImage ? 'max-w-[760px]' : 'max-w-[600px]'}`}
         style={{ maxHeight: '90vh' }}
         onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Détails du fonds"
       >
         {hasImage ? (
           <div className="grid grid-cols-[1fr_1.1fr]">

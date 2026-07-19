@@ -44,6 +44,7 @@ export default function ThemeSummary({ chapitres }: { chapitres: Chapitre[] }) {
           return (
             <li key={c.id}>
               <button
+                type="button"
                 onClick={() => scrollTo(c.id)}
                 className={`w-full text-left pl-3 py-1.5 border-l-2 transition-all duration-200 ${
                   isActive
