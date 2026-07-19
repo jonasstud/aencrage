@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { themes } from "@/lib/fondsThemes";
 
 const navLinks = [
   { label: "La Fondation", href: "#fondation-1a", hasDropdown: false },
@@ -16,6 +18,7 @@ const navLinks = [
 export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const pathname = usePathname();
 
   return (
     <header className="border-b border-encre sticky top-0 z-50 bg-papier">
@@ -58,13 +61,27 @@ export default function NavHeader() {
                       : "opacity-0 pointer-events-none"
                   }`}
                 >
-                  <div className="bg-papier border border-encre min-w-45 p-3">
-                    <a
-                      href={link.href}
-                      className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline hover:text-plume block py-2 px-3 transition-colors duration-200"
-                    >
-                      Vue générale →
-                    </a>
+                  <div className="bg-papier border border-encre min-w-50 p-3">
+                    {link.label === 'Thématiques' ? (
+                      themes.map(t => (
+                        <Link
+                          key={t.slug}
+                          href={`/fonds/${t.slug}`}
+                          className={`font-mono text-[11px] font-medium tracking-[0.14em] uppercase no-underline hover:text-plume block py-2 px-3 transition-colors duration-200 ${
+                            pathname === `/fonds/${t.slug}` ? 'text-plume' : 'text-encre'
+                          }`}
+                        >
+                          {t.name}
+                        </Link>
+                      ))
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline hover:text-plume block py-2 px-3 transition-colors duration-200"
+                      >
+                        Vue générale →
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
