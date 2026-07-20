@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Users, Landmark, BookOpen, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { themes } from "@/lib/fondsThemes";
@@ -13,6 +13,12 @@ const navLinks = [
   { label: "Thématiques", href: "#thematiques-1a", hasDropdown: true },
   { label: "Fonds d'archives", href: "#deposer-1a", hasDropdown: true },
   { label: "Contact", href: "#contact-1a", hasDropdown: false },
+];
+
+const thematiqueCategories: { label: string; icon: LucideIcon; slugs: string[] }[] = [
+  { label: "Vie sociale", icon: Users, slugs: ["alpage", "quotidien", "societes", "economie"] },
+  { label: "Patrimoine & territoire", icon: Landmark, slugs: ["patrimoine-bati", "communes", "nature"] },
+  { label: "Culture & mémoire", icon: BookOpen, slugs: ["fetes", "fetes-populaires", "contes-legendes", "portraits"] },
 ];
 
 export default function NavHeader() {
@@ -27,7 +33,7 @@ export default function NavHeader() {
         <Link href="/">
           <Image
             src="/aencrage-logo.svg"
-            alt="Fondation Æncrage"
+            alt="Fondation AEncrage"
             width={400}
             height={80}
             className="w-auto h-12"
@@ -61,28 +67,51 @@ export default function NavHeader() {
                       : "opacity-0 pointer-events-none"
                   }`}
                 >
-                  <div className="bg-papier border border-encre min-w-50 p-3">
-                    {link.label === 'Thématiques' ? (
-                      themes.map(t => (
-                        <Link
-                          key={t.slug}
-                          href={`/fonds/${t.slug}`}
-                          className={`font-mono text-[11px] font-medium tracking-[0.14em] uppercase no-underline hover:text-plume block py-2 px-3 transition-colors duration-200 ${
-                            pathname === `/fonds/${t.slug}` ? 'text-plume' : 'text-encre'
-                          }`}
-                        >
-                          {t.name}
-                        </Link>
-                      ))
-                    ) : (
+                  {link.label === 'Thématiques' ? (
+                    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-75 px-4.5 pt-3.5 pb-1.5">
+                      {thematiqueCategories.map((cat, catIdx) => (
+                        <div key={cat.label}>
+                          <div
+                            className={`flex items-center gap-1.5 mb-1.5 ${
+                              catIdx !== 0 ? 'mt-2.5 pt-2.5 border-t border-gris/15' : ''
+                            }`}
+                          >
+                            <cat.icon size={13} strokeWidth={1.4} className="text-gris shrink-0" />
+                            <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+                              {cat.label}
+                            </span>
+                          </div>
+                          {cat.slugs.map((slug) => {
+                            const t = themes.find((th) => th.slug === slug);
+                            if (!t) return null;
+                            const isActive = pathname === `/fonds/${t.slug}`;
+                            return (
+                              <Link
+                                key={t.slug}
+                                href={`/fonds/${t.slug}`}
+                                className={`font-body text-[12.5px] no-underline block transition-colors duration-150 ${
+                                  isActive
+                                    ? 'font-semibold text-secondaire bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 py-2 hover:bg-texte-clair-2'
+                                    : 'font-normal text-encre px-3 py-2 hover:bg-velin cursor-pointer'
+                                }`}
+                              >
+                                {t.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-papier border border-encre min-w-50 p-3">
                       <a
                         href={link.href}
                         className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline hover:text-plume block py-2 px-3 transition-colors duration-200"
                       >
                         Vue générale →
                       </a>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (

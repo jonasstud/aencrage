@@ -26,9 +26,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Fondation Æncrage — Patrimoine oral & écrit de Mase',
+  title: 'Fondation AEncrage — Patrimoine oral & écrit de Mase',
   description:
-    'La Fondation Æncrage rassemble, conserve et met en valeur le patrimoine immatériel lié à la société masatte — écrits, archives, voix et portraits.',
+    'La Fondation AEncrage rassemble, conserve et met en valeur le patrimoine immatériel lié à la société masatte — écrits, archives, voix et portraits.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

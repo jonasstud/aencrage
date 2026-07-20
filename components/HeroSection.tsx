@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const fadeUp = {
   initial: { opacity: 0, y: 18 },
@@ -38,7 +39,7 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
           className="font-body text-[17px] leading-[1.6] text-secondaire max-w-125 m-0 mb-8"
         >
-          La Fondation Æncrage rassemble, conserve et met en valeur le
+          La Fondation AEncrage rassemble, conserve et met en valeur le
           patrimoine immatériel lié à la société masatte — écrits, archives,
           voix et portraits.
         </motion.p>
@@ -53,17 +54,26 @@ export default function HeroSection() {
         </motion.a>
       </div>
 
-      {/* Right column — image placeholder with brand bevel */}
+      {/* Right column — hero image with brand bevel */}
       <motion.div
         {...fadeIn}
         transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-        className="hidden md:block w-full self-stretch bg-placeholder"
+        className="hidden md:block relative w-full self-stretch bg-placeholder"
         style={{
           clipPath:
             "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
         }}
         aria-hidden="true"
-      />
+      >
+        <Image
+          src="/images/hero.jpg"
+          alt=""
+          fill
+          preload
+          sizes="(min-width: 768px) 45vw, 0px"
+          className="object-cover"
+        />
+      </motion.div>
     </section>
   );
 }
