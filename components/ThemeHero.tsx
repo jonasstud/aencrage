@@ -21,6 +21,19 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
 
   return (
     <section className="min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-16 md:pb-24 items-end">
+      
+
+      <motion.div
+        {...fadeIn}
+        transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+        className="hidden md:block w-full self-stretch bg-placeholder"
+        style={{
+          clipPath:
+            "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
+        }}
+        aria-hidden="true"
+      />
+
       <div>
         <motion.div
           {...fadeUp}
@@ -54,17 +67,6 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
           {theme.chapitres.length} chapitres · {totalFonds} fonds
         </motion.div>
       </div>
-
-      <motion.div
-        {...fadeIn}
-        transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-        className="hidden md:block w-full self-stretch bg-placeholder"
-        style={{
-          clipPath:
-            "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
-        }}
-        aria-hidden="true"
-      />
     </section>
   );
 }

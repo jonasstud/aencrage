@@ -30,7 +30,7 @@ export default function DeposerSection() {
             Contact
           </p>
           <address className="font-body not-italic text-[15px] leading-[1.8] text-texte-clair-2">
-            Fondation Æncrage
+            Fondation AEncrage
             <br />
             Mase, Valais — Suisse
             <br />
@@ -47,7 +47,7 @@ export default function DeposerSection() {
       {/* Footer */}
       <div className="border-t border-[rgba(255,255,255,0.15)] pt-6">
         <p className="font-mono font-normal text-[11px] tracking-widest uppercase text-gris m-0">
-          Fondation Æncrage © 2026
+          Fondation AEncrage © 2026
         </p>
       </div>
     </footer>
