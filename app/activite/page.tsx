@@ -105,6 +105,7 @@ export default async function ActivitePage() {
               src={urlForImage(couverture).width(1200).fit("max").auto("format").url()}
               alt={couverture.alt ?? ""}
               fill
+              sizes="(min-width: 768px) 45vw, 0px"
               className="object-cover"
             />
           </div>
