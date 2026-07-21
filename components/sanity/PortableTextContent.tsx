@@ -62,6 +62,7 @@ const components: PortableTextComponents = {
               src={imageUrl}
               alt={value.alt ?? ""}
               fill
+              sizes="(min-width: 768px) 700px, 100vw"
               className="object-cover"
             />
           </div>
