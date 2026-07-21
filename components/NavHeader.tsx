@@ -24,6 +24,7 @@ const thematiqueCategories: { label: string; icon: LucideIcon; slugs: string[] }
 export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const [openMobileItem, setOpenMobileItem] = useState<string | null>(null);
   const pathname = usePathname();
 
   return (
@@ -50,6 +51,14 @@ export default function NavHeader() {
               >
                 <a
                   href={link.href}
+                  aria-haspopup="true"
+                  aria-expanded={hoveredItem === link.href}
+                  onClick={(e) => {
+                    if (hoveredItem !== link.href) {
+                      e.preventDefault();
+                      setHoveredItem(link.href);
+                    }
+                  }}
                   className="flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b border-transparent pb-0.75 transition-[border-color] duration-200 hover:border-plume"
                 >
                   {link.label}
@@ -151,16 +160,89 @@ export default function NavHeader() {
       {/* Mobile menu */}
       {isOpen && (
         <nav className="md:hidden flex flex-col border-t border-encre">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4 border-b border-[rgba(19,20,23,0.1)] hover:bg-velin"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.hasDropdown ? (
+              <div key={link.href} className="border-b border-[rgba(19,20,23,0.1)]">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenMobileItem((cur) => (cur === link.href ? null : link.href))
+                  }
+                  aria-expanded={openMobileItem === link.href}
+                  className="w-full flex items-center justify-between font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre px-6 py-4 hover:bg-velin"
+                >
+                  {link.label}
+                  <ChevronDown
+                    size={12}
+                    className={`transition-transform duration-300 ${
+                      openMobileItem === link.href ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openMobileItem === link.href && (
+                  <div className="px-6 pb-4">
+                    {link.label === "Thématiques" ? (
+                      thematiqueCategories.map((cat, catIdx) => (
+                        <div
+                          key={cat.label}
+                          className={
+                            catIdx !== 0 ? "mt-3 pt-3 border-t border-gris/15" : ""
+                          }
+                        >
+                          <div className="flex items-center gap-1.5 mb-1.5">
+                            <cat.icon
+                              size={13}
+                              strokeWidth={1.4}
+                              className="text-gris shrink-0"
+                            />
+                            <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+                              {cat.label}
+                            </span>
+                          </div>
+                          {cat.slugs.map((slug) => {
+                            const t = themes.find((th) => th.slug === slug);
+                            if (!t) return null;
+                            const isActive = pathname === `/fonds/${t.slug}`;
+                            return (
+                              <Link
+                                key={t.slug}
+                                href={`/fonds/${t.slug}`}
+                                onClick={() => setIsOpen(false)}
+                                className={`font-body text-[13px] no-underline block py-2 transition-colors duration-150 ${
+                                  isActive
+                                    ? "font-semibold text-secondaire"
+                                    : "font-normal text-encre"
+                                }`}
+                              >
+                                {t.name}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      ))
+                    ) : (
+                      <a
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline block py-2"
+                      >
+                        Vue générale →
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4 border-b border-[rgba(19,20,23,0.1)] hover:bg-velin"
+              >
+                {link.label}
+              </a>
+            ),
+          )}
         </nav>
       )}
     </header>
