@@ -137,7 +137,10 @@ export default function NavHeader() {
         {/* Mobile burger */}
         <button
           className="md:hidden flex flex-col gap-1.25 p-1"
-          onClick={() => setIsOpen((o) => !o)}
+          onClick={() => {
+            setOpenMobileItem(null);
+            setIsOpen((o) => !o);
+          }}
           aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
         >
           <span
@@ -207,7 +210,10 @@ export default function NavHeader() {
                               <Link
                                 key={t.slug}
                                 href={`/fonds/${t.slug}`}
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                  setOpenMobileItem(null);
+                                  setIsOpen(false);
+                                }}
                                 className={`font-body text-[13px] no-underline block py-2 transition-colors duration-150 ${
                                   isActive
                                     ? "font-semibold text-secondaire"
@@ -223,7 +229,10 @@ export default function NavHeader() {
                     ) : (
                       <a
                         href={link.href}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          setOpenMobileItem(null);
+                          setIsOpen(false);
+                        }}
                         className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline block py-2"
                       >
                         Vue générale →
@@ -236,7 +245,10 @@ export default function NavHeader() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setOpenMobileItem(null);
+                  setIsOpen(false);
+                }}
                 className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4 border-b border-[rgba(19,20,23,0.1)] hover:bg-velin"
               >
                 {link.label}
