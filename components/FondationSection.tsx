@@ -29,7 +29,7 @@ export default function FondationSection() {
             {conseil.map((membre) => (
               <div
                 key={membre.name}
-                className="flex justify-between items-baseline py-4 border-b border-[rgba(19,20,23,0.12)]"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-0 py-4 border-b border-[rgba(19,20,23,0.12)]"
               >
                 <span className="font-display font-normal text-[17px] text-encre">
                   {membre.name}
