@@ -60,6 +60,7 @@ export default function ActiviteGallery({ photos }: { photos: GalleryPhoto[] }) 
                 src={photo.thumbUrl}
                 alt={photo.alt}
                 fill
+                sizes={`(min-width: 768px) ${100 / cols}vw, 50vw`}
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </button>
