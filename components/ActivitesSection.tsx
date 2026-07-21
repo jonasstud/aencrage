@@ -11,7 +11,7 @@ export default function ActivitesSection() {
     filter === "Tous" ? actions : actions.filter((a) => a.cat === filter);
 
   return (
-    <section id="activites-1a" className="px-14 py-24">
+    <section id="activites-1a" className="px-6 md:px-14 py-14 md:py-24">
       {/* Header row */}
       <div className="flex items-baseline justify-between mb-10 flex-wrap gap-4">
         <div>
