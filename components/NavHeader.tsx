@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronDown, Users, Landmark, BookOpen, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { themes } from "@/lib/fondsThemes";
 
 const navLinks = [
@@ -21,11 +22,23 @@ const thematiqueCategories: { label: string; icon: LucideIcon; slugs: string[] }
   { label: "Culture & mémoire", icon: BookOpen, slugs: ["fetes", "fetes-populaires", "contes-legendes", "portraits"] },
 ];
 
+// Hauteur fixe de la barre logo (py-5 + h-12 + border), utilisée pour caler
+// le panneau mobile juste en dessous, quelle que soit la largeur d'écran.
+const MOBILE_BAR_HEIGHT = 88;
+
 export default function NavHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [openMobileItem, setOpenMobileItem] = useState<string | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <header className="border-b border-encre sticky top-0 z-50 bg-papier">
@@ -136,7 +149,7 @@ export default function NavHeader() {
         </nav>
         {/* Mobile burger */}
         <button
-          className="md:hidden flex flex-col gap-1.25 p-1"
+          className="md:hidden flex flex-col gap-1.25 p-1 cursor-pointer"
           onClick={() => {
             setOpenMobileItem(null);
             setIsOpen((o) => !o);
@@ -160,103 +173,117 @@ export default function NavHeader() {
           />
         </button>
       </div>
-      {/* Mobile menu */}
-      {isOpen && (
-        <nav className="md:hidden flex flex-col border-t border-encre">
-          {navLinks.map((link) =>
-            link.hasDropdown ? (
-              <div key={link.href} className="border-b border-[rgba(19,20,23,0.1)]">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setOpenMobileItem((cur) => (cur === link.href ? null : link.href))
-                  }
-                  aria-expanded={openMobileItem === link.href}
-                  className="w-full flex items-center justify-between font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre px-6 py-4 hover:bg-velin"
-                >
-                  {link.label}
-                  <ChevronDown
-                    size={12}
-                    className={`transition-transform duration-300 ${
-                      openMobileItem === link.href ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {openMobileItem === link.href && (
-                  <div className="px-6 pb-4">
-                    {link.label === "Thématiques" ? (
-                      thematiqueCategories.map((cat, catIdx) => (
-                        <div
-                          key={cat.label}
-                          className={
-                            catIdx !== 0 ? "mt-3 pt-3 border-t border-gris/15" : ""
-                          }
-                        >
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <cat.icon
-                              size={13}
-                              strokeWidth={1.4}
-                              className="text-gris shrink-0"
-                            />
-                            <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
-                              {cat.label}
-                            </span>
-                          </div>
-                          {cat.slugs.map((slug) => {
-                            const t = themes.find((th) => th.slug === slug);
-                            if (!t) return null;
-                            const isActive = pathname === `/fonds/${t.slug}`;
-                            return (
-                              <Link
-                                key={t.slug}
-                                href={`/fonds/${t.slug}`}
-                                onClick={() => {
-                                  setOpenMobileItem(null);
-                                  setIsOpen(false);
-                                }}
-                                className={`font-body text-[13px] no-underline block py-2 transition-colors duration-150 ${
-                                  isActive
-                                    ? "font-semibold text-secondaire"
-                                    : "font-normal text-encre"
-                                }`}
-                              >
-                                {t.name}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      ))
-                    ) : (
-                      <a
-                        href={link.href}
-                        onClick={() => {
-                          setOpenMobileItem(null);
-                          setIsOpen(false);
-                        }}
-                        className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline block py-2"
-                      >
-                        Vue générale →
-                      </a>
+
+      {/* Mobile menu: panneau plein écran, sous la barre logo, avec son propre scroll */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="md:hidden fixed inset-x-0 bottom-0 bg-papier border-t border-encre overflow-y-auto overscroll-contain"
+            style={{ top: MOBILE_BAR_HEIGHT }}
+          >
+            <div className="flex flex-col pb-[max(2rem,env(safe-area-inset-bottom))]">
+              {navLinks.map((link) =>
+                link.hasDropdown ? (
+                  <div key={link.href} className="border-b border-[rgba(19,20,23,0.1)]">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenMobileItem((cur) => (cur === link.href ? null : link.href))
+                      }
+                      aria-expanded={openMobileItem === link.href}
+                      className="w-full flex items-center justify-between font-mono text-[12px] font-medium tracking-[0.14em] uppercase text-encre px-6 py-4.5 active:bg-velin"
+                    >
+                      {link.label}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${
+                          openMobileItem === link.href ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {openMobileItem === link.href && (
+                      <div className="px-6 pb-5 bg-velin/40">
+                        {link.label === "Thématiques" ? (
+                          thematiqueCategories.map((cat, catIdx) => (
+                            <div
+                              key={cat.label}
+                              className={
+                                catIdx !== 0 ? "mt-4 pt-4 border-t border-gris/15" : ""
+                              }
+                            >
+                              <div className="flex items-center gap-1.5 mb-2">
+                                <cat.icon
+                                  size={13}
+                                  strokeWidth={1.4}
+                                  className="text-gris shrink-0"
+                                />
+                                <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+                                  {cat.label}
+                                </span>
+                              </div>
+                              <div className="flex flex-col border-l border-gris/15 pl-3.5">
+                                {cat.slugs.map((slug) => {
+                                  const t = themes.find((th) => th.slug === slug);
+                                  if (!t) return null;
+                                  const isActive = pathname === `/fonds/${t.slug}`;
+                                  return (
+                                    <Link
+                                      key={t.slug}
+                                      href={`/fonds/${t.slug}`}
+                                      onClick={() => {
+                                        setOpenMobileItem(null);
+                                        setIsOpen(false);
+                                      }}
+                                      className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
+                                        isActive
+                                          ? "font-semibold text-secondaire"
+                                          : "font-normal text-encre"
+                                      }`}
+                                    >
+                                      {t.name}
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <a
+                            href={link.href}
+                            onClick={() => {
+                              setOpenMobileItem(null);
+                              setIsOpen(false);
+                            }}
+                            className="font-mono text-[12px] font-medium tracking-[0.14em] uppercase text-encre no-underline block py-3"
+                          >
+                            Vue générale →
+                          </a>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => {
-                  setOpenMobileItem(null);
-                  setIsOpen(false);
-                }}
-                className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4 border-b border-[rgba(19,20,23,0.1)] hover:bg-velin"
-              >
-                {link.label}
-              </a>
-            ),
-          )}
-        </nav>
-      )}
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => {
+                      setOpenMobileItem(null);
+                      setIsOpen(false);
+                    }}
+                    className="font-mono text-[12px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4.5 border-b border-[rgba(19,20,23,0.1)] active:bg-velin"
+                  >
+                    {link.label}
+                  </a>
+                ),
+              )}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
