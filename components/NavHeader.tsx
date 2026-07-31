@@ -119,7 +119,6 @@ export default function NavHeader() {
                       setHoveredItem(link.href);
                     }
                   }}
-                  className="flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b border-transparent pb-0.75 transition-[border-color] duration-200 hover:border-plume"
                   className={`flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
                     link.activePrefix && pathname.startsWith(link.activePrefix)
                       ? "border-plume"
