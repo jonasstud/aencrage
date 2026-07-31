@@ -8,11 +8,11 @@ import { usePathname } from "next/navigation";
 import { themes } from "@/lib/fondsThemes";
 
 const navLinks = [
-  { label: "La Fondation", href: "#fondation-1a", hasDropdown: false },
-  { label: "Activités", href: "#activites-1a", hasDropdown: true },
-  { label: "Thématiques", href: "#thematiques-1a", hasDropdown: true },
-  { label: "Fonds d'archives", href: "#deposer-1a", hasDropdown: true },
-  { label: "Contact", href: "#contact-1a", hasDropdown: false },
+  { label: "La Fondation", href: "#fondation-1a", hasDropdown: false, activePrefix: null },
+  { label: "Activités", href: "#activites-1a", hasDropdown: true, activePrefix: null },
+  { label: "Thématiques", href: "#thematiques-1a", hasDropdown: true, activePrefix: "/fonds/" },
+  { label: "Fonds d'archives", href: "#deposer-1a", hasDropdown: true, activePrefix: null },
+  { label: "Contact", href: "#contact-1a", hasDropdown: false, activePrefix: null },
 ];
 
 export default function NavHeader() {
@@ -44,7 +44,9 @@ export default function NavHeader() {
               >
                 <a
                   href={link.href}
-                  className="flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b border-transparent pb-0.75 transition-[border-color] duration-200 hover:border-plume"
+                  className={`flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
+                    link.activePrefix && pathname.startsWith(link.activePrefix) ? "border-plume" : "border-transparent"
+                  }`}
                 >
                   {link.label}
                   <ChevronDown
