@@ -55,9 +55,9 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
         aria-label="Détails du fonds"
       >
         {hasImage ? (
-          <div className="grid grid-cols-[1fr_1.1fr]">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.1fr]">
             <div
-              className="bg-placeholder min-w-0"
+              className="hidden md:block bg-placeholder min-w-0"
               style={{
                 minHeight: 400,
                 clipPath:
@@ -65,13 +65,13 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
               }}
               aria-hidden="true"
             />
-            <div className="p-10 relative">
+            <div className="p-6 md:p-10 relative">
               <CloseButton onClose={onClose} />
               <ModalContent fond={fond} chapitreName={chapitreName} />
             </div>
           </div>
         ) : (
-          <div className="p-10 relative">
+          <div className="p-6 md:p-10 relative">
             <CloseButton onClose={onClose} />
             <ModalContent fond={fond} chapitreName={chapitreName} />
           </div>

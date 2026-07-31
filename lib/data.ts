@@ -1,5 +1,5 @@
 export type Action = { cat: string; text: string }
-export type Space = { id: string; name: string; desc: string }
+export type Space = { id: string; name: string; desc: string; image?: string }
 export type ConseilMembre = { name: string; role: string }
 
 export const actions: Action[] = [
@@ -16,9 +16,9 @@ export const filterOptions = ['Tous', 'Écrits', 'Archives', 'Recherche', 'Sonor
 export type FilterOption = typeof filterOptions[number]
 
 export const spaces: Space[] = [
-  { id: 'space-1', name: 'Maison des Êtres et des Lettres', desc: "Espace principal dédié à la consultation et à la mise en récit des fonds." },
+  { id: 'space-1', name: 'Maison des Êtres et des Lettres', desc: "Espace principal dédié à la consultation et à la mise en récit des fonds.", image: '/images/etre-et-des-lettres.jpg' },
   { id: 'space-2', name: 'Écurie des Chèvres',              desc: "Lieu d'exposition et d'ateliers en lien avec la vie rurale du village." },
-  { id: 'space-3', name: 'Moulin',                          desc: "Parcours didactique autour des gestes et des saisons." },
+  { id: 'space-3', name: 'Moulin',                          desc: "Parcours didactique autour des gestes et des saisons.", image: '/images/moulin.jpg' },
 ]
 
 export const conseil: ConseilMembre[] = [

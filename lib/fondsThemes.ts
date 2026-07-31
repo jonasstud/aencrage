@@ -207,4 +207,75 @@ export const themes: ThemePage[] = [
       { id: 'nature-presse', name: 'Articles de presse', fonds: [{ id: 'nature-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
     ],
   },
+  {
+    slug: 'patrimoine-bati',
+    name: 'Le patrimoine bâti',
+    intro:
+      'Maisons d\'habitation, raccards, greniers et écuries : le patrimoine bâti de Mase témoigne des techniques de construction traditionnelles et de l\'organisation de la vie villageoise. Ce fonds en retrace l\'histoire.',
+    chapitres: [
+      { id: 'maisons', name: 'Les maisons d\'habitation', fonds: [{ id: 'maisons-1', title: 'Maison d\'habitation (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'raccards-greniers', name: 'Les raccards, les greniers', fonds: [{ id: 'raccards-greniers-1', title: 'Raccard de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'ecuries', name: 'les écuries', fonds: [{ id: 'ecuries-1', title: 'Écurie (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'bati-autres', name: 'Autres', fonds: [{ id: 'bati-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'bati-presse', name: 'Articles de presse', fonds: [{ id: 'bati-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
+  {
+    slug: 'fetes-populaires',
+    name: 'Les fêtes populaires',
+    intro:
+      'Inaugurations, émissions radiophoniques et télévisées : les fêtes populaires rythment la vie de Mase et renforcent les liens entre habitants. Ce fonds en garde la mémoire.',
+    chapitres: [
+      { id: 'inaugurations', name: 'Les inaugurations', fonds: [{ id: 'inaugurations-1', title: 'Inauguration (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'emissions', name: 'Les émissions radio/TV', fonds: [{ id: 'emissions-1', title: 'Émission radio/TV (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'son' }] },
+      { id: 'fetespop-autres', name: 'Autres', fonds: [{ id: 'fetespop-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'fetespop-presse', name: 'Articles de presse', fonds: [{ id: 'fetespop-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
+  {
+    slug: 'contes-legendes',
+    name: 'Les contes et légendes',
+    intro:
+      'Récits merveilleux et légendes transmises de génération en génération : les contes et légendes de Mase reflètent l\'imaginaire collectif du village. Ce fonds en rassemble les traces écrites et orales.',
+    chapitres: [
+      { id: 'recits', name: 'Les récits', fonds: [{ id: 'recits-1', title: 'Récit (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'son' }] },
+      { id: 'ouvrages', name: 'Les ouvrages', fonds: [{ id: 'ouvrages-1', title: 'Ouvrage (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'contes-autres', name: 'Autres', fonds: [{ id: 'contes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'contes-presse', name: 'Articles de presse', fonds: [{ id: 'contes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
+  {
+    slug: 'communes',
+    name: 'Les communes',
+    intro:
+      'L\'histoire administrative et territoriale des communes valaisannes éclaire le développement de Mase au fil des siècles. Ce fonds en retrace les grandes étapes.',
+    chapitres: [
+      { id: 'historiques', name: 'Les historiques', fonds: [{ id: 'historiques-1', title: 'Historique communal (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'communes-autres', name: 'Autres', fonds: [{ id: 'communes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'communes-presse', name: 'Articles de presse', fonds: [{ id: 'communes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
+  {
+    slug: 'portraits',
+    name: 'Les portraits',
+    intro:
+      'Personnalités marquantes et enfants du village : les portraits rassemblés ici donnent un visage humain à l\'histoire de Mase.',
+    chapitres: [
+      { id: 'personnalites', name: 'Les personnalités', fonds: [{ id: 'personnalites-1', title: 'Personnalité (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'enfants', name: 'Les enfants', fonds: [{ id: 'enfants-1', title: 'Enfants (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'portraits-autres', name: 'Autres', fonds: [{ id: 'portraits-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'portraits-presse', name: 'Articles de presse', fonds: [{ id: 'portraits-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
+  {
+    slug: 'economie',
+    name: 'L\'économie',
+    intro:
+      'Commerces et activités économiques ont façonné le développement de Mase. Ce fonds documente les magasins et acteurs de la vie économique villageoise.',
+    chapitres: [
+      { id: 'magasins', name: 'Les magasins', fonds: [{ id: 'magasins-1', title: 'Magasin (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
+      { id: 'economie-autres', name: 'Autres', fonds: [{ id: 'economie-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'economie-presse', name: 'Articles de presse', fonds: [{ id: 'economie-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+    ],
+  },
 ]

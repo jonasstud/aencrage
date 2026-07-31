@@ -2,7 +2,7 @@ import { conseil } from "@/lib/data";
 
 export default function FondationSection() {
   return (
-    <section id="fondation-1a" className="bg-velin px-14 py-22">
+    <section id="fondation-1a" className="bg-velin px-6 md:px-14 py-14 md:py-22">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         {/* Left — description */}
         <div>
@@ -29,7 +29,7 @@ export default function FondationSection() {
             {conseil.map((membre) => (
               <div
                 key={membre.name}
-                className="flex justify-between items-baseline py-4 border-b border-[rgba(19,20,23,0.12)]"
+                className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-0 py-4 border-b border-[rgba(19,20,23,0.12)]"
               >
                 <span className="font-display font-normal text-[17px] text-encre">
                   {membre.name}
