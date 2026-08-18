@@ -1,8 +1,11 @@
-import { conseil } from "@/lib/data";
+import { conseil, patrimoineActions } from "@/lib/data";
 
 export default function FondationSection() {
   return (
-    <section id="fondation-1a" className="bg-velin px-6 md:px-14 py-14 md:py-22">
+    <section
+      id="fondation-1a"
+      className="bg-velin px-6 md:px-14 lg:px-44 py-7 md:py-14"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         {/* Left — description */}
         <div>
@@ -40,6 +43,39 @@ export default function FondationSection() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Nos actions */}
+      <div id="activites-1a" className="mt-22">
+        <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
+          Nos actions
+        </p>
+        <h2 className="font-display font-normal text-[28px] leading-[1.15] m-0 mb-10 text-encre">
+          Trois patrimoines à sauvegarder et transmettre
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[rgba(19,20,23,0.1)]">
+          {patrimoineActions.map((action) => (
+            <div key={action.title} className="bg-papier py-9 px-8">
+              <div className="flex items-center text-center justify-between mb-4">
+                <h3 className="font-display font-normal text-[22px] leading-tight text-encre m-0">
+                  {action.title}
+                </h3>
+                <action.icon
+                  size={24}
+                  className="text-gris opacity-65 shrink-0"
+                />
+              </div>
+              {action.bullets.map((bullet, i) => (
+                <p
+                  key={i}
+                  className="font-body text-[14.5px] leading-[1.6] text-secondaire m-0 mb-3 last:mb-0 text-justify"
+                >
+                  {bullet}
+                </p>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

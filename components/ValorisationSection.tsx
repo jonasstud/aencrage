@@ -1,9 +1,9 @@
-import Image from 'next/image'
-import { spaces } from '@/lib/data'
+import Image from "next/image";
+import { spaces } from "@/lib/data";
 
 export default function ValorisationSection() {
   return (
-    <section id="valorisation-1a" className="px-6 md:px-14 pb-14 md:pb-24">
+    <section id="valorisation-1a" className="px-6 md:px-14 py-7 md:py-11">
       <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
         Valorisation
       </p>
@@ -37,5 +37,5 @@ export default function ValorisationSection() {
         ))}
       </div>
     </section>
-  )
+  );
 }

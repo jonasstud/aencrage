@@ -1,8 +1,8 @@
 import HeroSection from "@/components/HeroSection";
 import BandeauSection from "@/components/BandeauSection";
-import ActivitesSection from "@/components/ActivitesSection";
-import ValorisationSection from "@/components/ValorisationSection";
 import FondationSection from "@/components/FondationSection";
+import ValorisationSection from "@/components/ValorisationSection";
+import EnEvidenceSection from "@/components/EnEvidenceSection";
 import DeposerSection from "@/components/DeposerSection";
 
 export default function Home() {
@@ -12,9 +12,9 @@ export default function Home() {
         <HeroSection />
         <BandeauSection />
       </div>
-      <ActivitesSection />
-      <ValorisationSection />
       <FondationSection />
+      <ValorisationSection />
+      <EnEvidenceSection />
       <DeposerSection />
     </main>
   );

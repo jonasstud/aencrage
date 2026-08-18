@@ -55,12 +55,13 @@ export default function HeroSection() {
         <motion.p
           {...fadeUp}
           transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
-          className="font-body text-[17px] leading-[1.6] text-secondaire max-w-125 m-0 mb-8"
+          className="font-body text-[17px] leading-[1.6] text-secondaire max-w-140 m-0 mb-8"
         >
           La Fondation æncrage rassemble, conserve et met en valeur le
-          patrimoine oral et écrit lié à la société masatte. (correspondances diverses,
-          textes officiels, travaux de recherche, articles de presse, émissions radio-tv, photographies et
-          films, témoignages et portraits, ... )
+          patrimoine oral et écrit lié à la société masatte. (correspondances
+          diverses, textes officiels, travaux de recherche, articles de presse,
+          émissions radio-tv, photographies et films, témoignages et portraits,
+          ... )
         </motion.p>
 
         <motion.a
@@ -69,7 +70,7 @@ export default function HeroSection() {
           href="#deposer-1a"
           className="inline-flex items-center px-5.5 py-3.5 bg-encre text-papier no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-[background-color,transform] duration-200 hover:bg-secondaire hover:-translate-y-0.5"
         >
-          Déposer un témoignage
+          Déposer un fond
         </motion.a>
       </div>
 
