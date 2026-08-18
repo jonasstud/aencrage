@@ -16,9 +16,9 @@ export const filterOptions = ['Tous', 'Écrits', 'Archives', 'Recherche', 'Sonor
 export type FilterOption = typeof filterOptions[number]
 
 export const spaces: Space[] = [
-  { id: 'space-1', name: 'Maison des Êtres et des Lettres', desc: "Espace principal dédié à la consultation et à la mise en récit des fonds.", image: '/images/etre-et-des-lettres.jpg' },
-  { id: 'space-2', name: 'Écurie des Chèvres',              desc: "Lieu d'exposition et d'ateliers en lien avec la vie rurale du village." },
-  { id: 'space-3', name: 'Moulin',                          desc: "Parcours didactique autour des gestes et des saisons.", image: '/images/moulin.jpg' },
+  { id: 'space-1', name: 'Le Raccard : Maison des Êtres et des Lettres', desc: "Lieu dédié à la consultation, à la médiation, à la résidence. ", image: '/images/etre-et-des-lettres.jpg' },
+  { id: 'space-2', name: 'L\'Écurie des Chèvres',              desc: "Lieu d'exposition." },
+  { id: 'space-3', name: 'Le Moulin',                          desc: "Lieu d'accueil et d'ateliers thématiques.", image: '/images/moulin.jpg' },
 ]
 
 export const conseil: ConseilMembre[] = [
