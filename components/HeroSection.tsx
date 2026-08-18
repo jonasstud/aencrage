@@ -57,7 +57,7 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
           className="font-body text-[17px] leading-[1.6] text-secondaire max-w-125 m-0 mb-8"
         >
-          La Fondation aencrage rassemble, conserve et met en valeur le
+          La Fondation æncrage rassemble, conserve et met en valeur le
           patrimoine oral et écrit lié à la société masatte. (correspondances diverses,
           textes officiels, travaux de recherche, articles de presse, émissions radio-tv, photographies et
           films, témoignages et portraits, ... )

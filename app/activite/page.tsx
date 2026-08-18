@@ -9,7 +9,7 @@ import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
 
 export const metadata: Metadata = {
-  title: "Activité — Fondation AEncrage",
+  title: "Activité — Fondation æncrage",
 };
 
 const options = { next: { revalidate: 60 } };

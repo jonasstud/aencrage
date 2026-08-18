@@ -94,7 +94,7 @@ export default function NavHeader() {
         <Link href="/">
           <Image
             src="/aencrage-logo.svg"
-            alt="Fondation AEncrage"
+            alt="Fondation æncrage"
             width={400}
             height={80}
             className="w-auto h-12"
