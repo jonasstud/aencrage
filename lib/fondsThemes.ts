@@ -4,7 +4,12 @@ export type Fond = {
   desc: string
   dates: string
   provenance: string
-  type: 'photo' | 'ecrit' | 'son'
+  type: 'photo' | 'ecrit' | 'son' | 'video'
+  imageSrc?: string
+  documentThumbnailSrc?: string
+  documentFileUrl?: string
+  audioSrc?: string
+  audioPeaks?: number[]
 }
 
 export type Chapitre = {
@@ -27,132 +32,25 @@ export const themes: ThemePage[] = [
     intro:
       'Les alpages de Mase constituent le cœur de la vie pastorale du village. Ce fonds rassemble photographies, écrits et enregistrements témoignant des pratiques et des hommes qui ont façonné ces pâturages d\'altitude.',
     chapitres: [
-      {
-        id: 'inalpe',
-        name: 'L\'inalpe',
-        fonds: [
-          {
-            id: 'inalpe-1',
-            title: 'Montée à l\'alpage, famille Aymon, 1962',
-            desc: 'Portrait de famille lors de la montée à l\'alpage de Tracuit. Les enfants portent les ustensiles de cuisine tandis que les adultes guident le bétail sur le sentier.',
-            dates: '1962',
-            provenance: 'Don famille Aymon, 2018',
-            type: 'photo',
-          },
-          {
-            id: 'inalpe-2',
-            title: 'Registre des fromages, 1947–1956',
-            desc: 'Carnet manuscrit listant la production fromagère journalière avec annotations sur la qualité du lait et les conditions climatiques de chaque saison.',
-            dates: '1947–1956',
-            provenance: 'Archives communales de Mase',
-            type: 'ecrit',
-          },
-          {
-            id: 'inalpe-3',
-            title: 'Chants de l\'inalpe enregistrés à Mase, 1978',
-            desc: 'Enregistrement de chants traditionnels lors de la montée des troupeaux, recueillis par l\'abbé Berthouzoz lors de sa mission d\'inventaire du patrimoine oral.',
-            dates: '1978',
-            provenance: 'Phonothèque nationale suisse',
-            type: 'son',
-          },
-        ],
-      },
-      {
-        id: 'greni',
-        name: 'Le Gréni',
-        fonds: [
-          {
-            id: 'greni-1',
-            title: 'Intérieur du gréni communal, 1955',
-            desc: 'Vue intérieure montrant les étagères chargées de fromages en affinage et les outils traditionnels : racloirs, chaudrons de cuivre et moules en bois cerclé.',
-            dates: '1955',
-            provenance: 'Don anonyme, 2021',
-            type: 'photo',
-          },
-          {
-            id: 'greni-2',
-            title: 'Plan du gréni de Mase, 1903',
-            desc: 'Dessin architectural du bâtiment communal avec annotations sur les agrandissements prévus et les matériaux de construction employés.',
-            dates: '1903',
-            provenance: 'Archives bourgeoisiales de Mase',
-            type: 'ecrit',
-          },
-        ],
-      },
-      {
-        id: 'cabane',
-        name: 'La Cabane',
-        fonds: [
-          {
-            id: 'cabane-1',
-            title: 'La cabane de Tracuit avant les travaux de 1971',
-            desc: 'Façade de la cabane avec alpinistes posant devant l\'entrée à l\'été 1968. On distingue en arrière-plan la paroi nord du Zinalrothorn.',
-            dates: '1968',
-            provenance: 'Collection Section Monte Rosa CAS',
-            type: 'photo',
-          },
-          {
-            id: 'cabane-2',
-            title: 'Journal de la cabane, 1965–1970',
-            desc: 'Registre des passages avec noms des visiteurs, conditions météo quotidiennes et remarques des guides sur l\'état des voies d\'accès.',
-            dates: '1965–1970',
-            provenance: 'Archives CAS Valais',
-            type: 'ecrit',
-          },
-          {
-            id: 'cabane-3',
-            title: 'Interview du gardien Alphonse Pont, 1982',
-            desc: 'Témoignage oral du gardien retraité sur la vie à la cabane pendant les grandes décennies d\'alpinisme, les accidents et les moments de grâce.',
-            dates: '1982',
-            provenance: 'Fonds RTS archives',
-            type: 'son',
-          },
-        ],
-      },
+      { id: 'inalpe', name: 'L\'inalpe', fonds: [] },
+      { id: 'greni', name: 'Le Gréni', fonds: [] },
+      { id: 'cabane', name: 'La Cabane', fonds: [] },
       {
         id: 'autres',
         name: 'Autres',
         fonds: [
           {
-            id: 'autres-1',
-            title: 'Troupeau sur le plateau de Tracuit, 1959',
-            desc: 'Vue panoramique du troupeau en pâture avec en arrière-plan les Dents de Morcles. Cliché pris lors d\'une excursion organisée par la commune.',
-            dates: '1959',
-            provenance: 'Collection Roger Favre',
-            type: 'photo',
-          },
-          {
-            id: 'autres-2',
-            title: 'Contrat de location des herbages, 1938',
-            desc: 'Document officiel fixant les droits de pâturage et les redevances dues à la commune pour la saison estivale, signé par les propriétaires de bétail.',
-            dates: '1938',
-            provenance: 'Archives communales de Mase',
+            id: 'fusion-alpages-1957',
+            title: 'La fusion des deux alpages de Mase',
+            desc: 'Avant 1955, les alpages de la Louerre et de l\'Arpettaz situés au-dessus de Mase étaient gérés collectivement par des consortages pour exploiter le bétail, produire des laitages et entretenir les terrains. Ce système avait aussi un rôle écologique, car le pâturage limitait les risques d\'avalanches et préservait le paysage.',
+            dates: '1957',
+            provenance: 'PV et inscription au RF No 8845',
             type: 'ecrit',
+            documentFileUrl: '/fonds/alpage/fusion-alpages-1957.pdf',
           },
         ],
       },
-      {
-        id: 'presse',
-        name: 'Articles de presse',
-        fonds: [
-          {
-            id: 'presse-1',
-            title: 'L\'alpage de Tracuit en péril, Le Rhône, 1978',
-            desc: 'Article décrivant les difficultés économiques de l\'alpage face à l\'exode rural et proposant des pistes de revitalisation soutenues par le canton.',
-            dates: '1978',
-            provenance: 'Médiathèque Valais, fonds presse',
-            type: 'ecrit',
-          },
-          {
-            id: 'presse-2',
-            title: 'Retour des alpages, Le Nouvelliste, 1962',
-            desc: 'Reportage photographique et témoignages sur la désalpe, tradition encore vivante à Mase, avec portraits des familles participantes.',
-            dates: '1962',
-            provenance: 'Médiathèque Valais, fonds presse',
-            type: 'ecrit',
-          },
-        ],
-      },
+      { id: 'presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -161,12 +59,12 @@ export const themes: ThemePage[] = [
     intro:
       'Les célébrations religieuses et les symboles sacrés occupent une place centrale dans la vie de Mase. Ce fonds documente processions, bénédictions et offices qui rythment le calendrier villageois.',
     chapitres: [
-      { id: 'fete-dieu', name: 'La Fête-Dieu', fonds: [{ id: 'fete-dieu-1', title: 'Procession de la Fête-Dieu (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'benedictions', name: 'Les bénédictions des symboles', fonds: [{ id: 'bened-1', title: 'Bénédiction des champs (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'messes', name: 'Les messes', fonds: [{ id: 'messes-1', title: 'Messe de Pâques (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'chapelle', name: 'La chapelle', fonds: [{ id: 'chapelle-1', title: 'Chapelle de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'fetes-autres', name: 'Autres', fonds: [{ id: 'fetes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'fetes-presse', name: 'Articles de presse', fonds: [{ id: 'fetes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'fete-dieu', name: 'La Fête-Dieu', fonds: [] },
+      { id: 'benedictions', name: 'Les bénédictions des symboles', fonds: [] },
+      { id: 'messes', name: 'Les messes', fonds: [] },
+      { id: 'chapelle', name: 'La chapelle', fonds: [] },
+      { id: 'fetes-autres', name: 'Autres', fonds: [] },
+      { id: 'fetes-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -175,10 +73,10 @@ export const themes: ThemePage[] = [
     intro:
       'Les gestes du quotidien, les objets et les activités forment la trame invisible de l\'histoire de Mase. Ce fonds en préserve la trace.',
     chapitres: [
-      { id: 'activites', name: 'Les activités', fonds: [{ id: 'activites-1', title: 'Activité quotidienne (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'objets', name: 'Les objets', fonds: [{ id: 'objets-1', title: 'Objet du quotidien (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'quotidien-autres', name: 'Autres', fonds: [{ id: 'quotidien-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'quotidien-presse', name: 'Articles de presse', fonds: [{ id: 'quotidien-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'activites', name: 'Les activités', fonds: [] },
+      { id: 'objets', name: 'Les objets', fonds: [] },
+      { id: 'quotidien-autres', name: 'Autres', fonds: [] },
+      { id: 'quotidien-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -187,12 +85,12 @@ export const themes: ThemePage[] = [
     intro:
       'Brancardiers, fanfares, ski-club, chorales : les associations de Mase tissent le lien social du village depuis des générations. Ce fonds retrace leur histoire.',
     chapitres: [
-      { id: 'brancardiers', name: 'Les brancardiers', fonds: [{ id: 'brancardiers-1', title: 'Brancardiers de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'fanfares', name: 'Les fanfares', fonds: [{ id: 'fanfares-1', title: 'Fanfare de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'ski-club', name: 'Le ski-club', fonds: [{ id: 'ski-1', title: 'Ski-club de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'chorale', name: 'La chorale', fonds: [{ id: 'chorale-1', title: 'Chorale de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'son' }] },
-      { id: 'societes-autres', name: 'Autres', fonds: [{ id: 'societes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'societes-presse', name: 'Articles de presse', fonds: [{ id: 'societes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'brancardiers', name: 'Les brancardiers', fonds: [] },
+      { id: 'fanfares', name: 'Les fanfares', fonds: [{ id: 'clairon-des-alpes', title: 'Histoire du Clairon des Alpes 1890–1990', desc: '100 ans d\'histoire d\'une fanfare de village, 100 ans de fidélité à la musique et de service à la communauté villageoise.', dates: '1890–1990', provenance: 'Plaquette de l\'inauguration du local de la fanfare (1975)', type: 'ecrit', documentFileUrl: '/fonds/societes/clairon-des-alpes-1960.pdf' }] },
+      { id: 'ski-club', name: 'Le ski-club', fonds: [] },
+      { id: 'chorale', name: 'La chorale', fonds: [] },
+      { id: 'societes-autres', name: 'Autres', fonds: [] },
+      { id: 'societes-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -201,10 +99,10 @@ export const themes: ThemePage[] = [
     intro:
       'Bisses, forêts et paysages d\'altitude : la nature de Mase est indissociable de son histoire humaine. Ce fonds en documente la beauté et les transformations.',
     chapitres: [
-      { id: 'bisses', name: 'Les bisses', fonds: [{ id: 'bisses-1', title: 'Bisse de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'paysages', name: 'Les paysages', fonds: [{ id: 'paysages-1', title: 'Paysage de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'nature-autres', name: 'Autres', fonds: [{ id: 'nature-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'nature-presse', name: 'Articles de presse', fonds: [{ id: 'nature-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'bisses', name: 'Les bisses', fonds: [] },
+      { id: 'paysages', name: 'Les paysages', fonds: [{ id: 'panoramas-mont-noble-2019', title: 'La Commune de Mont Noble vue du ciel', desc: 'Un panorama exceptionnel des trois villages et de leurs alentours montagneux.', dates: '2019', provenance: '[Ep.24] Le Valais depuis les Airs / Nax, Vernamiège et Mase en été – Shelduck Production', type: 'video', documentFileUrl: 'https://www.youtube.com/watch?v=k4RmOXYKk8s' }] },
+      { id: 'nature-autres', name: 'Autres', fonds: [] },
+      { id: 'nature-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -213,11 +111,14 @@ export const themes: ThemePage[] = [
     intro:
       'Maisons d\'habitation, raccards, greniers et écuries : le patrimoine bâti de Mase témoigne des techniques de construction traditionnelles et de l\'organisation de la vie villageoise. Ce fonds en retrace l\'histoire.',
     chapitres: [
-      { id: 'maisons', name: 'Les maisons d\'habitation', fonds: [{ id: 'maisons-1', title: 'Maison d\'habitation (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'raccards-greniers', name: 'Les raccards, les greniers', fonds: [{ id: 'raccards-greniers-1', title: 'Raccard de Mase (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'ecuries', name: 'les écuries', fonds: [{ id: 'ecuries-1', title: 'Écurie (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'bati-autres', name: 'Autres', fonds: [{ id: 'bati-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'bati-presse', name: 'Articles de presse', fonds: [{ id: 'bati-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'maisons', name: 'Les maisons d\'habitation', fonds: [] },
+      { id: 'raccards-greniers', name: 'Les raccards, les greniers', fonds: [] },
+      { id: 'ecuries', name: 'les écuries', fonds: [] },
+      { id: 'bati-autres', name: 'Autres', fonds: [
+        { id: 'eglise-1910', title: 'L\'église de 1910', desc: 'En 1909, la voûte de l\'église de Nax s\'effondre. Ce tragique événement décide les gens de Mase à construire une nouvelle église.', dates: '1910', provenance: 'Photo anonyme · Expo SD Mase 1990', type: 'photo', imageSrc: '/fonds/patrimoine-bati/eglise-1910.jpg' },
+        { id: 'eglise-projet-1978', title: 'Projet de la nouvelle église', desc: 'Plusieurs fissures et la désagrégation du revêtement de la voûte incitent le Conseil de paroisse à mandater des bureaux d\'ingénieurs afin d\'évaluer la situation.', dates: '1978', provenance: 'Photo anonyme · Expo SD Mase 1990', type: 'photo', imageSrc: '/fonds/patrimoine-bati/eglise-projet-1988.jpg' },
+      ] },
+      { id: 'bati-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -226,10 +127,10 @@ export const themes: ThemePage[] = [
     intro:
       'Inaugurations, émissions radiophoniques et télévisées : les fêtes populaires rythment la vie de Mase et renforcent les liens entre habitants. Ce fonds en garde la mémoire.',
     chapitres: [
-      { id: 'inaugurations', name: 'Les inaugurations', fonds: [{ id: 'inaugurations-1', title: 'Inauguration (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'emissions', name: 'Les émissions radio/TV', fonds: [{ id: 'emissions-1', title: 'Émission radio/TV (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'son' }] },
-      { id: 'fetespop-autres', name: 'Autres', fonds: [{ id: 'fetespop-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'fetespop-presse', name: 'Articles de presse', fonds: [{ id: 'fetespop-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'inaugurations', name: 'Les inaugurations', fonds: [] },
+      { id: 'emissions', name: 'Les émissions radio/TV', fonds: [] },
+      { id: 'fetespop-autres', name: 'Autres', fonds: [] },
+      { id: 'fetespop-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -238,10 +139,10 @@ export const themes: ThemePage[] = [
     intro:
       'Récits merveilleux et légendes transmises de génération en génération : les contes et légendes de Mase reflètent l\'imaginaire collectif du village. Ce fonds en rassemble les traces écrites et orales.',
     chapitres: [
-      { id: 'recits', name: 'Les récits', fonds: [{ id: 'recits-1', title: 'Récit (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'son' }] },
-      { id: 'ouvrages', name: 'Les ouvrages', fonds: [{ id: 'ouvrages-1', title: 'Ouvrage (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'contes-autres', name: 'Autres', fonds: [{ id: 'contes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'contes-presse', name: 'Articles de presse', fonds: [{ id: 'contes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'recits', name: 'Les récits', fonds: [] },
+      { id: 'ouvrages', name: 'Les ouvrages', fonds: [] },
+      { id: 'contes-autres', name: 'Autres', fonds: [] },
+      { id: 'contes-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -250,9 +151,9 @@ export const themes: ThemePage[] = [
     intro:
       'L\'histoire administrative et territoriale des communes valaisannes éclaire le développement de Mase au fil des siècles. Ce fonds en retrace les grandes étapes.',
     chapitres: [
-      { id: 'historiques', name: 'Les historiques', fonds: [{ id: 'historiques-1', title: 'Historique communal (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'communes-autres', name: 'Autres', fonds: [{ id: 'communes-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'communes-presse', name: 'Articles de presse', fonds: [{ id: 'communes-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'historiques', name: 'Les historiques', fonds: [] },
+      { id: 'communes-autres', name: 'Autres', fonds: [] },
+      { id: 'communes-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
   {
@@ -261,10 +162,10 @@ export const themes: ThemePage[] = [
     intro:
       'Personnalités marquantes et enfants du village : les portraits rassemblés ici donnent un visage humain à l\'histoire de Mase.',
     chapitres: [
-      { id: 'personnalites', name: 'Les personnalités', fonds: [{ id: 'personnalites-1', title: 'Personnalité (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'enfants', name: 'Les enfants', fonds: [{ id: 'enfants-1', title: 'Enfants (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'portraits-autres', name: 'Autres', fonds: [{ id: 'portraits-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'portraits-presse', name: 'Articles de presse', fonds: [{ id: 'portraits-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'personnalites', name: 'Les personnalités', fonds: [{ id: 'portrait-werner-stappung', title: 'Werner Pietro Stappung', desc: 'De contrôleur CFF à exploitant des petites parcelles en terrasse, ce ressortissant zurichois s\'est engagé de manière extraordinaire pour la mise en valeur et la sauvegarde de notre patrimoine naturel. Un personnage inspiré par la nature et à plein d\'humour !', dates: '2026', provenance: 'Entretien avec Fabienne Degoumois · © Fabienne Degoumois', type: 'son', audioSrc: '/fonds/portraits/werner-stappung.wav' }] },
+      { id: 'enfants', name: 'Les enfants', fonds: [] },
+      { id: 'portraits-autres', name: 'Autres', fonds: [] },
+      { id: 'portraits-presse', name: 'Articles de presse', fonds: [{ id: 'presse-otto-ossent', title: 'Bourgeois de Mase en Chine', desc: 'M. Otto Ossent, bourgeois de Mase, est assassiné en Chine durant son activité professionnelle d\'ingénieur.', dates: '1900', provenance: 'Gazette du Valais Nr. 47', type: 'ecrit' }] },
     ],
   },
   {
@@ -273,9 +174,9 @@ export const themes: ThemePage[] = [
     intro:
       'Commerces et activités économiques ont façonné le développement de Mase. Ce fonds documente les magasins et acteurs de la vie économique villageoise.',
     chapitres: [
-      { id: 'magasins', name: 'Les magasins', fonds: [{ id: 'magasins-1', title: 'Magasin (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'photo' }] },
-      { id: 'economie-autres', name: 'Autres', fonds: [{ id: 'economie-autres-1', title: 'Autre document (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
-      { id: 'economie-presse', name: 'Articles de presse', fonds: [{ id: 'economie-presse-1', title: 'Article de presse (contenu à renseigner)', desc: 'Contenu à renseigner par le client.', dates: '—', provenance: '—', type: 'ecrit' }] },
+      { id: 'magasins', name: 'Les magasins', fonds: [] },
+      { id: 'economie-autres', name: 'Autres', fonds: [{ id: 'memoire-pidoux-1991', title: 'Mémoire de science humaine réalisé par M. Christophe Pidoux', desc: 'L\'étudiant réalise un travail minutieux afin de faire émerger la réalité du village à l\'aide de questionnaires et d\'entretiens individuels.', dates: '1991', provenance: 'Mémoire de fin d\'étude de M. Pidoux', type: 'ecrit', documentFileUrl: '/fonds/economie/memoire-pidoux-1991.pdf' }] },
+      { id: 'economie-presse', name: 'Articles de presse', fonds: [] },
     ],
   },
 ]

@@ -1,16 +1,18 @@
 "use client";
 
-import { Camera, FileText, AudioLines, ChevronRight } from "lucide-react";
+import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
 
-const TYPE_LABELS: Record<"photo" | "ecrit" | "son", string> = {
+const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "Photographie",
   ecrit: "Document écrit",
   son: "Enregistrement sonore",
+  video: "Vidéo",
 };
 
-function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" }) {
+function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" | "video" }) {
   if (type === "photo") return <Camera size={14} />;
   if (type === "son") return <AudioLines size={14} />;
+  if (type === "video") return <Video size={14} />;
   return <FileText size={14} />;
 }
 import type { Fond } from "@/lib/fondsThemes";
