@@ -1,12 +1,15 @@
 export default function DeposerSection() {
   return (
-    <footer id="deposer-1a" className="bg-encre text-papier px-6 md:px-14 py-14 md:py-22">
+    <footer
+      id="deposer-1a"
+      className="bg-encre text-papier px-6 md:px-14 py-14 md:py-22"
+    >
       {/* Grid: deposit info + contact */}
       <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-16 mb-16">
         {/* Left — deposit */}
         <div>
           <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-laiton mb-3 m-0">
-            Déposer un fonds
+            Déposer un fond
           </p>
           <h2 className="font-display font-normal text-[32px] leading-[1.2] max-w-130 m-0 mb-5">
             Confiez vos écrits, photographies ou enregistrements à la fondation
@@ -16,12 +19,20 @@ export default function DeposerSection() {
             trace de la vie masatte a sa place dans les archives de la
             fondation.
           </p>
-          <a
-            href="#contact-1a"
-            className="inline-flex px-5.5 py-3.5 bg-papier text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
-          >
-            Nous contacter
-          </a>
+          <div className="flex gap-3">
+            <a
+              href="#contact-1a"
+              className="inline-flex px-5.5 py-3.5 bg-laiton text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
+            >
+              Déposer un fond
+            </a>
+            <a
+              href="#contact-1a"
+              className="inline-flex px-5.5 py-3.5 bg-papier text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
+            >
+              Nous contacter
+            </a>
+          </div>
         </div>
 
         {/* Right — contact */}
