@@ -20,7 +20,7 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
   );
 
   return (
-    <section className="min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-16 md:pb-24 items-end">
+    <section className="md:min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-16 md:pb-24 items-end">
       
 
       <motion.div

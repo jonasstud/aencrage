@@ -1,16 +1,25 @@
 "use client";
 
-import { Camera, FileText, AudioLines, ChevronRight } from "lucide-react";
+import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
 
-const TYPE_LABELS: Record<"photo" | "ecrit" | "son", string> = {
+const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "Photographie",
   ecrit: "Document écrit",
   son: "Enregistrement sonore",
+  video: "Vidéo",
 };
 
-function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" }) {
+const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
+  photo:  "#A88C5A",
+  ecrit:  "#758FB2",
+  son:    "#7A9E87",
+  video:  "#B07060",
+};
+
+function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" | "video" }) {
   if (type === "photo") return <Camera size={14} />;
   if (type === "son") return <AudioLines size={14} />;
+  if (type === "video") return <Video size={14} />;
   return <FileText size={14} />;
 }
 import type { Fond } from "@/lib/fondsThemes";
@@ -21,19 +30,27 @@ type Props = {
 };
 
 export default function FondCard({ fond, onOpen }: Props) {
-  const hasImage = fond.type === "photo";
+  const hasImage = fond.type === "photo" || (fond.type === "son" && !!fond.imageSrc);
 
   return (
     <div
       className="border border-encre flex flex-col"
-      style={{ borderTop: "3px solid var(--color-laiton)" }}
+      style={{ borderTop: `3px solid ${TYPE_BORDER[fond.type]}` }}
     >
       {hasImage && (
         <div
-          className="w-full bg-placeholder"
+          className="w-full bg-placeholder relative overflow-hidden"
           style={{ aspectRatio: "16 / 9" }}
           aria-hidden="true"
-        />
+        >
+          {fond.imageSrc && (
+            <img
+              src={fond.imageSrc}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+        </div>
       )}
       <div
         className="flex flex-col flex-1"

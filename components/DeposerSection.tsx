@@ -1,6 +1,6 @@
 export default function DeposerSection() {
   return (
-    <footer id="deposer-1a" className="bg-encre text-papier px-14 py-22">
+    <footer id="deposer-1a" className="bg-encre text-papier px-6 md:px-14 py-14 md:py-22">
       {/* Grid: deposit info + contact */}
       <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-16 mb-16">
         {/* Left — deposit */}
@@ -30,7 +30,7 @@ export default function DeposerSection() {
             Contact
           </p>
           <address className="font-body not-italic text-[15px] leading-[1.8] text-texte-clair-2">
-            Fondation AEncrage
+            Fondation æncrage
             <br />
             Mase, Valais — Suisse
             <br />
@@ -47,7 +47,7 @@ export default function DeposerSection() {
       {/* Footer */}
       <div className="border-t border-[rgba(255,255,255,0.15)] pt-6">
         <p className="font-mono font-normal text-[11px] tracking-widest uppercase text-gris m-0">
-          Fondation AEncrage © 2026
+          Fondation æncrage © 2026
         </p>
       </div>
     </footer>

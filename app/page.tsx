@@ -8,7 +8,7 @@ import DeposerSection from "@/components/DeposerSection";
 export default function Home() {
   return (
     <main>
-      <div className="flex flex-col h-[calc(100dvh-5rem)]">
+      <div className="flex flex-col md:h-[calc(100dvh-5rem)]">
         <HeroSection />
         <BandeauSection />
       </div>

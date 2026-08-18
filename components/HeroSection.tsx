@@ -1,7 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const heroImages = [
+  "/images/hero/hero-1.webp",
+  "/images/hero/hero-2.webp",
+  "/images/hero/hero-3.webp",
+  "/images/hero/hero-4.webp",
+  "/images/hero/hero-5.webp",
+];
 
 const fadeUp = {
   initial: { opacity: 0, y: 18 },
@@ -14,6 +23,15 @@ const fadeIn = {
 };
 
 export default function HeroSection() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % heroImages.length);
+    }, 20000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-8 md:pb-12 items-end">
       {/* Left column */}
@@ -39,9 +57,10 @@ export default function HeroSection() {
           transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
           className="font-body text-[17px] leading-[1.6] text-secondaire max-w-125 m-0 mb-8"
         >
-          La Fondation AEncrage rassemble, conserve et met en valeur le
-          patrimoine immatériel lié à la société masatte — écrits, archives,
-          voix et portraits.
+          La Fondation æncrage rassemble, conserve et met en valeur le
+          patrimoine oral et écrit lié à la société masatte. (correspondances diverses,
+          textes officiels, travaux de recherche, articles de presse, émissions radio-tv, photographies et
+          films, témoignages et portraits, ... )
         </motion.p>
 
         <motion.a
@@ -65,14 +84,25 @@ export default function HeroSection() {
         }}
         aria-hidden="true"
       >
-        <Image
-          src="/images/hero.jpg"
-          alt=""
-          fill
-          preload
-          sizes="(min-width: 768px) 45vw, 0px"
-          className="object-cover"
-        />
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={heroImages[index]}
+              alt=""
+              fill
+              sizes="(min-width: 768px) 45vw, 0px"
+              className="object-cover"
+              priority={index === 0}
+            />
+          </motion.div>
+        </AnimatePresence>
       </motion.div>
     </section>
   );
