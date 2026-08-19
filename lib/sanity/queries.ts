@@ -27,13 +27,13 @@ export const FOND_DU_MOIS_QUERY = defineQuery(`
     documents[]{
       _key,
       title,
-      "asset": file.asset->
+      "asset": asset->
     },
     audioFiles[]{
       _key,
       title,
       duree,
-      "asset": file.asset->
+      "asset": asset->
     }
   }
 `);

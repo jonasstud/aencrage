@@ -18,7 +18,8 @@ import { themes } from "@/lib/fondsThemes";
 // Data
 // ---------------------------------------------------------------------------
 
-type NavLinkId = "fondation" | "activites" | "thematiques" | "fonds" | "contact";
+type NavLinkId =
+  "fondation" | "activites" | "thematiques" | "fonds" | "contact";
 
 type NavLink = {
   id: NavLinkId;
@@ -32,9 +33,9 @@ const navLinks: NavLink[] = [
   {
     id: "fondation",
     label: "La Fondation",
-    href: "#fondation-1a",
+    href: "/",
     hasDropdown: false,
-    isActive: () => false,
+    isActive: (p) => p === "/",
   },
   {
     id: "activites",
@@ -66,10 +67,26 @@ const navLinks: NavLink[] = [
   },
 ];
 
-const thematiqueCategories: { label: string; icon: LucideIcon; slugs: string[] }[] = [
-  { label: "Vie sociale", icon: Users, slugs: ["alpage", "quotidien", "societes", "economie"] },
-  { label: "Patrimoine & territoire", icon: Landmark, slugs: ["patrimoine-bati", "communes", "nature"] },
-  { label: "Culture & mémoire", icon: BookOpen, slugs: ["fetes", "fetes-populaires", "contes-legendes", "portraits"] },
+const thematiqueCategories: {
+  label: string;
+  icon: LucideIcon;
+  slugs: string[];
+}[] = [
+  {
+    label: "Vie sociale",
+    icon: Users,
+    slugs: ["alpage", "quotidien", "societes", "economie"],
+  },
+  {
+    label: "Patrimoine & territoire",
+    icon: Landmark,
+    slugs: ["patrimoine-bati", "communes", "nature"],
+  },
+  {
+    label: "Culture & mémoire",
+    icon: BookOpen,
+    slugs: ["fetes", "fetes-populaires", "contes-legendes", "portraits"],
+  },
 ];
 
 const fondsItems = [
@@ -95,7 +112,11 @@ function ThematiquesDesktopContent({ pathname }: { pathname: string }) {
               catIdx !== 0 ? "mt-2.5 pt-2.5 border-t border-gris/15" : ""
             }`}
           >
-            <cat.icon size={13} strokeWidth={1.4} className="text-gris shrink-0" />
+            <cat.icon
+              size={13}
+              strokeWidth={1.4}
+              className="text-gris shrink-0"
+            />
             <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
               {cat.label}
             </span>
@@ -134,9 +155,16 @@ function ThematiquesMobileContent({
   return (
     <>
       {thematiqueCategories.map((cat, catIdx) => (
-        <div key={cat.label} className={catIdx !== 0 ? "mt-4 pt-4 border-t border-gris/15" : ""}>
+        <div
+          key={cat.label}
+          className={catIdx !== 0 ? "mt-4 pt-4 border-t border-gris/15" : ""}
+        >
           <div className="flex items-center gap-1.5 mb-2">
-            <cat.icon size={13} strokeWidth={1.4} className="text-gris shrink-0" />
+            <cat.icon
+              size={13}
+              strokeWidth={1.4}
+              className="text-gris shrink-0"
+            />
             <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
               {cat.label}
             </span>
@@ -152,7 +180,9 @@ function ThematiquesMobileContent({
                   href={`/fonds/${t.slug}`}
                   onClick={onClose}
                   className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
-                    isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                    isActive
+                      ? "font-semibold text-secondaire"
+                      : "font-normal text-encre"
                   }`}
                 >
                   {t.name}
@@ -206,7 +236,9 @@ function FondsMobileContent({
             href={href}
             onClick={onClose}
             className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
-              isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+              isActive
+                ? "font-semibold text-secondaire"
+                : "font-normal text-encre"
             }`}
           >
             {label}
@@ -224,7 +256,8 @@ function DesktopDropdownContent({
   link: NavLink;
   pathname: string;
 }) {
-  if (link.id === "thematiques") return <ThematiquesDesktopContent pathname={pathname} />;
+  if (link.id === "thematiques")
+    return <ThematiquesDesktopContent pathname={pathname} />;
   if (link.id === "fonds") return <FondsDesktopContent pathname={pathname} />;
   return (
     <div className="bg-papier border border-encre min-w-50 p-3">
@@ -319,7 +352,9 @@ export default function NavHeader() {
                     }
                   }}
                   className={`flex items-center gap-1 font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
-                    link.isActive(pathname) ? "border-plume" : "border-transparent"
+                    link.isActive(pathname)
+                      ? "border-plume"
+                      : "border-transparent"
                   }`}
                 >
                   {link.label}
@@ -332,7 +367,9 @@ export default function NavHeader() {
                 </a>
                 <div
                   className={`absolute top-full left-0 pt-3 z-50 transition-opacity duration-150 ${
-                    hoveredItem === link.id ? "opacity-100" : "opacity-0 pointer-events-none"
+                    hoveredItem === link.id
+                      ? "opacity-100"
+                      : "opacity-0 pointer-events-none"
                   }`}
                 >
                   <DesktopDropdownContent link={link} pathname={pathname} />
@@ -343,7 +380,9 @@ export default function NavHeader() {
                 key={link.id}
                 href={link.href}
                 className={`font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
-                  link.isActive(pathname) ? "border-plume" : "border-transparent"
+                  link.isActive(pathname)
+                    ? "border-plume"
+                    : "border-transparent"
                 }`}
               >
                 {link.label}
@@ -393,11 +432,16 @@ export default function NavHeader() {
             <div className="flex flex-col pb-[max(2rem,env(safe-area-inset-bottom))]">
               {navLinks.map((link) =>
                 link.hasDropdown ? (
-                  <div key={link.id} className="border-b border-[rgba(19,20,23,0.1)]">
+                  <div
+                    key={link.id}
+                    className="border-b border-[rgba(19,20,23,0.1)]"
+                  >
                     <button
                       type="button"
                       onClick={() =>
-                        setOpenMobileItem((cur) => (cur === link.id ? null : link.id))
+                        setOpenMobileItem((cur) =>
+                          cur === link.id ? null : link.id,
+                        )
                       }
                       aria-expanded={openMobileItem === link.id}
                       className="w-full flex items-center justify-between font-mono text-[12px] font-medium tracking-[0.14em] uppercase text-encre px-6 py-4.5 active:bg-velin"
