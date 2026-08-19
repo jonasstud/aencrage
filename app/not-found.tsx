@@ -1,10 +1,9 @@
-import Link from 'next/link'
-import ThemeFooter from '@/components/ThemeFooter'
+import Link from "next/link";
 
 export default function NotFound() {
   return (
     <>
-      <main className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-16 px-14 py-16 items-center">
+      <main className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-16 px-14 py-16 items-center max-h-[calc(100svh-89px)]">
         <div>
           <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-6">
             Erreur 404
@@ -13,7 +12,8 @@ export default function NotFound() {
             Cette page s'est égarée dans les archives
           </h1>
           <p className="font-body text-[17px] leading-[1.6] text-secondaire max-w-120 mb-8">
-            La page que vous cherchez n'existe pas ou a été déplacée. Elle n'a peut-être jamais été déposée dans nos fonds.
+            La page que vous cherchez n'existe pas ou a été déplacée. Elle n'a
+            peut-être jamais été déposée dans nos fonds.
           </p>
           <div className="flex gap-6 items-center flex-wrap">
             <Link
@@ -32,16 +32,18 @@ export default function NotFound() {
         </div>
 
         <div
-          className="hidden md:flex aspect-[4/5] bg-placeholder items-center justify-center"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))' }}
+          className="hidden md:flex aspect-[4/5] max-h-[calc(100svh-89px-8rem)] w-full bg-placeholder items-center justify-center"
+          style={{
+            clipPath:
+              "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
+          }}
           aria-hidden="true"
         >
-          <span className="font-display italic text-[180px] leading-none text-plume select-none">
+          <span className="font-display italic leading-none text-plume select-none text-[clamp(60px,15vh,180px)]">
             404
           </span>
         </div>
       </main>
-      <ThemeFooter />
     </>
-  )
+  );
 }
