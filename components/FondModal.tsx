@@ -301,10 +301,11 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
+  const [seekingRatio, setSeekingRatio] = useState<number | null>(null);
   const hideVolumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const peaks = audioPeaks && audioPeaks.length > 0 ? audioPeaks : DEFAULT_PEAKS;
-  const progress = duration > 0 ? currentTime / duration : 0;
+  const progress = seekingRatio !== null ? seekingRatio : (duration > 0 ? currentTime / duration : 0);
   const playedBars = Math.round(progress * peaks.length);
   const noAudio = !audioSrc;
   const disabled = noAudio || hasError;
@@ -369,9 +370,13 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
   function handleSeekMouseDown(ref: React.RefObject<HTMLDivElement | null>) {
     return (e: React.MouseEvent) => {
       if (disabled || !duration) return;
-      seekTo(getRatio(e, ref));
-      const onMove = (ev: MouseEvent) => seekTo(getRatio(ev, ref));
-      const onUp = () => {
+      const ratio = getRatio(e, ref);
+      setSeekingRatio(ratio);
+      const onMove = (ev: MouseEvent) => setSeekingRatio(getRatio(ev, ref));
+      const onUp = (ev: MouseEvent) => {
+        const finalRatio = getRatio(ev, ref);
+        seekTo(finalRatio);
+        setSeekingRatio(null);
         window.removeEventListener("mousemove", onMove);
         window.removeEventListener("mouseup", onUp);
       };
