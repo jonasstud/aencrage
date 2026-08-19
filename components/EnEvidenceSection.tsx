@@ -2,28 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
-import { ACTIVITE_QUERY } from "@/lib/sanity/queries";
+import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
 
 const options = { next: { revalidate: 60 } };
 
-function formatDate(date?: string) {
-  if (!date) return null;
-  return new Date(date).toLocaleDateString("fr-CH", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
 export default async function EnEvidenceSection() {
-  const activite = await client.fetch(ACTIVITE_QUERY, {}, options);
+  const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
 
-  if (!activite?.title) return null;
+  if (!fond?.title) return null;
 
-  const { title, date, lieu, chapo, couverture } = activite;
+  const { title, annee, typeFond, donateur, chapo, couverture } = fond;
   const hasCouverture = Boolean(couverture?.asset);
 
-  const metaParts = [formatDate(date), lieu].filter(Boolean) as string[];
+  const metaParts = [annee?.toString(), typeFond, donateur].filter(Boolean) as string[];
 
   return (
     <section
@@ -63,7 +54,7 @@ export default async function EnEvidenceSection() {
               href="/activite"
               className="font-mono text-[12px] tracking-[0.14em] uppercase text-encre border-b border-encre pb-px hover:border-transparent transition-colors"
             >
-              Voir l&apos;activité →
+              Voir le fond du mois →
             </Link>
           </div>
 
