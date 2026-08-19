@@ -60,9 +60,9 @@ const navLinks: NavLink[] = [
   {
     id: "contact",
     label: "Contact",
-    href: "#contact-1a",
+    href: "/contact",
     hasDropdown: false,
-    isActive: () => false,
+    isActive: (p) => p === "/contact",
   },
 ];
 
@@ -342,7 +342,9 @@ export default function NavHeader() {
               <a
                 key={link.id}
                 href={link.href}
-                className="font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b border-transparent pb-0.75 transition-[border-color] duration-200 hover:border-plume"
+                className={`font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
+                  link.isActive(pathname) ? "border-plume" : "border-transparent"
+                }`}
               >
                 {link.label}
               </a>

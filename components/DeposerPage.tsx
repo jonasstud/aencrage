@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import DeposerSection from "@/components/DeposerSection";
 import { FileDown, FileText } from "lucide-react";
 
 const sections = [
@@ -336,7 +335,6 @@ export default function DeposerPage() {
         </div>
       </div>
 
-      <DeposerSection />
     </div>
   );
 }

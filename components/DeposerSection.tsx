@@ -29,7 +29,7 @@ export default function DeposerSection() {
               Déposer un fonds
             </Link>
             <Link
-              href="#contact-1a"
+              href="/contact"
               className="inline-flex px-5.5 py-3.5 bg-papier text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
             >
               Nous contacter
