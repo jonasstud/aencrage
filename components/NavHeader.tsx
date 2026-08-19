@@ -42,7 +42,7 @@ const navLinks: NavLink[] = [
     label: "Activités",
     href: "#activites-1a",
     hasDropdown: true,
-    isActive: () => false,
+    isActive: (p) => p === "/fond-du-mois",
   },
   {
     id: "thematiques",
@@ -88,6 +88,10 @@ const thematiqueCategories: {
     slugs: ["fetes", "fetes-populaires", "contes-legendes", "portraits"],
   },
 ];
+
+const activitesItems = [
+  { label: "Fond du mois", href: "/fond-du-mois" },
+] as const;
 
 const fondsItems = [
   { label: "Dépôt d'un fonds", href: "/deposer" },
@@ -196,6 +200,59 @@ function ThematiquesMobileContent({
   );
 }
 
+function ActivitesDesktopContent({ pathname }: { pathname: string }) {
+  return (
+    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-60 px-4.5 pt-3.5 pb-1.5">
+      {activitesItems.map(({ label, href }) => {
+        const isActive = pathname === href;
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`font-body text-[12.5px] no-underline block transition-colors duration-150 ${
+              isActive
+                ? "font-semibold text-secondaire bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 py-2 hover:bg-texte-clair-2"
+                : "font-normal text-encre px-3 py-2 hover:bg-velin cursor-pointer"
+            }`}
+          >
+            {label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActivitesMobileContent({
+  pathname,
+  onClose,
+}: {
+  pathname: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="flex flex-col border-l border-gris/15 pl-3.5">
+      {activitesItems.map(({ label, href }) => {
+        const isActive = pathname === href;
+        return (
+          <Link
+            key={href}
+            href={href}
+            onClick={onClose}
+            className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
+              isActive
+                ? "font-semibold text-secondaire"
+                : "font-normal text-encre"
+            }`}
+          >
+            {label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 function FondsDesktopContent({ pathname }: { pathname: string }) {
   return (
     <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-60 px-4.5 pt-3.5 pb-1.5">
@@ -256,6 +313,7 @@ function DesktopDropdownContent({
   link: NavLink;
   pathname: string;
 }) {
+  if (link.id === "activites") return <ActivitesDesktopContent pathname={pathname} />;
   if (link.id === "thematiques")
     return <ThematiquesDesktopContent pathname={pathname} />;
   if (link.id === "fonds") return <FondsDesktopContent pathname={pathname} />;
@@ -280,6 +338,8 @@ function MobileDropdownContent({
   pathname: string;
   onClose: () => void;
 }) {
+  if (link.id === "activites")
+    return <ActivitesMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "thematiques")
     return <ThematiquesMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "fonds")

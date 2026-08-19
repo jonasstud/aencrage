@@ -14,7 +14,9 @@ export default async function EnEvidenceSection() {
   const { title, annee, typeFond, donateur, chapo, couverture } = fond;
   const hasCouverture = Boolean(couverture?.asset);
 
-  const metaParts = [annee?.toString(), typeFond, donateur].filter(Boolean) as string[];
+  const metaParts = [annee?.toString(), typeFond, donateur].filter(
+    Boolean,
+  ) as string[];
 
   return (
     <section
@@ -51,7 +53,7 @@ export default async function EnEvidenceSection() {
               </p>
             )}
             <Link
-              href="/activite"
+              href="/fond-du-mois"
               className="font-mono text-[12px] tracking-[0.14em] uppercase text-encre border-b border-encre pb-px hover:border-transparent transition-colors"
             >
               Voir le fond du mois →

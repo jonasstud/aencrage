@@ -31,7 +31,7 @@ type GalleryPhoto = { _key: string; alt?: string; asset?: SanityAsset };
 type FondDocument = { _key: string; title?: string; asset?: SanityAsset };
 type FondAudio = { _key: string; title?: string; duree?: string; asset?: SanityAsset };
 
-export default async function ActivitePage() {
+export default async function FondDuMoisPage() {
   const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
 
   if (!fond) return notFound();
