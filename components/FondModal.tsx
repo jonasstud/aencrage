@@ -1,24 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Camera,
-  FileText,
-  AudioLines,
-  Video,
-  Play,
-  Pause,
-  Volume1,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { Camera, FileText, AudioLines, Video, Play, Pause, Volume1, Volume2, VolumeX } from "lucide-react";
 import type { Fond } from "@/lib/fondsThemes";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
-  photo: "#A88C5A",
-  ecrit: "#758FB2",
-  son: "#7A9E87",
-  video: "#B07060",
+  photo:  "#A88C5A",
+  ecrit:  "#758FB2",
+  son:    "#7A9E87",
+  video:  "#B07060",
 };
 
 const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
@@ -32,13 +22,7 @@ const NUM_BARS = 150;
 
 const DEFAULT_PEAKS = Array.from({ length: NUM_BARS }, (_, i) => {
   const x = i / NUM_BARS;
-  return Math.max(
-    0.05,
-    0.2 +
-      0.65 *
-        Math.abs(Math.sin(x * Math.PI * 5 + 1.2)) *
-        (0.5 + 0.5 * Math.abs(Math.sin(x * Math.PI * 2))),
-  );
+  return Math.max(0.05, 0.2 + 0.65 * Math.abs(Math.sin(x * Math.PI * 5 + 1.2)) * (0.5 + 0.5 * Math.abs(Math.sin(x * Math.PI * 2))));
 });
 
 function formatTime(seconds: number): string {
@@ -86,12 +70,7 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
       <div
         className="bg-papier w-full relative overflow-y-auto"
         style={{
-          maxWidth:
-            fond.type === "photo" ||
-            fond.type === "video" ||
-            (fond.type === "son" && fond.imageSrc)
-              ? 760
-              : 640,
+          maxWidth: fond.type === "photo" || fond.type === "video" || (fond.type === "son" && fond.imageSrc) ? 760 : 640,
           maxHeight: "90vh",
           borderTop: `3px solid ${TYPE_BORDER[fond.type]}`,
         }}
@@ -133,21 +112,14 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
   );
 }
 
-function PhotoLayout({
-  fond,
-  chapitreName,
-}: {
-  fond: Fond;
-  chapitreName: string;
-}) {
+function PhotoLayout({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
   return (
     <div className="grid md:grid-cols-[1fr_1.1fr]">
       <div
         className="hidden md:block bg-placeholder relative overflow-hidden"
         style={{
           minHeight: 400,
-          clipPath:
-            "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
         }}
         aria-hidden="true"
       >
@@ -171,13 +143,7 @@ function toYouTubeEmbedUrl(url: string): string {
   return match ? `https://www.youtube.com/embed/${match[1]}` : url;
 }
 
-function VideoLayout({
-  fond,
-  chapitreName,
-}: {
-  fond: Fond;
-  chapitreName: string;
-}) {
+function VideoLayout({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
   return (
     <div className="grid md:grid-cols-[1fr_1.1fr]">
       <div
@@ -201,11 +167,7 @@ function VideoLayout({
         <div className="mt-6">
           <p
             className="font-mono text-gris mb-1"
-            style={{
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
-            }}
+            style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.14em" }}
           >
             Vidéo
           </p>
@@ -226,13 +188,7 @@ function VideoLayout({
   );
 }
 
-function EcritLayout({
-  fond,
-  chapitreName,
-}: {
-  fond: Fond;
-  chapitreName: string;
-}) {
+function EcritLayout({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
   return (
     <>
       <div style={{ padding: "32px 40px 40px" }}>
@@ -240,11 +196,7 @@ function EcritLayout({
         <div className="mt-6">
           <p
             className="font-mono text-gris mb-1"
-            style={{
-              fontSize: 10,
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
-            }}
+            style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.14em" }}
           >
             Fichier
           </p>
@@ -269,22 +221,12 @@ function EcritLayout({
   );
 }
 
-function SonLayout({
-  fond,
-  chapitreName,
-}: {
-  fond: Fond;
-  chapitreName: string;
-}) {
+function SonLayout({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
   const downloadLink = (
     <div className="mt-6">
       <p
         className="font-mono text-gris mb-1"
-        style={{
-          fontSize: 10,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-        }}
+        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.14em" }}
       >
         Fichier
       </p>
@@ -312,8 +254,7 @@ function SonLayout({
           className="hidden md:block bg-placeholder relative overflow-hidden"
           style={{
             minHeight: 400,
-            clipPath:
-              "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
           }}
           aria-hidden="true"
         >
@@ -324,13 +265,8 @@ function SonLayout({
           />
         </div>
         <div className="flex flex-col">
-          <div
-            style={{ background: "#EEF1F5", paddingTop: 20, paddingBottom: 16 }}
-          >
-            <AudioPlayer
-              audioSrc={fond.audioSrc}
-              audioPeaks={fond.audioPeaks}
-            />
+          <div style={{ background: "#EEF1F5", paddingTop: 20, paddingBottom: 16 }}>
+            <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
           </div>
           <div style={{ padding: "32px 40px 40px", flex: 1 }}>
             <ModalContent fond={fond} chapitreName={chapitreName} />
@@ -354,13 +290,7 @@ function SonLayout({
   );
 }
 
-function AudioPlayer({
-  audioSrc,
-  audioPeaks,
-}: {
-  audioSrc?: string;
-  audioPeaks?: number[];
-}) {
+function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?: number[] }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const waveRef = useRef<HTMLDivElement>(null);
@@ -368,18 +298,12 @@ function AudioPlayer({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [hasError, setHasError] = useState(false);
-  const [computedPeaks, setComputedPeaks] = useState<number[]>([]);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
   const hideVolumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const peaks =
-    computedPeaks.length > 0
-      ? computedPeaks
-      : audioPeaks && audioPeaks.length > 0
-        ? audioPeaks
-        : DEFAULT_PEAKS;
+  const peaks = audioPeaks && audioPeaks.length > 0 ? audioPeaks : DEFAULT_PEAKS;
   const progress = duration > 0 ? currentTime / duration : 0;
   const playedBars = Math.round(progress * peaks.length);
   const noAudio = !audioSrc;
@@ -390,50 +314,6 @@ function AudioPlayer({
     setCurrentTime(0);
     setDuration(0);
     setHasError(false);
-    setComputedPeaks([]);
-  }, [audioSrc]);
-
-  useEffect(() => {
-    if (!audioSrc) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(audioSrc, { credentials: "same-origin" });
-        if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${audioSrc}`);
-        const buf = await res.arrayBuffer();
-        const AudioCtx =
-          window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext })
-            .webkitAudioContext;
-        const ctx = new AudioCtx();
-        if (ctx.state === "suspended") await ctx.resume();
-        const decoded = await ctx.decodeAudioData(buf);
-        ctx.close();
-        if (cancelled) return;
-        const data = decoded.getChannelData(0);
-        const blockSize = Math.floor(data.length / NUM_BARS);
-        const rawPeaks: number[] = [];
-        for (let i = 0; i < NUM_BARS; i++) {
-          let sum = 0;
-          for (let j = 0; j < blockSize; j++)
-            sum += data[i * blockSize + j] ** 2;
-          rawPeaks.push(Math.sqrt(sum / blockSize));
-        }
-        const maxVal = Math.max(...rawPeaks, 0.001);
-        const peaks = rawPeaks.map((p) => Math.max(0.04, p / maxVal));
-        console.log(
-          "[FondModal] audioPeaks à copier dans fondsThemes.ts:",
-          JSON.stringify(peaks),
-        );
-        setComputedPeaks(peaks);
-      } catch (err) {
-        console.error("[FondModal] waveform computation failed:", err);
-        // Fallback to provided peaks or default
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
   }, [audioSrc]);
 
   useEffect(() => {
@@ -466,10 +346,7 @@ function AudioPlayer({
       audio.pause();
       setIsPlaying(false);
     } else {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setHasError(true));
+      audio.play().then(() => setIsPlaying(true)).catch(() => setHasError(true));
     }
   }
 
@@ -483,10 +360,7 @@ function AudioPlayer({
     audioRef.current.currentTime = Math.max(0, Math.min(1, ratio)) * duration;
   }
 
-  function getRatio(
-    e: React.MouseEvent | MouseEvent,
-    ref: React.RefObject<HTMLDivElement | null>,
-  ): number {
+  function getRatio(e: React.MouseEvent | MouseEvent, ref: React.RefObject<HTMLDivElement | null>): number {
     if (!ref.current) return 0;
     const rect = ref.current.getBoundingClientRect();
     return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
@@ -522,10 +396,7 @@ function AudioPlayer({
   return (
     <div
       className="grid gap-x-3 gap-y-1.5 px-7 pt-5 pb-1.25"
-      style={{
-        gridTemplateColumns: "38px 1fr auto",
-        gridTemplateRows: "auto auto auto",
-      }}
+      style={{ gridTemplateColumns: "38px 1fr auto", gridTemplateRows: "auto auto auto" }}
     >
       {audioSrc && <audio ref={audioRef} src={audioSrc} preload="metadata" />}
 
@@ -537,7 +408,7 @@ function AudioPlayer({
         style={{ gridColumn: "1 / -1", gridRow: 1, height: 56, gap: 1 }}
         aria-hidden="true"
       >
-        {peaks.map((peak, i) => (
+        {peaks.map((peak: number, i: number) => (
           <div
             key={i}
             style={{
@@ -559,13 +430,7 @@ function AudioPlayer({
         ref={progressRef}
         onMouseDown={handleSeekMouseDown(progressRef)}
         className={`relative mb-1 ${disabled ? "cursor-default" : "cursor-pointer"}`}
-        style={{
-          gridColumn: "1 / -1",
-          gridRow: 2,
-          height: 3,
-          background: "#DCE3EC",
-          borderRadius: 2,
-        }}
+        style={{ gridColumn: "1 / -1", gridRow: 2, height: 3, background: "#DCE3EC", borderRadius: 2 }}
         role="slider"
         aria-label="Progression"
         aria-valuenow={Math.round(currentTime)}
@@ -586,11 +451,9 @@ function AudioPlayer({
         style={{ gridColumn: 1, gridRow: 3, width: 38, height: 38 }}
         aria-label={isPlaying ? "Pause" : "Lecture"}
       >
-        {isPlaying ? (
-          <Pause size={11} fill="#131417" color="#131417" aria-hidden="true" />
-        ) : (
-          <Play size={11} fill="#131417" color="#131417" aria-hidden="true" />
-        )}
+        {isPlaying
+          ? <Pause size={11} fill="#131417" color="#131417" aria-hidden="true" />
+          : <Play size={11} fill="#131417" color="#131417" aria-hidden="true" />}
       </button>
 
       {/* Row 3 col 2: time */}
@@ -598,11 +461,7 @@ function AudioPlayer({
         className="font-mono self-center text-center text-gris whitespace-nowrap"
         style={{ gridColumn: 2, gridRow: 3, fontSize: 11 }}
       >
-        {noAudio
-          ? "—"
-          : hasError
-            ? "Erreur"
-            : `${formatTime(currentTime)} / ${formatTime(duration)}`}
+        {noAudio ? "—" : hasError ? "Erreur" : `${formatTime(currentTime)} / ${formatTime(duration)}`}
       </span>
 
       {/* Row 3 col 3: volume */}
@@ -615,12 +474,7 @@ function AudioPlayer({
         {/* Floating vertical slider */}
         <div
           className={`absolute z-10 flex flex-col items-center rounded-lg bg-white shadow-lg transition-opacity duration-200 ${showVolume ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-          style={{
-            top: "calc(100% + 4px)",
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "10px 8px",
-          }}
+          style={{ top: "calc(100% + 4px)", left: "50%", transform: "translateX(-50%)", padding: "10px 8px" }}
         >
           <input
             type="range"
@@ -652,35 +506,23 @@ function AudioPlayer({
           className={`bg-transparent border-0 p-0 flex items-center ${disabled ? "cursor-default opacity-40" : "cursor-pointer"}`}
           aria-label={isMuted ? "Activer le son" : "Couper le son"}
         >
-          {isMuted || volume === 0 ? (
-            <VolumeX size={14} color="#8A8F98" aria-hidden="true" />
-          ) : volume < 0.5 ? (
-            <Volume1 size={14} color="#8A8F98" aria-hidden="true" />
-          ) : (
-            <Volume2 size={14} color="#8A8F98" aria-hidden="true" />
-          )}
+          {isMuted || volume === 0
+            ? <VolumeX size={14} color="#8A8F98" aria-hidden="true" />
+            : volume < 0.5
+            ? <Volume1 size={14} color="#8A8F98" aria-hidden="true" />
+            : <Volume2 size={14} color="#8A8F98" aria-hidden="true" />}
         </button>
       </div>
     </div>
   );
 }
 
-function ModalContent({
-  fond,
-  chapitreName,
-}: {
-  fond: Fond;
-  chapitreName: string;
-}) {
+function ModalContent({ fond, chapitreName }: { fond: Fond; chapitreName: string }) {
   return (
     <>
       <p
         className="font-mono text-gris mb-1"
-        style={{
-          fontSize: 11,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-        }}
+        style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.14em" }}
       >
         {chapitreName} · {fond.dates}
       </p>
@@ -688,11 +530,7 @@ function ModalContent({
         <FondTypeIcon type={fond.type} />
         <span
           className="font-mono text-gris"
-          style={{
-            fontSize: 11,
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-          }}
+          style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.14em" }}
         >
           {TYPE_LABELS[fond.type]}
         </span>
@@ -711,11 +549,7 @@ function ModalContent({
       </p>
       <p
         className="font-mono text-gris mb-1"
-        style={{
-          fontSize: 10,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-        }}
+        style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.14em" }}
       >
         Provenance
       </p>

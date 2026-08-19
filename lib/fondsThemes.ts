@@ -1,3 +1,5 @@
+import audioPeaksCache from "./audio-peaks.json";
+
 export type Fond = {
   id: string;
   title: string;
@@ -25,7 +27,7 @@ export type ThemePage = {
   chapitres: Chapitre[];
 };
 
-export const themes: ThemePage[] = [
+const _themes: ThemePage[] = [
   {
     slug: "alpage",
     name: "La vie à l'alpage",
@@ -278,3 +280,15 @@ export const themes: ThemePage[] = [
     ],
   },
 ];
+
+const _peaksCache = audioPeaksCache as Record<string, number[]>;
+
+export const themes: ThemePage[] = _themes.map((theme) => ({
+  ...theme,
+  chapitres: theme.chapitres.map((chapitre) => ({
+    ...chapitre,
+    fonds: chapitre.fonds.map((fond) =>
+      _peaksCache[fond.id] ? { ...fond, audioPeaks: _peaksCache[fond.id] } : fond
+    ),
+  })),
+}));
