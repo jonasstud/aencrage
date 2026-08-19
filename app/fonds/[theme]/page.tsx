@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { themes } from "@/lib/fondsThemes";
 import ThemeHero from "@/components/ThemeHero";
 import ThemePageBody from "@/components/ThemePageBody";
-import DeposerSection from "@/components/DeposerSection";
 
 export function generateStaticParams() {
   return themes.map((t) => ({ theme: t.slug }));
@@ -21,7 +20,6 @@ export default async function ThemePage({
     <main>
       <ThemeHero theme={theme} />
       <ThemePageBody theme={theme} />
-      <DeposerSection />
     </main>
   );
 }

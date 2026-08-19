@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Newsreader, Instrument_Sans, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import NavHeader from '@/components/NavHeader'
+import DeposerSection from '@/components/DeposerSection'
 
 const newsreader = Newsreader({
   weight: ['400', '500'],
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <NavHeader />
         {children}
+        <DeposerSection />
       </body>
     </html>
   )

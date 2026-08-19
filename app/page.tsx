@@ -3,7 +3,6 @@ import BandeauSection from "@/components/BandeauSection";
 import FondationSection from "@/components/FondationSection";
 import ValorisationSection from "@/components/ValorisationSection";
 import EnEvidenceSection from "@/components/EnEvidenceSection";
-import DeposerSection from "@/components/DeposerSection";
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       <FondationSection />
       <ValorisationSection />
       <EnEvidenceSection />
-      <DeposerSection />
     </main>
   );
 }

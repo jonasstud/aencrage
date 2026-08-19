@@ -4,24 +4,15 @@ import { notFound } from "next/navigation";
 import { FileText, AudioLines, Download } from "lucide-react";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
-import { ACTIVITE_QUERY } from "@/lib/sanity/queries";
+import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
 
 export const metadata: Metadata = {
-  title: "Activité — Fondation æncrage",
+  title: "Fond du mois — Fondation æncrage",
 };
 
 const options = { next: { revalidate: 60 } };
-
-function formatDate(date?: string) {
-  if (!date) return null;
-  return new Date(date).toLocaleDateString("fr-CH", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
 
 function formatFileSize(bytes?: number) {
   if (!bytes) return null;
@@ -37,18 +28,18 @@ type SanityAsset = {
 };
 
 type GalleryPhoto = { _key: string; alt?: string; asset?: SanityAsset };
-type ActiviteDocument = { _key: string; title?: string; asset?: SanityAsset };
-type ActiviteAudio = { _key: string; title?: string; duree?: string; asset?: SanityAsset };
+type FondDocument = { _key: string; title?: string; asset?: SanityAsset };
+type FondAudio = { _key: string; title?: string; duree?: string; asset?: SanityAsset };
 
-export default async function ActivitePage() {
-  const activite = await client.fetch(ACTIVITE_QUERY, {}, options);
+export default async function FondDuMoisPage() {
+  const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
 
-  if (!activite) return notFound();
+  if (!fond) return notFound();
 
-  const { title, date, horaires, lieu, chapo, couverture, content, gallery, documents, audioFiles } =
-    activite;
+  const { title, annee, typeFond, donateur, chapo, couverture, content, gallery, documents, audioFiles } =
+    fond;
 
-  const metaParts = [formatDate(date), horaires, lieu].filter(Boolean) as string[];
+  const metaParts = [annee?.toString(), typeFond, donateur].filter(Boolean) as string[];
   const hasCouverture = Boolean(couverture?.asset);
   const galleryPhotos = (Array.isArray(gallery) ? gallery : [])
     .filter((photo: GalleryPhoto) => photo.asset)
@@ -71,7 +62,7 @@ export default async function ActivitePage() {
       >
         <div className="min-w-0">
           <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5">
-            Activité
+            Fond du mois
           </p>
           <h1 className="font-display font-normal text-[36px] md:text-[54px] leading-[1.1] text-encre max-w-155 mb-6.5">
             {title}
@@ -124,7 +115,7 @@ export default async function ActivitePage() {
             Galerie
           </p>
           <h2 className="font-display font-normal text-[28px] text-encre mb-7">
-            Photos de la journée
+            Galerie photographique
           </h2>
           <ActiviteGallery photos={galleryPhotos} />
         </section>
@@ -140,7 +131,7 @@ export default async function ActivitePage() {
             Documents à télécharger
           </h2>
           <div className="flex flex-col gap-px bg-encre/12 border border-encre">
-            {documents.map((doc: ActiviteDocument) => (
+            {documents.map((doc: FondDocument) => (
               <a
                 key={doc._key}
                 href={doc.asset?.url}
@@ -181,7 +172,7 @@ export default async function ActivitePage() {
             Enregistrements audio
           </h2>
           <div className="flex flex-col gap-4">
-            {audioFiles.map((audio: ActiviteAudio) => (
+            {audioFiles.map((audio: FondAudio) => (
               <div
                 key={audio._key}
                 className="border border-encre py-6 px-6.5 bg-papier"

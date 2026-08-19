@@ -1,3 +1,5 @@
+import Link from "next/dist/client/link";
+
 export default function DeposerSection() {
   return (
     <footer
@@ -20,18 +22,18 @@ export default function DeposerSection() {
             fondation.
           </p>
           <div className="flex gap-3">
-            <a
-              href="#contact-1a"
+            <Link
+              href="/deposer"
               className="inline-flex px-5.5 py-3.5 bg-laiton text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
             >
-              Déposer un fond
-            </a>
-            <a
-              href="#contact-1a"
+              Déposer un fonds
+            </Link>
+            <Link
+              href="/contact"
               className="inline-flex px-5.5 py-3.5 bg-papier text-encre no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-opacity duration-200 hover:opacity-80"
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
         </div>
 

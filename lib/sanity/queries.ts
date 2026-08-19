@@ -1,12 +1,12 @@
 import { defineQuery } from "next-sanity";
 
-export const ACTIVITE_QUERY = defineQuery(`
-  *[_id == "activite"][0]{
+export const FOND_DU_MOIS_QUERY = defineQuery(`
+  *[_id == "fondDuMois"][0]{
     _id,
     title,
-    date,
-    horaires,
-    lieu,
+    annee,
+    typeFond,
+    donateur,
     chapo,
     couverture{
       ...,

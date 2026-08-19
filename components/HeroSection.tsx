@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const heroImages = [
   "/images/hero/hero-1.webp",
@@ -64,14 +65,17 @@ export default function HeroSection() {
           ... )
         </motion.p>
 
-        <motion.a
+        <motion.div
           {...fadeUp}
           transition={{ duration: 0.7, delay: 0.24, ease: "easeOut" }}
-          href="#deposer-1a"
-          className="inline-flex items-center px-5.5 py-3.5 bg-encre text-papier no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-[background-color,transform] duration-200 hover:bg-secondaire hover:-translate-y-0.5"
         >
-          Déposer un fond
-        </motion.a>
+          <Link
+            href="/deposer"
+            className="inline-flex items-center px-5.5 py-3.5 bg-encre text-papier no-underline font-mono text-[11px] font-medium tracking-[0.18em] uppercase transition-[background-color,transform] duration-200 hover:bg-secondaire hover:-translate-y-0.5"
+          >
+            Déposer un fonds
+          </Link>
+        </motion.div>
       </div>
 
       {/* Right column — hero image with brand bevel */}

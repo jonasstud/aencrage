@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import DeposerSection from "@/components/DeposerSection";
+import { FileDown, FileText } from "lucide-react";
 
 const sections = [
   { id: "presentation", num: "01", label: "Présentation" },
   { id: "formes", num: "02", label: "Formes de dépôt" },
   { id: "zones", num: "03", label: "Zones de description" },
-  { id: "convention", num: "04", label: "Convention type" },
+  { id: "convention", num: "04", label: "Exemple de convention" },
 ] as const;
 
 type SectionId = (typeof sections)[number]["id"];
@@ -139,7 +139,10 @@ export default function DeposerPage() {
             {/* 01 Présentation */}
             <section id="sec-presentation" style={{ scrollMarginTop: 100 }}>
               <SectionHeader num="01" title="Présentation" />
-              <div className="flex flex-col" style={{ gap: 20, maxWidth: 720 }}>
+              <div
+                className="flex flex-col text-justify"
+                style={{ gap: 20, maxWidth: 720 }}
+              >
                 <p className="font-body text-[16px] leading-[1.65] text-secondaire m-0">
                   La Fondation accueille des archives privées, émanant de
                   personnes physiques (personnes, familles) ayant un rapport
@@ -173,7 +176,7 @@ export default function DeposerPage() {
                 title="Sous quelles formes pouvez-vous verser vos archives à la Fondation ?"
               />
               <p
-                className="font-body text-[16px] leading-[1.65] text-secondaire m-0 mb-8"
+                className="font-body text-[16px] leading-[1.65] text-secondaire m-0 mb-8 text-justify"
                 style={{ maxWidth: 720 }}
               >
                 Un fonds privé peut être remis sous forme de don, dépôt, legs ou
@@ -264,7 +267,7 @@ export default function DeposerPage() {
                     >
                       {zone.num}
                     </span>
-                    <p className="font-body text-[15px] leading-[1.6] text-secondaire m-0">
+                    <p className="font-body text-[15px] leading-[1.6] text-secondaire m-0 text-justify">
                       <strong className="text-encre font-semibold">
                         {zone.term}
                       </strong>{" "}
@@ -301,19 +304,10 @@ export default function DeposerPage() {
                   className="flex items-center"
                   style={{ gap: 12, minWidth: 0 }}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#8A8F98"
-                    strokeWidth="1.6"
-                    style={{ flex: "none" }}
-                  >
-                    <path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
-                    <path d="M14 3v5h5" />
-                    <path d="M8 12h8M8 15.5h8M8 8.5h3" />
-                  </svg>
+                  <FileText
+                    size={28}
+                    className="text-encre opacity-60 shrink-0"
+                  />
                   <div style={{ minWidth: 0 }}>
                     <div className="font-body text-[15px] text-encre overflow-hidden text-ellipsis whitespace-nowrap">
                       Convention de dépôt — modèle
@@ -322,34 +316,18 @@ export default function DeposerPage() {
                       className="font-mono text-[10px] tracking-[0.09em] uppercase text-gris"
                       style={{ marginTop: 2 }}
                     >
-                      PDF
+                      DOCX
                     </div>
                   </div>
                 </div>
                 <a
-                  href="#"
-                  className="shrink-0 inline-flex items-center no-underline font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-papier transition-colors duration-150 hover:bg-secondaire"
-                  style={{
-                    gap: 8,
-                    background: "#131417",
-                    padding: "12px 18px",
-                  }}
+                  href="/fonds/d%C3%A9p%C3%B4t/Convention-cr%C3%A9ation-fonds.docx"
+                  download="Convention-création-fonds.docx"
+                  className="shrink-0 inline-flex items-center no-underline font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-papier bg-encre hover:bg-secondaire transition-colors duration-150"
+                  style={{ gap: 8, padding: "12px 18px" }}
                 >
                   Télécharger
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 3v12" />
-                    <path d="m7 10 5 5 5-5" />
-                    <path d="M5 21h14" />
-                  </svg>
+                  <FileDown size={18} />
                 </a>
               </div>
             </section>
@@ -357,7 +335,6 @@ export default function DeposerPage() {
         </div>
       </div>
 
-      <DeposerSection />
     </div>
   );
 }
@@ -407,7 +384,7 @@ function DepotCard({
       >
         {title}
       </h3>
-      <p className="font-body text-[14px] leading-[1.55] text-secondaire m-0">
+      <p className="font-body text-[14px] leading-[1.55] text-secondaire m-0 text-justify">
         {description}
       </p>
     </div>
