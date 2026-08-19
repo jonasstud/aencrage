@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Camera, FileText, AudioLines, Video, Play, Pause, Volume1, Volume2, VolumeX } from "lucide-react";
+import { Camera, FileText, AudioLines, Video, Play, Pause, Volume1, Volume2, VolumeX, Loader } from "lucide-react";
 import type { Fond } from "@/lib/fondsThemes";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
@@ -302,6 +302,7 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
   const [isMuted, setIsMuted] = useState(false);
   const [showVolume, setShowVolume] = useState(false);
   const [seekingRatio, setSeekingRatio] = useState<number | null>(null);
+  const [isSeeking, setIsSeeking] = useState(false);
   const hideVolumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const peaks = audioPeaks && audioPeaks.length > 0 ? audioPeaks : DEFAULT_PEAKS;
@@ -328,15 +329,21 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
       audio.currentTime = 0;
     };
     const onError = () => setHasError(true);
+    const onSeeking = () => setIsSeeking(true);
+    const onSeeked = () => setIsSeeking(false);
     audio.addEventListener("loadedmetadata", onMeta);
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("ended", onEnded);
     audio.addEventListener("error", onError);
+    audio.addEventListener("seeking", onSeeking);
+    audio.addEventListener("seeked", onSeeked);
     return () => {
       audio.removeEventListener("loadedmetadata", onMeta);
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("ended", onEnded);
       audio.removeEventListener("error", onError);
+      audio.removeEventListener("seeking", onSeeking);
+      audio.removeEventListener("seeked", onSeeked);
     };
   }, [audioSrc]);
 
@@ -357,8 +364,18 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
   }, [volume, isMuted]);
 
   function seekTo(ratio: number) {
-    if (!audioRef.current || !duration) return;
-    audioRef.current.currentTime = Math.max(0, Math.min(1, ratio)) * duration;
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const wasPlaying = !audio.paused;
+    if (wasPlaying) audio.pause();
+    audio.currentTime = Math.max(0, Math.min(1, ratio)) * duration;
+    if (wasPlaying) {
+      const resume = () => {
+        audio.play().catch(() => setHasError(true));
+        audio.removeEventListener("seeked", resume);
+      };
+      audio.addEventListener("seeked", resume);
+    }
   }
 
   function getRatio(e: React.MouseEvent | MouseEvent, ref: React.RefObject<HTMLDivElement | null>): number {
@@ -456,7 +473,9 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
         style={{ gridColumn: 1, gridRow: 3, width: 38, height: 38 }}
         aria-label={isPlaying ? "Pause" : "Lecture"}
       >
-        {isPlaying
+        {isSeeking
+          ? <Loader size={14} color="#131417" aria-hidden="true" className="animate-spin" />
+          : isPlaying
           ? <Pause size={11} fill="#131417" color="#131417" aria-hidden="true" />
           : <Play size={11} fill="#131417" color="#131417" aria-hidden="true" />}
       </button>
