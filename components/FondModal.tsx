@@ -329,8 +329,11 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
     (async () => {
       try {
         const res = await fetch(audioSrc, { credentials: "omit" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} fetching ${audioSrc}`);
         const buf = await res.arrayBuffer();
-        const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+        const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const ctx = new AudioCtx();
+        if (ctx.state === "suspended") await ctx.resume();
         const decoded = await ctx.decodeAudioData(buf);
         ctx.close();
         if (cancelled) return;
@@ -344,7 +347,8 @@ function AudioPlayer({ audioSrc, audioPeaks }: { audioSrc?: string; audioPeaks?:
         }
         const maxVal = Math.max(...rawPeaks, 0.001);
         setComputedPeaks(rawPeaks.map((p) => Math.max(0.04, p / maxVal)));
-      } catch {
+      } catch (err) {
+        console.error("[FondModal] waveform computation failed:", err);
         // Fallback to provided peaks or default
       }
     })();
