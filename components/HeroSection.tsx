@@ -82,7 +82,7 @@ export default function HeroSection() {
       <motion.div
         {...fadeIn}
         transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-        className="hidden md:block relative w-full self-stretch bg-placeholder"
+        className="order-first md:order-last relative w-full h-64 md:h-auto self-stretch bg-placeholder"
         style={{
           clipPath:
             "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
@@ -102,7 +102,7 @@ export default function HeroSection() {
               src={heroImages[index]}
               alt=""
               fill
-              sizes="(min-width: 768px) 45vw, 0px"
+              sizes="(min-width: 768px) 45vw, 100vw"
               className="object-cover"
               preload={index === 0}
             />
