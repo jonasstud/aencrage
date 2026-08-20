@@ -7,13 +7,14 @@ type Props = {
   chapitre: Chapitre;
   index: number;
   onOpen: (fond: Fond) => void;
+  idPrefix?: string;
 };
 
-export default function ChapitreSection({ chapitre, index, onOpen }: Props) {
+export default function ChapitreSection({ chapitre, index, onOpen, idPrefix = "" }: Props) {
   const num = String(index + 1).padStart(2, "0");
 
   return (
-    <section id={`chapitre-${chapitre.id}`}>
+    <section id={`${idPrefix}chapitre-${chapitre.id}`}>
       <div className="flex items-baseline gap-4 border-b border-encre pb-5 mb-8">
         <span className="font-mono text-[13px] text-laiton tracking-widest">
           {num}
