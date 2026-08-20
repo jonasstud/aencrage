@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/animations";
 
 type FormState = {
   nom: string;
@@ -68,12 +70,20 @@ export default function ContactPage() {
           {/* Left column — no longer sticky on mobile to avoid awkward scroll */}
           <div className="lg:sticky lg:top-2.5 lg:self-start">
             {/* Fix #4: scale heading down for small screens */}
-            <h1 className="font-display font-normal text-encre m-0 mb-8 lg:mb-10 text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.1]">
+            <motion.h1
+              {...fadeUp}
+              transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+              className="font-display font-normal text-encre m-0 mb-8 lg:mb-10 text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.1]"
+            >
               Contact
-            </h1>
+            </motion.h1>
 
             {/* Fix #5: remove max-w on mobile so it fills the column */}
-            <div className="flex flex-col gap-8 lg:max-w-105">
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              className="flex flex-col gap-8 lg:max-w-105"
+            >
               <div>
                 <p className="font-display italic text-secondaire m-0 mb-3 text-[19px]">
                   pour demander à
@@ -116,10 +126,14 @@ export default function ContactPage() {
                   ))}
                 </ul>
               </div>
-            </div>
+            </motion.div>
 
             {/* Fix #6: address card fills column width on mobile, capped on desktop */}
-            <div className="relative border border-encre px-5 sm:px-6.5 pt-6 pb-6.5 mt-10 lg:mt-13 lg:max-w-105">
+            <motion.div
+              {...fadeUp}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              className="relative border border-encre px-5 sm:px-6.5 pt-6 pb-6.5 mt-10 lg:mt-13 lg:max-w-105"
+            >
               <div className="absolute -top-px -left-px -right-px h-0.75 bg-laiton" />
               <p className="font-mono uppercase text-gris m-0 mb-4 text-[11px] tracking-[0.18em]">
                 Adresse postale
@@ -148,11 +162,15 @@ export default function ContactPage() {
                   fondationaencrage@gmail.com
                 </a>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right column — Fix #3: remove large top padding on mobile */}
-          <div className="pt-0 lg:pt-23.25">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6, delay: 0.14, ease: "easeOut" }}
+            className="pt-0 lg:pt-23.25"
+          >
             {submitted ? (
               /* Fix #7: confirmation box is full-width on mobile, capped on desktop */
               <div className="relative border border-encre px-5 sm:px-9 pt-8 pb-9 w-full lg:max-w-140">
@@ -261,7 +279,7 @@ export default function ContactPage() {
                 </div>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </main>
     </div>

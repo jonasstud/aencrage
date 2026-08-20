@@ -7,6 +7,7 @@ import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
+import FadeIn from "@/components/FadeIn";
 
 const SITE_URL = "https://www.fondationaencrage.ch";
 const options = { next: { revalidate: 60 } };
@@ -102,46 +103,56 @@ export default async function FondDuMoisPage() {
         }
       >
         <div className="min-w-0">
-          <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5">
-            Fond du mois
-          </p>
-          <h1 className="font-display font-normal text-[36px] md:text-[54px] leading-[1.1] text-encre max-w-155 mb-6.5">
-            {title}
-          </h1>
+          <FadeIn delay={0}>
+            <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5">
+              Fond du mois
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.08}>
+            <h1 className="font-display font-normal text-[36px] md:text-[54px] leading-[1.1] text-encre max-w-155 mb-6.5">
+              {title}
+            </h1>
+          </FadeIn>
           {metaParts.length > 0 && (
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-5.5">
-              {metaParts.map((part, i) => (
-                <span key={i} className="flex items-center gap-2">
-                  {i > 0 && <span aria-hidden="true">·</span>}
-                  {part}
-                </span>
-              ))}
-            </div>
+            <FadeIn delay={0.16}>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-5.5">
+                {metaParts.map((part, i) => (
+                  <span key={i} className="flex items-center gap-2">
+                    {i > 0 && <span aria-hidden="true">·</span>}
+                    {part}
+                  </span>
+                ))}
+              </div>
+            </FadeIn>
           )}
           {chapo && (
-            <p className="font-body text-[17px] leading-[1.65] text-secondaire max-w-120 m-0">
-              {chapo}
-            </p>
+            <FadeIn delay={0.22}>
+              <p className="font-body text-[17px] leading-[1.65] text-secondaire max-w-120 m-0">
+                {chapo}
+              </p>
+            </FadeIn>
           )}
         </div>
 
         {hasCouverture && (
-          <div
-            className="hidden md:block relative w-full self-stretch bg-placeholder h-110"
-            style={{
-              clipPath:
-                "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
-            }}
-          >
-            <Image
-              src={urlForImage(couverture).width(1200).fit("max").auto("format").url()}
-              alt={couverture.alt ?? ""}
-              fill
-              sizes="(min-width: 768px) 45vw, 0px"
-              className="object-cover"
-              priority
-            />
-          </div>
+          <FadeIn delay={0.1}>
+            <div
+              className="order-first md:order-last relative w-full self-stretch bg-placeholder h-64 md:h-110"
+              style={{
+                clipPath:
+                  "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
+              }}
+            >
+              <Image
+                src={urlForImage(couverture).width(1200).fit("max").auto("format").url()}
+                alt={couverture.alt ?? ""}
+                fill
+                sizes="(min-width: 768px) 45vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          </FadeIn>
         )}
       </section>
 
