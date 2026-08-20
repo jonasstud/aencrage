@@ -437,7 +437,7 @@ export default function NavHeader() {
                 </div>
               </div>
             ) : (
-              <a
+              <Link
                 key={link.id}
                 href={link.href}
                 className={`font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-encre no-underline border-b pb-0.75 transition-[border-color] duration-200 hover:border-plume ${
@@ -447,7 +447,7 @@ export default function NavHeader() {
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ),
           )}
         </nav>
@@ -526,14 +526,14 @@ export default function NavHeader() {
                     )}
                   </div>
                 ) : (
-                  <a
+                  <Link
                     key={link.id}
                     href={link.href}
                     onClick={closeMobileMenu}
                     className="font-mono text-[12px] font-medium tracking-[0.14em] uppercase text-encre no-underline px-6 py-4.5 border-b border-[rgba(19,20,23,0.1)] active:bg-velin"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ),
               )}
             </div>
