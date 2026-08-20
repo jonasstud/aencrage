@@ -62,15 +62,18 @@ export default function ContactPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-papier text-encre font-body">
-      <main className="max-w-340 mx-auto w-full px-14 pt-18 pb-25">
-        <div className="grid grid-cols-[0.85fr_1.15fr] gap-18">
-          {/* Left column */}
-          <div className="sticky top-2.5 self-start">
-            <h1 className="font-display font-normal text-encre m-0 mb-10 text-[48px] leading-[1.1]">
+      {/* Fix #1 + #2: mobile-first padding and single-column layout that expands to two columns on lg */}
+      <main className="max-w-340 mx-auto w-full px-4 sm:px-8 lg:px-14 pt-10 sm:pt-14 lg:pt-18 pb-16 sm:pb-20 lg:pb-25">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-18">
+          {/* Left column — no longer sticky on mobile to avoid awkward scroll */}
+          <div className="lg:sticky lg:top-2.5 lg:self-start">
+            {/* Fix #4: scale heading down for small screens */}
+            <h1 className="font-display font-normal text-encre m-0 mb-8 lg:mb-10 text-[32px] sm:text-[40px] lg:text-[48px] leading-[1.1]">
               Contact
             </h1>
 
-            <div className="flex flex-col gap-8 max-w-105">
+            {/* Fix #5: remove max-w on mobile so it fills the column */}
+            <div className="flex flex-col gap-8 lg:max-w-105">
               <div>
                 <p className="font-display italic text-secondaire m-0 mb-3 text-[19px]">
                   pour demander à
@@ -115,8 +118,8 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Adresse postale */}
-            <div className="relative border border-encre px-6.5 pt-6 pb-6.5 mt-13 max-w-105">
+            {/* Fix #6: address card fills column width on mobile, capped on desktop */}
+            <div className="relative border border-encre px-5 sm:px-6.5 pt-6 pb-6.5 mt-10 lg:mt-13 lg:max-w-105">
               <div className="absolute -top-px -left-px -right-px h-0.75 bg-laiton" />
               <p className="font-mono uppercase text-gris m-0 mb-4 text-[11px] tracking-[0.18em]">
                 Adresse postale
@@ -148,10 +151,11 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right column — form or confirmation */}
-          <div className="pt-23.25">
+          {/* Right column — Fix #3: remove large top padding on mobile */}
+          <div className="pt-0 lg:pt-23.25">
             {submitted ? (
-              <div className="relative border border-encre px-9 pt-8 pb-9 max-w-140">
+              /* Fix #7: confirmation box is full-width on mobile, capped on desktop */
+              <div className="relative border border-encre px-5 sm:px-9 pt-8 pb-9 w-full lg:max-w-140">
                 <div className="absolute -top-px -left-px -right-px h-0.75 bg-laiton" />
                 <h2 className="font-display font-normal text-encre m-0 mb-4 text-[24px]">
                   Message envoyé
@@ -177,7 +181,8 @@ export default function ContactPage() {
                   />
                 </Field>
 
-                <div className="grid grid-cols-2 gap-7">
+                {/* Fix #8: stack form field pairs on mobile, side-by-side on sm+ */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
                   <Field label="NPA et localité" required>
                     <div className="grid grid-cols-[80px_1fr] gap-3">
                       <input
@@ -207,7 +212,8 @@ export default function ContactPage() {
                   </Field>
                 </div>
 
-                <div className="grid grid-cols-2 gap-7">
+                {/* Fix #9: same treatment for second row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
                   <Field label="Rue et numéro" required>
                     <input
                       type="text"
@@ -243,11 +249,12 @@ export default function ContactPage() {
                   </p>
                 )}
 
+                {/* Fix #10: ensure 44px min touch target on the button */}
                 <div>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="font-mono uppercase text-papier bg-encre hover:bg-secondaire transition-colors duration-150 disabled:opacity-60 disabled:cursor-wait cursor-pointer text-[11px] tracking-[0.14em] px-7.5 py-3.75"
+                    className="font-mono uppercase text-papier bg-encre hover:bg-secondaire transition-colors duration-150 disabled:opacity-60 disabled:cursor-wait cursor-pointer text-[11px] tracking-[0.14em] px-7.5 py-3.75 min-h-11"
                   >
                     {isSubmitting ? "Envoi en cours…" : "Envoyer"}
                   </button>

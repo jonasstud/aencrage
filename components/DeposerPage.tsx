@@ -48,39 +48,30 @@ export default function DeposerPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.1fr 0.9fr",
-          gap: "64px",
-          padding: "64px 56px 56px",
-          alignItems: "end",
-        }}
-      >
+      {/* Hero
+          Fix #12: replace inline grid style with Tailwind responsive grid.
+          Mobile: single column, stacked. lg+: two columns side-by-side.
+          Fix #1 (padding): px-4 on mobile → px-8 on sm → px-14 on lg, matching ContactPage rhythm.
+      */}
+      <section className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-16 px-4 sm:px-8 lg:px-14 pt-10 sm:pt-14 lg:pt-16 pb-10 lg:pb-14 items-end">
+        {/* Fix #13: image height scales with viewport instead of fixed 420px */}
         <div
-          className="bg-placeholder w-full"
+          className="bg-placeholder w-full h-52 sm:h-72 lg:h-105"
           style={{
-            height: 420,
             minWidth: 0,
             clipPath:
               "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
           }}
         />
-        <div style={{ minWidth: 0 }}>
+        <div className="min-w-0">
           <div className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5">
             Fonds d&apos;archives
           </div>
-          <h1
-            className="font-display font-normal text-encre m-0 mb-5"
-            style={{ fontSize: 48, lineHeight: 1.1 }}
-          >
+          {/* Fix #17: hero h1 scales from 28px on mobile to 48px on lg */}
+          <h1 className="font-display font-normal text-encre m-0 mb-5 text-[28px] sm:text-[36px] lg:text-[48px] leading-[1.1]">
             Dépôt d&apos;un fonds
           </h1>
-          <p
-            className="font-body text-[16px] leading-[1.6] text-secondaire m-0 mb-5"
-            style={{ maxWidth: 480 }}
-          >
+          <p className="font-body text-[16px] leading-[1.6] text-secondaire m-0 mb-5 max-w-xl">
             La Fondation accueille les archives privées en lien avec Mase, sous
             plusieurs formes et conditions détaillées ci-dessous.
           </p>
@@ -90,20 +81,48 @@ export default function DeposerPage() {
         </div>
       </section>
 
-      {/* Body */}
-      <div
-        className="w-full mx-auto"
-        style={{ padding: "0 56px 120px", maxWidth: 1400 }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "220px 1fr",
-            gap: "64px",
-          }}
-        >
-          {/* Sticky TOC */}
-          <nav className="sticky top-24 pt-5 self-start" aria-label="Sommaire">
+      {/* Body
+          Fix #14: replace inline padding/maxWidth with Tailwind utilities.
+          Fix #15: TOC sidebar hidden on mobile (appears as inline list), visible from lg.
+      */}
+      <div className="w-full mx-auto px-4 sm:px-8 lg:px-14 pb-24 lg:pb-30 max-w-350">
+
+        {/* Mobile-only TOC: flat horizontal pill list, hidden on lg+ */}
+        <div className="relative lg:hidden mb-8">
+          <nav
+            className="overflow-x-auto [&::-webkit-scrollbar]:hidden scrollbar-none"
+            aria-label="Sommaire"
+          >
+            <ul className="list-none m-0 p-0 flex flex-row gap-2 whitespace-nowrap pr-10">
+              {sections.map(({ id, num, label }) => {
+                const isActive = activeId === id;
+                return (
+                  <li key={id}>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection(id)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-2 text-[13px] border transition-all duration-200 cursor-pointer min-h-11 ${
+                        isActive
+                          ? "border-encre bg-placeholder text-encre font-semibold"
+                          : "border-gris/30 text-secondaire font-normal hover:bg-velin"
+                      }`}
+                    >
+                      <span className="font-mono text-[11px] text-gris font-normal">
+                        {num}
+                      </span>
+                      {label}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-linear-to-l from-papier to-transparent" />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16">
+          {/* Sticky TOC — desktop only */}
+          <nav className="hidden lg:block sticky top-24 pt-5 self-start" aria-label="Sommaire">
             <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-gris mb-4">
               Sommaire
             </p>
@@ -134,15 +153,16 @@ export default function DeposerPage() {
             </ul>
           </nav>
 
-          {/* Sections */}
-          <div className="flex flex-col" style={{ gap: 96 }}>
-            {/* 01 Présentation */}
-            <section id="sec-presentation" style={{ scrollMarginTop: 100 }}>
+          {/* Sections
+              Fix #20: gap between sections scales from 16 on mobile to 24 on lg
+          */}
+          <div className="flex flex-col gap-16 lg:gap-24">
+            {/* 01 Présentation
+                Fix #22: use scroll-mt-* utility instead of inline scrollMarginTop
+            */}
+            <section id="sec-presentation" className="scroll-mt-24">
               <SectionHeader num="01" title="Présentation" />
-              <div
-                className="flex flex-col text-justify"
-                style={{ gap: 20, maxWidth: 720 }}
-              >
+              <div className="flex flex-col gap-5 text-justify max-w-2xl">
                 <p className="font-body text-[16px] leading-[1.65] text-secondaire m-0">
                   La Fondation accueille des archives privées, émanant de
                   personnes physiques (personnes, familles) ayant un rapport
@@ -170,26 +190,18 @@ export default function DeposerPage() {
             </section>
 
             {/* 02 Formes de dépôt */}
-            <section id="sec-formes" style={{ scrollMarginTop: 100 }}>
+            <section id="sec-formes" className="scroll-mt-24">
               <SectionHeader
                 num="02"
                 title="Sous quelles formes pouvez-vous verser vos archives à la Fondation ?"
               />
-              <p
-                className="font-body text-[16px] leading-[1.65] text-secondaire m-0 mb-8 text-justify"
-                style={{ maxWidth: 720 }}
-              >
+              <p className="font-body text-[16px] leading-[1.65] text-secondaire m-0 mb-8 text-justify max-w-2xl">
                 Un fonds privé peut être remis sous forme de don, dépôt, legs ou
                 dation en paiement, assorti d&apos;éventuelles restrictions de
                 consultation définies dans une convention.
               </p>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-                  gap: 32,
-                }}
-              >
+              {/* Fix #19: DepotCard grid — 1 col on mobile, auto-fit from sm */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <DepotCard
                   title="Don"
                   description="Un don d'archives privées implique la donation du fonds en toute propriété à la Fondation. Toutefois, des conditions temporaires peuvent éventuellement être fixées par un accord entre la Fondation et le donateur, ou par une convention précisant notamment les conditions de consultation et de reproduction."
@@ -206,12 +218,13 @@ export default function DeposerPage() {
             </section>
 
             {/* 03 Zones de description */}
-            <section id="sec-zones" style={{ scrollMarginTop: 100 }}>
+            <section id="sec-zones" className="scroll-mt-24">
               <SectionHeader
                 num="03"
                 title="Les descriptifs des archives sont répartis en sept zones"
               />
-              <div className="flex flex-col" style={{ maxWidth: 760 }}>
+              {/* Fix #24: replace inline gap/width with Tailwind utilities */}
+              <div className="flex flex-col max-w-3xl">
                 {[
                   {
                     num: "01",
@@ -251,20 +264,9 @@ export default function DeposerPage() {
                 ].map((zone, i, arr) => (
                   <div
                     key={zone.num}
-                    className="flex"
-                    style={{
-                      gap: 20,
-                      padding: "20px 0",
-                      borderBottom:
-                        i < arr.length - 1
-                          ? "1px solid rgba(19,20,23,0.12)"
-                          : undefined,
-                    }}
+                    className={`flex gap-5 py-5 ${i < arr.length - 1 ? "border-b border-encre/12" : ""}`}
                   >
-                    <span
-                      className="font-mono text-[13px] text-laiton shrink-0"
-                      style={{ width: 24 }}
-                    >
+                    <span className="font-mono text-[13px] text-laiton shrink-0 w-6">
                       {zone.num}
                     </span>
                     <p className="font-body text-[15px] leading-[1.6] text-secondaire m-0 text-justify">
@@ -278,44 +280,23 @@ export default function DeposerPage() {
               </div>
             </section>
 
-            {/* 04 Convention type */}
-            <section id="sec-convention" style={{ scrollMarginTop: 100 }}>
+            {/* 04 Convention type
+                Fix #16: convention card uses Tailwind classes, responsive padding/max-width
+            */}
+            <section id="sec-convention" className="scroll-mt-24">
               <SectionHeader num="04" title="Exemple de convention" />
-              <div
-                className="relative flex items-center justify-between"
-                style={{
-                  border: "1px solid #131417",
-                  maxWidth: 520,
-                  gap: 20,
-                  padding: "20px 24px",
-                }}
-              >
-                <div
-                  className="absolute"
-                  style={{
-                    top: -1,
-                    left: -1,
-                    right: -1,
-                    height: 3,
-                    background: "#A88C5A",
-                  }}
-                />
-                <div
-                  className="flex items-center"
-                  style={{ gap: 12, minWidth: 0 }}
-                >
+              <div className="relative flex flex-wrap items-center justify-between gap-5 border border-encre w-full max-w-lg px-5 sm:px-6 py-5">
+                <div className="absolute -top-px -left-px -right-px h-0.75 bg-laiton" />
+                <div className="flex items-center gap-3 min-w-0">
                   <FileText
                     size={28}
                     className="text-encre opacity-60 shrink-0"
                   />
-                  <div style={{ minWidth: 0 }}>
+                  <div className="min-w-0">
                     <div className="font-body text-[15px] text-encre overflow-hidden text-ellipsis whitespace-nowrap">
                       Convention de dépôt — modèle
                     </div>
-                    <div
-                      className="font-mono text-[10px] tracking-[0.09em] uppercase text-gris"
-                      style={{ marginTop: 2 }}
-                    >
+                    <div className="font-mono text-[10px] tracking-[0.09em] uppercase text-gris mt-0.5">
                       DOCX
                     </div>
                   </div>
@@ -323,8 +304,7 @@ export default function DeposerPage() {
                 <a
                   href="/fonds/d%C3%A9p%C3%B4t/Convention-cr%C3%A9ation-fonds.docx"
                   download="Convention-création-fonds.docx"
-                  className="shrink-0 inline-flex items-center no-underline font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-papier bg-encre hover:bg-secondaire transition-colors duration-150"
-                  style={{ gap: 8, padding: "12px 18px" }}
+                  className="shrink-0 inline-flex items-center gap-2 no-underline font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-papier bg-encre hover:bg-secondaire transition-colors duration-150 px-4 sm:px-4.5 py-3 min-h-11"
                 >
                   Télécharger
                   <FileDown size={18} />
@@ -339,23 +319,19 @@ export default function DeposerPage() {
   );
 }
 
+/* Fix #18: SectionHeader h2 scales from 22px on mobile to 32px on lg */
 function SectionHeader({ num, title }: { num: string; title: string }) {
   return (
-    <div
-      className="flex items-baseline border-b border-encre"
-      style={{ gap: 16, paddingBottom: 20, marginBottom: 32 }}
-    >
+    <div className="flex items-baseline gap-4 border-b border-encre pb-5 mb-8">
       <span className="font-mono text-[13px] text-laiton shrink-0">{num}</span>
-      <h2
-        className="font-display font-normal text-encre m-0"
-        style={{ fontSize: 32 }}
-      >
+      <h2 className="font-display font-normal text-encre m-0 text-[22px] sm:text-[26px] lg:text-[32px]">
         {title}
       </h2>
     </div>
   );
 }
 
+/* Fix #19: DepotCard uses Tailwind border/padding tokens instead of inline styles with raw hex */
 function DepotCard({
   title,
   description,
@@ -364,24 +340,9 @@ function DepotCard({
   description: string;
 }) {
   return (
-    <div
-      className="relative"
-      style={{ border: "1px solid #131417", padding: "24px 22px 22px" }}
-    >
-      <div
-        className="absolute"
-        style={{
-          top: -1,
-          left: -1,
-          right: -1,
-          height: 3,
-          background: "#A88C5A",
-        }}
-      />
-      <h3
-        className="font-display font-normal text-encre m-0 mb-2.5"
-        style={{ fontSize: 20 }}
-      >
+    <div className="relative border border-encre px-5 pt-6 pb-5.5">
+      <div className="absolute -top-px -left-px -right-px h-0.75 bg-laiton" />
+      <h3 className="font-display font-normal text-encre m-0 mb-2.5 text-[20px]">
         {title}
       </h3>
       <p className="font-body text-[14px] leading-[1.55] text-secondaire m-0 text-justify">
