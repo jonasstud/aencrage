@@ -93,7 +93,7 @@ export default function DeposerPage() {
             className="overflow-x-auto [&::-webkit-scrollbar]:hidden scrollbar-none"
             aria-label="Sommaire"
           >
-            <ul className="list-none m-0 p-0 flex flex-row gap-2 whitespace-nowrap pr-10">
+            <ul className="list-none m-0 p-0 flex flex-row gap-2 whitespace-nowrap">
               {sections.map(({ id, num, label }) => {
                 const isActive = activeId === id;
                 return (
@@ -115,6 +115,7 @@ export default function DeposerPage() {
                   </li>
                 );
               })}
+              <li aria-hidden="true" className="shrink-0 w-10" />
             </ul>
           </nav>
           <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-linear-to-l from-papier to-transparent" />
