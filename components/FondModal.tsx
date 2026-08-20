@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   Camera,
   FileText,
@@ -153,10 +154,12 @@ function PhotoLayout({
         aria-hidden="true"
       >
         {fond.imageSrc && (
-          <img
+          <Image
             src={fond.imageSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 360px, 0px"
+            className="object-cover"
           />
         )}
       </div>
@@ -316,10 +319,12 @@ function SonLayout({
           }}
           aria-hidden="true"
         >
-          <img
+          <Image
             src={fond.imageSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 360px, 0px"
+            className="object-cover"
           />
         </div>
         <div className="flex flex-col">

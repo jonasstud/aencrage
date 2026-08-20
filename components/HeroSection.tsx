@@ -104,7 +104,7 @@ export default function HeroSection() {
               fill
               sizes="(min-width: 768px) 45vw, 0px"
               className="object-cover"
-              priority={index === 0}
+              preload={index === 0}
             />
           </motion.div>
         </AnimatePresence>

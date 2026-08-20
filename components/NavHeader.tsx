@@ -389,6 +389,7 @@ export default function NavHeader() {
             width={400}
             height={80}
             className="w-auto h-12"
+            loading="eager"
           />
         </Link>
 

@@ -98,6 +98,7 @@ export default async function FondDuMoisPage() {
               fill
               sizes="(min-width: 768px) 45vw, 0px"
               className="object-cover"
+              preload
             />
           </div>
         )}
@@ -192,6 +193,7 @@ export default async function FondDuMoisPage() {
                 <div className="font-display text-[18px] text-encre mb-3.5">{audio.title}</div>
                 <audio
                   controls
+                  preload="none"
                   src={audio.asset?.url}
                   className="w-full h-8 accent-plume"
                 >
