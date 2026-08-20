@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   Camera,
   FileText,
@@ -143,6 +144,21 @@ function PhotoLayout({
 }) {
   return (
     <div className="grid md:grid-cols-[1fr_1.1fr]">
+      {fond.imageSrc && (
+        <div
+          className="md:hidden relative overflow-hidden bg-placeholder"
+          style={{ height: 208 }}
+          aria-hidden="true"
+        >
+          <Image
+            src={fond.imageSrc}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
       <div
         className="hidden md:block bg-placeholder relative overflow-hidden"
         style={{
@@ -153,10 +169,12 @@ function PhotoLayout({
         aria-hidden="true"
       >
         {fond.imageSrc && (
-          <img
+          <Image
             src={fond.imageSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 360px, 0px"
+            className="object-cover"
           />
         )}
       </div>
@@ -180,12 +198,8 @@ function VideoLayout({
   chapitreName: string;
 }) {
   return (
-    <div className="grid md:grid-cols-[1fr_1.1fr]">
-      <div
-        className="hidden md:flex items-center justify-center bg-encre relative overflow-hidden"
-        style={{ minHeight: 400 }}
-        aria-hidden="true"
-      >
+    <div className="flex flex-col">
+      <div className="relative bg-encre overflow-hidden aspect-video">
         {fond.documentFileUrl && (
           <iframe
             src={toYouTubeEmbedUrl(fond.documentFileUrl)}
@@ -308,6 +322,19 @@ function SonLayout({
     return (
       <div className="grid md:grid-cols-[1fr_1.1fr]">
         <div
+          className="md:hidden relative overflow-hidden bg-placeholder"
+          style={{ height: 208 }}
+          aria-hidden="true"
+        >
+          <Image
+            src={fond.imageSrc}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+        <div
           className="hidden md:block bg-placeholder relative overflow-hidden"
           style={{
             minHeight: 400,
@@ -316,10 +343,12 @@ function SonLayout({
           }}
           aria-hidden="true"
         >
-          <img
+          <Image
             src={fond.imageSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 360px, 0px"
+            className="object-cover"
           />
         </div>
         <div className="flex flex-col">

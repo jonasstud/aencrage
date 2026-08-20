@@ -26,7 +26,7 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
       <motion.div
         {...fadeIn}
         transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-        className="hidden md:block w-full self-stretch bg-placeholder"
+        className="w-full h-64 md:h-auto self-stretch bg-placeholder"
         style={{
           clipPath:
             "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",

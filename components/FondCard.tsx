@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
 
 const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
@@ -44,10 +45,12 @@ export default function FondCard({ fond, onOpen }: Props) {
           aria-hidden="true"
         >
           {fond.imageSrc && (
-            <img
+            <Image
               src={fond.imageSrc}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
+              className="object-cover"
             />
           )}
         </div>

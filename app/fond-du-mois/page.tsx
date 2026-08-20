@@ -8,11 +8,34 @@ import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
 
-export const metadata: Metadata = {
-  title: "Fond du mois — Fondation æncrage",
-};
-
+const SITE_URL = "https://www.fondationaencrage.ch";
 const options = { next: { revalidate: 60 } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
+  if (!fond) {
+    return {
+      title: "Fond du mois",
+      alternates: { canonical: "/fond-du-mois" },
+    };
+  }
+
+  const title = fond.title ?? "Fond du mois";
+  const description: string | undefined = fond.chapo ?? undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "/fond-du-mois",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/fond-du-mois",
+    },
+  };
+}
 
 function formatFileSize(bytes?: number) {
   if (!bytes) return null;
@@ -39,6 +62,20 @@ export default async function FondDuMoisPage() {
   const { title, annee, typeFond, donateur, chapo, couverture, content, gallery, documents, audioFiles } =
     fond;
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description: chapo ?? undefined,
+    url: `${SITE_URL}/fond-du-mois`,
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Fondation æncrage",
+    },
+    inLanguage: "fr-CH",
+  };
+
   const metaParts = [annee?.toString(), typeFond, donateur].filter(Boolean) as string[];
   const hasCouverture = Boolean(couverture?.asset);
   const galleryPhotos = (Array.isArray(gallery) ? gallery : [])
@@ -52,6 +89,10 @@ export default async function FondDuMoisPage() {
 
   return (
     <main className="px-6 md:px-14 max-w-350 mx-auto">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       {/* Hero */}
       <section
         className={
@@ -98,6 +139,7 @@ export default async function FondDuMoisPage() {
               fill
               sizes="(min-width: 768px) 45vw, 0px"
               className="object-cover"
+              priority
             />
           </div>
         )}
@@ -192,6 +234,7 @@ export default async function FondDuMoisPage() {
                 <div className="font-display text-[18px] text-encre mb-3.5">{audio.title}</div>
                 <audio
                   controls
+                  preload="none"
                   src={audio.asset?.url}
                   className="w-full h-8 accent-plume"
                 >

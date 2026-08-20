@@ -47,7 +47,7 @@ export default function DeposerPage() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <main className="flex flex-col min-h-screen">
       {/* Hero
           Fix #12: replace inline grid style with Tailwind responsive grid.
           Mobile: single column, stacked. lg+: two columns side-by-side.
@@ -316,7 +316,7 @@ export default function DeposerPage() {
         </div>
       </div>
 
-    </div>
+    </main>
   );
 }
 
