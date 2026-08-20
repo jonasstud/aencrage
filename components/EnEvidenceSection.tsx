@@ -3,6 +3,7 @@ import Link from "next/link";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
+import FadeIn from "@/components/FadeIn";
 
 const options = { next: { revalidate: 60 } };
 
@@ -23,13 +24,18 @@ export default async function EnEvidenceSection() {
       id="en-evidence-1a"
       className="bg-velin px-6 md:px-14 lg:px-44 py-11 md:py-22"
     >
-      <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
-        Actualité
-      </p>
-      <h2 className="font-display font-normal text-[34px] leading-[1.15] m-0 mb-10 text-encre">
-        En évidence ce mois
-      </h2>
+      <FadeIn delay={0}>
+        <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
+          Actualité
+        </p>
+      </FadeIn>
+      <FadeIn delay={0.08}>
+        <h2 className="font-display font-normal text-[34px] leading-[1.15] m-0 mb-10 text-encre">
+          En évidence ce mois
+        </h2>
+      </FadeIn>
 
+      <FadeIn delay={0.18}>
       <div className="border border-[rgba(19,20,23,0.12)] p-10">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 items-center">
           {/* Left — text */}
@@ -80,6 +86,7 @@ export default async function EnEvidenceSection() {
           </div>
         </div>
       </div>
+      </FadeIn>
     </section>
   );
 }

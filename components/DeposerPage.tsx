@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/animations";
 import { FileDown, FileText } from "lucide-react";
 
 const sections = [
@@ -64,20 +66,36 @@ export default function DeposerPage() {
           }}
         />
         <div className="min-w-0">
-          <div className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5">
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+            className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-5"
+          >
             Fonds d&apos;archives
-          </div>
+          </motion.div>
           {/* Fix #17: hero h1 scales from 28px on mobile to 48px on lg */}
-          <h1 className="font-display font-normal text-encre m-0 mb-5 text-[28px] sm:text-[36px] lg:text-[48px] leading-[1.1]">
+          <motion.h1
+            {...fadeUp}
+            transition={{ duration: 0.7, delay: 0.08, ease: "easeOut" }}
+            className="font-display font-normal text-encre m-0 mb-5 text-[28px] sm:text-[36px] lg:text-[48px] leading-[1.1]"
+          >
             Dépôt d&apos;un fonds
-          </h1>
-          <p className="font-body text-[16px] leading-[1.6] text-secondaire m-0 mb-5 max-w-xl">
+          </motion.h1>
+          <motion.p
+            {...fadeUp}
+            transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
+            className="font-body text-[16px] leading-[1.6] text-secondaire m-0 mb-5 max-w-xl"
+          >
             La Fondation accueille les archives privées en lien avec Mase, sous
             plusieurs formes et conditions détaillées ci-dessous.
-          </p>
-          <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-gris">
+          </motion.p>
+          <motion.div
+            {...fadeUp}
+            transition={{ duration: 0.6, delay: 0.24, ease: "easeOut" }}
+            className="font-mono text-[11px] tracking-[0.14em] uppercase text-gris"
+          >
             Don · Dépôt · Legs
-          </div>
+          </motion.div>
         </div>
       </section>
 

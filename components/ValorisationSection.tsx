@@ -1,19 +1,35 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/animations";
 import { spaces } from "@/lib/data";
 
 export default function ValorisationSection() {
   return (
     <section id="valorisation-1a" className="px-6 md:px-14 py-7 md:py-11">
-      <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
+      <motion.p
+        {...fadeUp}
+        transition={{ duration: 0.6, delay: 0, ease: "easeOut" }}
+        className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0"
+      >
         Valorisation
-      </p>
-      <h2 className="font-display font-normal text-[34px] leading-[1.15] max-w-160 m-0 mb-10 text-encre">
+      </motion.p>
+      <motion.h2
+        {...fadeUp}
+        transition={{ duration: 0.7, delay: 0.08, ease: "easeOut" }}
+        className="font-display font-normal text-[34px] leading-[1.15] max-w-160 m-0 mb-10 text-encre"
+      >
         Des lieux pour donner à voir et à entendre les archives
-      </h2>
+      </motion.h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {spaces.map((space) => (
-          <div key={space.id}>
+        {spaces.map((space, i) => (
+          <motion.div
+            key={space.id}
+            {...fadeUp}
+            transition={{ duration: 0.55, delay: 0.16 + i * 0.1, ease: "easeOut" }}
+          >
             <div className="w-full aspect-4/3 bg-placeholder mb-4 overflow-hidden group relative">
               {space.image ? (
                 <Image
@@ -33,7 +49,7 @@ export default function ValorisationSection() {
             <p className="font-body text-[14px] leading-normal text-secondaire m-0">
               {space.desc}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
