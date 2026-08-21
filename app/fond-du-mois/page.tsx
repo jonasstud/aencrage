@@ -5,6 +5,7 @@ import { FileText, AudioLines, Download } from "lucide-react";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
+import { shimmerBlurDataUrl } from "@/lib/blur";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
 import FadeIn from "@/components/FadeIn";
@@ -148,6 +149,8 @@ export default async function FondDuMoisPage() {
                 alt={couverture.alt ?? ""}
                 fill
                 sizes="(min-width: 768px) 45vw, 100vw"
+                placeholder="blur"
+                blurDataURL={shimmerBlurDataUrl()}
                 className="object-cover"
                 priority
               />

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { fadeIn, fadeUp } from "@/lib/animations";
 import { FileDown, FileText } from "lucide-react";
 import Image from "next/image";
+import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const sections = [
   { id: "presentation", num: "01", label: "Présentation" },
@@ -74,6 +75,8 @@ export default function DeposerPage() {
             alt=""
             fill
             sizes="(min-width: 1024px) 100vw, 100vw"
+            placeholder="blur"
+            blurDataURL={shimmerBlurDataUrl()}
             className="object-cover"
             preload
           />
