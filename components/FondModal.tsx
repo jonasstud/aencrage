@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { shimmerBlurDataUrl } from "@/lib/blur";
 import {
   Camera,
   FileText,
@@ -155,6 +156,8 @@ function PhotoLayout({
             alt=""
             fill
             sizes="100vw"
+            placeholder="blur"
+            blurDataURL={shimmerBlurDataUrl()}
             className="object-cover"
           />
         </div>
@@ -174,6 +177,8 @@ function PhotoLayout({
             alt=""
             fill
             sizes="(min-width: 768px) 360px, 0px"
+            placeholder="blur"
+            blurDataURL={shimmerBlurDataUrl()}
             className="object-cover"
           />
         )}
@@ -331,6 +336,8 @@ function SonLayout({
             alt=""
             fill
             sizes="100vw"
+            placeholder="blur"
+            blurDataURL={shimmerBlurDataUrl()}
             className="object-cover"
           />
         </div>
@@ -348,6 +355,8 @@ function SonLayout({
             alt=""
             fill
             sizes="(min-width: 768px) 360px, 0px"
+            placeholder="blur"
+            blurDataURL={shimmerBlurDataUrl()}
             className="object-cover"
           />
         </div>

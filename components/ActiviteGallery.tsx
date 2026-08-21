@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { shimmerBlurDataUrl } from "@/lib/blur";
 
 type GalleryPhoto = {
   key: string;
@@ -61,6 +62,8 @@ export default function ActiviteGallery({ photos }: { photos: GalleryPhoto[] }) 
                 alt={photo.alt}
                 fill
                 sizes={`(min-width: 768px) ${100 / cols}vw, 50vw`}
+                placeholder="blur"
+                blurDataURL={shimmerBlurDataUrl()}
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </button>
@@ -114,6 +117,8 @@ export default function ActiviteGallery({ photos }: { photos: GalleryPhoto[] }) 
                 width={1800}
                 height={1200}
                 sizes="90vw"
+                placeholder="blur"
+                blurDataURL={shimmerBlurDataUrl(1800, 1200)}
                 className="w-auto h-auto object-contain"
                 style={{ maxWidth: "90vw", maxHeight: "78vh" }}
               />
