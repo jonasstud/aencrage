@@ -4,7 +4,6 @@ import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
 import FadeIn from "@/components/FadeIn";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const options = { next: { revalidate: 60 } };
 
@@ -79,8 +78,6 @@ export default async function EnEvidenceSection() {
                 alt={couverture.alt ?? title}
                 fill
                 sizes="(min-width: 768px) 40vw, 100vw"
-                placeholder="blur"
-                blurDataURL={shimmerBlurDataUrl()}
                 className="object-cover"
               />
             ) : (

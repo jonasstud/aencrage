@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { PortableText, type PortableTextComponents } from "next-sanity";
 import { urlForImage } from "@/lib/sanity/image";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 type PortableTextContentProps = {
   value: unknown;
@@ -64,8 +63,6 @@ const components: PortableTextComponents = {
               alt={value.alt ?? ""}
               fill
               sizes="(min-width: 768px) 700px, 100vw"
-              placeholder="blur"
-              blurDataURL={shimmerBlurDataUrl()}
               className="object-cover"
             />
           </div>

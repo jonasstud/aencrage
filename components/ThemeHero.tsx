@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import type { ThemePage } from "@/lib/fondsThemes";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const fadeUp = {
   initial: { opacity: 0, y: 18 },
@@ -38,8 +37,6 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
           alt=""
           fill
           sizes="(min-width: 768px) 65vw, 100vw"
-          placeholder="blur"
-          blurDataURL={shimmerBlurDataUrl()}
           className="object-cover"
           preload
         />

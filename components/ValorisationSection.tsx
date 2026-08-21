@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeUp } from "@/lib/animations";
 import { spaces } from "@/lib/data";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 export default function ValorisationSection() {
   return (
@@ -42,8 +41,6 @@ export default function ValorisationSection() {
                   alt={space.name}
                   fill
                   sizes="(min-width: 768px) 65vw, 100vw"
-                  placeholder="blur"
-                  blurDataURL={shimmerBlurDataUrl()}
                   className="object-cover transition-transform duration-400 group-hover:scale-[1.06]"
                 />
               ) : (

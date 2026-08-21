@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "Photographie",
@@ -51,8 +50,6 @@ export default function FondCard({ fond, onOpen }: Props) {
               alt=""
               fill
               sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
-              placeholder="blur"
-              blurDataURL={shimmerBlurDataUrl()}
               className="object-cover"
             />
           )}
