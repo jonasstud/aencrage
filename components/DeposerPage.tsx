@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { fadeUp } from "@/lib/animations";
+import { fadeIn, fadeUp } from "@/lib/animations";
 import { FileDown, FileText } from "lucide-react";
+import Image from "next/image";
 
 const sections = [
   { id: "presentation", num: "01", label: "Présentation" },
@@ -57,14 +58,26 @@ export default function DeposerPage() {
       */}
       <section className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-16 px-4 sm:px-8 lg:px-14 pt-10 sm:pt-14 lg:pt-16 pb-10 lg:pb-14 items-end">
         {/* Fix #13: image height scales with viewport instead of fixed 420px */}
-        <div
-          className="bg-placeholder w-full h-52 sm:h-72 lg:h-105"
+        <motion.div
+          {...fadeIn}
+          transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+          className="relative bg-placeholder w-full h-52 sm:h-72 lg:h-105 overflow-hidden"
           style={{
             minWidth: 0,
             clipPath:
               "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
           }}
-        />
+          aria-hidden="true"
+        >
+          <Image
+            src="/images/hero/depot-fond/dept-fonds-hero.webp"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 100vw, 100vw"
+            className="object-cover"
+            preload
+          />
+        </motion.div>
         <div className="min-w-0">
           <motion.div
             {...fadeUp}
@@ -104,7 +117,6 @@ export default function DeposerPage() {
           Fix #15: TOC sidebar hidden on mobile (appears as inline list), visible from lg.
       */}
       <div className="w-full mx-auto px-4 sm:px-8 lg:px-14 pb-24 lg:pb-30 max-w-350">
-
         {/* Mobile-only TOC: flat horizontal pill list, hidden on lg+ */}
         <div className="relative lg:hidden mb-8">
           <nav
@@ -141,7 +153,10 @@ export default function DeposerPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16">
           {/* Sticky TOC — desktop only */}
-          <nav className="hidden lg:block sticky top-24 pt-5 self-start" aria-label="Sommaire">
+          <nav
+            className="hidden lg:block sticky top-24 pt-5 self-start"
+            aria-label="Sommaire"
+          >
             <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-gris mb-4">
               Sommaire
             </p>
@@ -333,7 +348,6 @@ export default function DeposerPage() {
           </div>
         </div>
       </div>
-
     </main>
   );
 }

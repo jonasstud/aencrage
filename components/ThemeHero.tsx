@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import type { ThemePage } from "@/lib/fondsThemes";
 
 const fadeUp = {
@@ -20,19 +21,26 @@ export default function ThemeHero({ theme }: { theme: ThemePage }) {
   );
 
   return (
-    <section className="md:min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-16 md:pb-24 items-end">
-      
-
+    <section className="md:min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-1 gap-8 md:gap-16 px-6 md:px-14 pt-8 md:pt-12 pb-16 md:pb-24 items-end">
       <motion.div
         {...fadeIn}
         transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-        className="w-full h-64 md:h-auto self-stretch bg-placeholder"
+        className="relative w-full h-64 md:h-auto self-stretch bg-placeholder overflow-hidden"
         style={{
           clipPath:
             "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
         }}
         aria-hidden="true"
-      />
+      >
+        <Image
+          src={`/images/hero/fonds/${theme.slug}.webp`}
+          alt=""
+          fill
+          sizes="(min-width: 768px) 65vw, 100vw"
+          className="object-cover"
+          preload
+        />
+      </motion.div>
 
       <div>
         <motion.div

@@ -48,9 +48,14 @@ export const spaces: Space[] = [
     id: "space-1",
     name: "Le Raccard : Maison des Êtres et des Lettres",
     desc: "Lieu dédié à la consultation, à la médiation, à la résidence. ",
-    image: "/images/etre-et-des-lettres.jpg",
+    image: "/images/etre-et-des-lettres.webp",
   },
-  { id: "space-2", name: "L'Écurie des Chèvres", desc: "Lieu d'exposition." },
+  {
+    id: "space-2",
+    name: "L'Écurie des Chèvres",
+    desc: "Lieu d'exposition.",
+    image: "/images/ecurie-des-chevres.webp",
+  },
   {
     id: "space-3",
     name: "Le Moulin",
@@ -67,7 +72,11 @@ export const conseil: ConseilMembre[] = [
 
 import { ScrollText, Clapperboard, Mic, type LucideIcon } from "lucide-react";
 
-export type PatrimoineAction = { title: string; icon: LucideIcon; bullets: [string, string] };
+export type PatrimoineAction = {
+  title: string;
+  icon: LucideIcon;
+  bullets: [string, string];
+};
 
 export const patrimoineActions: PatrimoineAction[] = [
   {

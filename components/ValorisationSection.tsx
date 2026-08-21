@@ -28,7 +28,11 @@ export default function ValorisationSection() {
           <motion.div
             key={space.id}
             {...fadeUp}
-            transition={{ duration: 0.55, delay: 0.16 + i * 0.1, ease: "easeOut" }}
+            transition={{
+              duration: 0.55,
+              delay: 0.16 + i * 0.1,
+              ease: "easeOut",
+            }}
           >
             <div className="w-full aspect-4/3 bg-placeholder mb-4 overflow-hidden group relative">
               {space.image ? (
@@ -36,7 +40,7 @@ export default function ValorisationSection() {
                   src={space.image}
                   alt={space.name}
                   fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  sizes="(min-width: 768px) 65vw, 100vw"
                   className="object-cover transition-transform duration-400 group-hover:scale-[1.06]"
                 />
               ) : (
