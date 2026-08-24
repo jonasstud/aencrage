@@ -37,23 +37,42 @@ export default function DeposerSection() {
           </div>
         </div>
 
-        {/* Right — contact */}
-        <div id="contact-1a">
-          <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-gris mb-3 m-0">
-            Contact
-          </p>
-          <address className="font-body not-italic text-[15px] leading-[1.8] text-texte-clair-2">
-            Fondation æncrage
-            <br />
-            Mase, Valais — Suisse
-            <br />
-            <a
-              href="mailto:contact@fondation-aencrage.ch"
-              className="text-papier no-underline hover:underline"
+        {/* Right — contact + soutenir */}
+        <div className="flex flex-col gap-10">
+          <div id="contact-1a">
+            <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-laiton mb-3 m-0">
+              Contact
+            </p>
+            <address className="font-body not-italic text-[15px] leading-[1.8] text-texte-clair-2">
+              Fondation æncrage
+              <br />
+              Mase, Valais — Suisse
+              <br />
+              <a
+                href="mailto:fondationaencrage@gmail.com"
+                className="text-papier no-underline hover:underline"
+              >
+                fondationaencrage@gmail.com
+              </a>
+            </address>
+          </div>
+
+          <div>
+            <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-laiton m-0 mb-3">
+              Soutenir
+            </p>
+            <p className="font-body text-[15px] leading-[1.7] text-texte-clair-2 max-w-80 m-0 mb-4">
+              Par virement bancaire ou par Twint, vous soutenez la conservation
+              des archives.
+            </p>
+            <Link
+              href="/soutenir"
+              className="inline-flex items-center gap-2.5 font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-papier no-underline border-b border-laiton pb-1 transition-colors duration-200 hover:text-laiton"
             >
-              contact@fondation-aencrage.ch
-            </a>
-          </address>
+              Soutenir la Fondation
+              <span className="text-[13px]">→</span>
+            </Link>
+          </div>
         </div>
       </div>
 

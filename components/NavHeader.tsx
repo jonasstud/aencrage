@@ -7,6 +7,9 @@ import {
   Users,
   Landmark,
   BookOpen,
+  Feather,
+  CalendarDays,
+  Archive,
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -34,8 +37,8 @@ const navLinks: NavLink[] = [
     id: "fondation",
     label: "La Fondation",
     href: "/",
-    hasDropdown: false,
-    isActive: (p) => p === "/",
+    hasDropdown: true,
+    isActive: (p) => p === "/" || p === "/soutenir",
   },
   {
     id: "activites",
@@ -89,13 +92,41 @@ const thematiqueCategories: {
   },
 ];
 
-const activitesItems = [
-  { label: "Fond du mois", href: "/fond-du-mois" },
+const fondationSection = { icon: Feather, label: "La Fondation" };
+const fondationItems = [
+  {
+    label: "Présentation",
+    desc: "Missions, buts et conseil de fondation",
+    href: "/",
+  },
+  {
+    label: "Soutenir la Fondation",
+    desc: "Faire un don par TWINT ou par virement",
+    href: "/soutenir",
+  },
 ] as const;
 
+const activitesSection = { icon: CalendarDays, label: "Au programme" };
+const activitesItems = [
+  {
+    label: "Fond du mois",
+    desc: "Une pièce des archives, commentée",
+    href: "/fond-du-mois",
+  },
+] as const;
+
+const fondsSection = { icon: Archive, label: "Fonds d'archives" };
 const fondsItems = [
-  { label: "Dépôt d'un fonds", href: "/deposer" },
-  { label: "Liste des fonds d'archives", href: "/fonds" },
+  {
+    label: "Dépôt d'un fonds",
+    desc: "Confier des archives privées liées à Mase",
+    href: "/deposer",
+  },
+  {
+    label: "Liste des fonds d'archives",
+    desc: "Tout le catalogue, classé par thématique",
+    href: "/fonds",
+  },
 ] as const;
 
 // Hauteur fixe de la barre logo (py-5 + h-12 + border), utilisée pour caler
@@ -202,20 +233,39 @@ function ThematiquesMobileContent({
 
 function ActivitesDesktopContent({ pathname }: { pathname: string }) {
   return (
-    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-60 px-4.5 pt-3.5 pb-1.5">
-      {activitesItems.map(({ label, href }) => {
+    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-70 px-4.5 pt-3.5 pb-1.5">
+      <div className="flex items-center gap-1.5 mb-1.5">
+        <activitesSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {activitesSection.label}
+        </span>
+      </div>
+      {activitesItems.map(({ label, desc, href }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            className={`font-body text-[12.5px] no-underline block transition-colors duration-150 ${
+            className={`no-underline block transition-colors duration-150 ${
               isActive
-                ? "font-semibold text-secondaire bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 py-2 hover:bg-texte-clair-2"
-                : "font-normal text-encre px-3 py-2 hover:bg-velin cursor-pointer"
+                ? "bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 pt-2 pb-2.25 hover:bg-texte-clair-2"
+                : "px-3 pt-2 pb-2.25 hover:bg-velin cursor-pointer"
             }`}
           >
-            {label}
+            <span
+              className={`block font-body text-[12.5px] ${
+                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+              }`}
+            >
+              {label}
+            </span>
+            <span className="block mt-0.5 font-body text-[11px] leading-[1.45] text-gris">
+              {desc}
+            </span>
           </Link>
         );
       })}
@@ -231,21 +281,80 @@ function ActivitesMobileContent({
   onClose: () => void;
 }) {
   return (
-    <div className="flex flex-col border-l border-gris/15 pl-3.5">
-      {activitesItems.map(({ label, href }) => {
+    <>
+      <div className="flex items-center gap-1.5 mb-2">
+        <activitesSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {activitesSection.label}
+        </span>
+      </div>
+      <div className="flex flex-col border-l border-gris/15 pl-3.5">
+        {activitesItems.map(({ label, desc, href }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className="no-underline block py-2.5 transition-colors duration-150"
+            >
+              <span
+                className={`block font-body text-[14px] ${
+                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                }`}
+              >
+                {label}
+              </span>
+              <span className="block mt-0.5 font-body text-[12px] leading-[1.45] text-gris">
+                {desc}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+function FondationDesktopContent({ pathname }: { pathname: string }) {
+  return (
+    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-70 px-4.5 pt-3.5 pb-1.5">
+      <div className="flex items-center gap-1.5 mb-1.5">
+        <fondationSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {fondationSection.label}
+        </span>
+      </div>
+      {fondationItems.map(({ label, desc, href }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            onClick={onClose}
-            className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
+            className={`no-underline block transition-colors duration-150 ${
               isActive
-                ? "font-semibold text-secondaire"
-                : "font-normal text-encre"
+                ? "bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 pt-2 pb-2.25 hover:bg-texte-clair-2"
+                : "px-3 pt-2 pb-2.25 hover:bg-velin cursor-pointer"
             }`}
           >
-            {label}
+            <span
+              className={`block font-body text-[12.5px] ${
+                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+              }`}
+            >
+              {label}
+            </span>
+            <span className="block mt-0.5 font-body text-[11px] leading-[1.45] text-gris">
+              {desc}
+            </span>
           </Link>
         );
       })}
@@ -253,22 +362,88 @@ function ActivitesMobileContent({
   );
 }
 
+function FondationMobileContent({
+  pathname,
+  onClose,
+}: {
+  pathname: string;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      <div className="flex items-center gap-1.5 mb-2">
+        <fondationSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {fondationSection.label}
+        </span>
+      </div>
+      <div className="flex flex-col border-l border-gris/15 pl-3.5">
+        {fondationItems.map(({ label, desc, href }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className="no-underline block py-2.5 transition-colors duration-150"
+            >
+              <span
+                className={`block font-body text-[14px] ${
+                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                }`}
+              >
+                {label}
+              </span>
+              <span className="block mt-0.5 font-body text-[12px] leading-[1.45] text-gris">
+                {desc}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
 function FondsDesktopContent({ pathname }: { pathname: string }) {
   return (
-    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-60 px-4.5 pt-3.5 pb-1.5">
-      {fondsItems.map(({ label, href }) => {
+    <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-70 px-4.5 pt-3.5 pb-1.5">
+      <div className="flex items-center gap-1.5 mb-1.5">
+        <fondsSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {fondsSection.label}
+        </span>
+      </div>
+      {fondsItems.map(({ label, desc, href }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            className={`font-body text-[12.5px] no-underline block transition-colors duration-150 ${
+            className={`no-underline block transition-colors duration-150 ${
               isActive
-                ? "font-semibold text-secondaire bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 py-2 hover:bg-texte-clair-2"
-                : "font-normal text-encre px-3 py-2 hover:bg-velin cursor-pointer"
+                ? "bg-placeholder border-l-[3px] border-plume pl-2.25 pr-3 pt-2 pb-2.25 hover:bg-texte-clair-2"
+                : "px-3 pt-2 pb-2.25 hover:bg-velin cursor-pointer"
             }`}
           >
-            {label}
+            <span
+              className={`block font-body text-[12.5px] ${
+                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+              }`}
+            >
+              {label}
+            </span>
+            <span className="block mt-0.5 font-body text-[11px] leading-[1.45] text-gris">
+              {desc}
+            </span>
           </Link>
         );
       })}
@@ -284,25 +459,42 @@ function FondsMobileContent({
   onClose: () => void;
 }) {
   return (
-    <div className="flex flex-col border-l border-gris/15 pl-3.5">
-      {fondsItems.map(({ label, href }) => {
-        const isActive = pathname === href;
-        return (
-          <Link
-            key={href}
-            href={href}
-            onClick={onClose}
-            className={`font-body text-[14px] no-underline block py-2.5 transition-colors duration-150 ${
-              isActive
-                ? "font-semibold text-secondaire"
-                : "font-normal text-encre"
-            }`}
-          >
-            {label}
-          </Link>
-        );
-      })}
-    </div>
+    <>
+      <div className="flex items-center gap-1.5 mb-2">
+        <fondsSection.icon
+          size={13}
+          strokeWidth={1.4}
+          className="text-gris shrink-0"
+        />
+        <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.08em] text-gris">
+          {fondsSection.label}
+        </span>
+      </div>
+      <div className="flex flex-col border-l border-gris/15 pl-3.5">
+        {fondsItems.map(({ label, desc, href }) => {
+          const isActive = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className="no-underline block py-2.5 transition-colors duration-150"
+            >
+              <span
+                className={`block font-body text-[14px] ${
+                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                }`}
+              >
+                {label}
+              </span>
+              <span className="block mt-0.5 font-body text-[12px] leading-[1.45] text-gris">
+                {desc}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
@@ -313,7 +505,10 @@ function DesktopDropdownContent({
   link: NavLink;
   pathname: string;
 }) {
-  if (link.id === "activites") return <ActivitesDesktopContent pathname={pathname} />;
+  if (link.id === "fondation")
+    return <FondationDesktopContent pathname={pathname} />;
+  if (link.id === "activites")
+    return <ActivitesDesktopContent pathname={pathname} />;
   if (link.id === "thematiques")
     return <ThematiquesDesktopContent pathname={pathname} />;
   if (link.id === "fonds") return <FondsDesktopContent pathname={pathname} />;
@@ -338,6 +533,8 @@ function MobileDropdownContent({
   pathname: string;
   onClose: () => void;
 }) {
+  if (link.id === "fondation")
+    return <FondationMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "activites")
     return <ActivitesMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "thematiques")
