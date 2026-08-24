@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 import {
   Camera,
   FileText,
@@ -14,8 +13,14 @@ import {
   Volume2,
   VolumeX,
   Loader,
+  ChevronLeft,
+  ChevronRight,
+  X,
 } from "lucide-react";
-import type { Fond } from "@/lib/fondsThemes";
+import type { Fond, FondDocument } from "@/lib/fondsThemes";
+import { renderOrdinalTitle } from "@/lib/formatTitle";
+import { renderTextWithLinks } from "@/lib/richText";
+import { getYouTubeVideoId, getYouTubeThumbnail } from "@/lib/video";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "#A88C5A",
@@ -58,6 +63,41 @@ function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" | "video" }) {
   return <FileText size={14} color="#8A8F98" />;
 }
 
+function CircleButton({
+  onClick,
+  ariaLabel,
+  size = 34,
+  className = "",
+  style,
+  children,
+}: {
+  onClick?: () => void;
+  ariaLabel: string;
+  size?: number;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={`flex items-center justify-center rounded-full cursor-pointer transition-transform duration-150 hover:scale-[1.07] active:scale-95 ${className}`}
+      style={{
+        width: size,
+        height: size,
+        background: "rgba(255,255,255,0.94)",
+        boxShadow:
+          "0 1px 2px rgba(19,20,23,0.10), 0 4px 12px rgba(19,20,23,0.16)",
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
 type Props = {
   fond: Fond | null;
   chapitreName: string;
@@ -80,6 +120,8 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
 
   if (!fond) return null;
 
+  const hasImages = (fond.images?.length ?? 0) > 0;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -89,12 +131,7 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
       <div
         className="bg-papier w-full relative overflow-y-auto"
         style={{
-          maxWidth:
-            fond.type === "photo" ||
-            fond.type === "video" ||
-            (fond.type === "son" && fond.imageSrc)
-              ? 760
-              : 640,
+          maxWidth: fond.type === "video" || hasImages ? 760 : 640,
           maxHeight: "90vh",
           borderTop: `3px solid ${TYPE_BORDER[fond.type]}`,
         }}
@@ -103,24 +140,18 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
         aria-modal="true"
         aria-label="Détails du fonds"
       >
-        <button
-          onClick={onClose}
-          className="absolute z-10 flex items-center justify-center"
-          style={{
-            top: 16,
-            right: 16,
-            width: 30,
-            height: 30,
-            borderRadius: "50%",
-            background: "#FFFFFF",
-            border: "1px solid #131417",
-            fontSize: 14,
-            cursor: "pointer",
-          }}
-          aria-label="Fermer"
+        <div
+          className="sticky z-10"
+          style={{ top: 16, height: 0, overflow: "visible" }}
         >
-          ✕
-        </button>
+          <CircleButton
+            onClick={onClose}
+            ariaLabel="Fermer"
+            style={{ position: "absolute", right: 16 }}
+          >
+            <X size={16} color="#131417" aria-hidden="true" />
+          </CircleButton>
+        </div>
 
         {fond.type === "photo" ? (
           <PhotoLayout fond={fond} chapitreName={chapitreName} />
@@ -136,6 +167,124 @@ export default function FondModal({ fond, chapitreName, onClose }: Props) {
   );
 }
 
+function ImageGallery({ images, title }: { images: string[]; title: string }) {
+  const [index, setIndex] = useState(0);
+
+  if (images.length === 0) return null;
+  const hasMultiple = images.length > 1;
+  const isLogo = images[index].toLowerCase().endsWith(".svg");
+
+  return (
+    <div
+      className={`relative w-full overflow-hidden ${isLogo ? "bg-papier" : "bg-placeholder"}`}
+      style={{ aspectRatio: "16 / 9" }}
+    >
+      <Image
+        src={images[index]}
+        alt={title}
+        fill
+        sizes="(min-width: 768px) 760px, 100vw"
+        className={isLogo ? "object-contain p-14" : "object-cover"}
+        priority={index === 0}
+        unoptimized={isLogo}
+      />
+      {hasMultiple && (
+        <>
+          <div
+            className="absolute z-10"
+            style={{ left: 12, top: "50%", transform: "translateY(-50%)" }}
+          >
+            <CircleButton
+              onClick={() =>
+                setIndex((i) => (i - 1 + images.length) % images.length)
+              }
+              ariaLabel="Image précédente"
+            >
+              <ChevronLeft size={16} color="#131417" aria-hidden="true" />
+            </CircleButton>
+          </div>
+          <div
+            className="absolute z-10"
+            style={{ right: 12, top: "50%", transform: "translateY(-50%)" }}
+          >
+            <CircleButton
+              onClick={() => setIndex((i) => (i + 1) % images.length)}
+              ariaLabel="Image suivante"
+            >
+              <ChevronRight size={16} color="#131417" aria-hidden="true" />
+            </CircleButton>
+          </div>
+          <div
+            className="absolute z-10 flex items-center justify-center"
+            style={{ left: 0, right: 0, bottom: 12, gap: 6 }}
+          >
+            {images.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Image ${i + 1}`}
+                aria-current={i === index}
+                className="rounded-full cursor-pointer"
+                style={{
+                  width: 6,
+                  height: 6,
+                  background: i === index ? "#131417" : "rgba(19,20,23,0.35)",
+                }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function DocumentsSection({ documents }: { documents?: FondDocument[] }) {
+  if (!documents || documents.length === 0) return null;
+
+  return (
+    <div className="mt-6">
+      <p
+        className="font-mono text-gris mb-1"
+        style={{
+          fontSize: 10,
+          textTransform: "uppercase",
+          letterSpacing: "0.14em",
+        }}
+      >
+        {documents.length > 1 ? "Fichiers" : "Fichier"}
+      </p>
+      <div className="flex flex-col gap-1 items-start">
+        {documents.map((doc) =>
+          doc.url.toLowerCase().endsWith(".pdf") ? (
+            <a
+              key={doc.url}
+              href={doc.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-plume hover:underline"
+              style={{ fontSize: 12 }}
+            >
+              {doc.label} ↗
+            </a>
+          ) : (
+            <a
+              key={doc.url}
+              href={doc.url}
+              download
+              className="font-mono text-plume hover:underline"
+              style={{ fontSize: 12 }}
+            >
+              {doc.label} ↓
+            </a>
+          ),
+        )}
+      </div>
+    </div>
+  );
+}
+
 function PhotoLayout({
   fond,
   chapitreName,
@@ -144,55 +293,24 @@ function PhotoLayout({
   chapitreName: string;
 }) {
   return (
-    <div className="grid md:grid-cols-[1fr_1.1fr]">
-      {fond.imageSrc && (
-        <div
-          className="md:hidden relative overflow-hidden bg-placeholder"
-          style={{ height: 208 }}
-          aria-hidden="true"
-        >
-          <Image
-            src={fond.imageSrc}
-            alt=""
-            fill
-            sizes="100vw"
-            placeholder="blur"
-            blurDataURL={shimmerBlurDataUrl()}
-            className="object-cover"
-          />
-        </div>
-      )}
-      <div
-        className="hidden md:block bg-placeholder relative overflow-hidden"
-        style={{
-          minHeight: 400,
-          clipPath:
-            "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
-        }}
-        aria-hidden="true"
-      >
-        {fond.imageSrc && (
-          <Image
-            src={fond.imageSrc}
-            alt=""
-            fill
-            sizes="(min-width: 768px) 360px, 0px"
-            placeholder="blur"
-            blurDataURL={shimmerBlurDataUrl()}
-            className="object-cover"
-          />
-        )}
-      </div>
+    <div className="flex flex-col">
+      <ImageGallery
+        key={fond.id}
+        images={fond.images ?? []}
+        title={fond.title}
+      />
       <div style={{ padding: 40 }}>
         <ModalContent fond={fond} chapitreName={chapitreName} />
+        <DocumentsSection documents={fond.documents} />
       </div>
     </div>
   );
 }
 
-function toYouTubeEmbedUrl(url: string): string {
-  const match = url.match(/[?&]v=([^&]+)/);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+function toYouTubeEmbedUrl(url: string): string | null {
+  return getYouTubeVideoId(url)
+    ? `https://www.youtube.com/embed/${getYouTubeVideoId(url)}`
+    : null;
 }
 
 function VideoLayout({
@@ -202,17 +320,72 @@ function VideoLayout({
   fond: Fond;
   chapitreName: string;
 }) {
+  const [playing, setPlaying] = useState(false);
+  const embedUrl = fond.videoUrl ? toYouTubeEmbedUrl(fond.videoUrl) : null;
+  const isLocalVideo = fond.videoUrl && !embedUrl;
+  const poster =
+    fond.images?.[0] ??
+    (fond.videoUrl ? getYouTubeThumbnail(fond.videoUrl) : null);
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" key={fond.id}>
       <div className="relative bg-encre overflow-hidden aspect-video">
-        {fond.documentFileUrl && (
+        {embedUrl && !playing && (
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            className="absolute inset-0 w-full h-full cursor-pointer group"
+            aria-label={`Lire la vidéo : ${fond.title}`}
+          >
+            {poster && (
+              <Image
+                src={poster}
+                alt=""
+                fill
+                sizes="(min-width: 768px) 760px, 100vw"
+                className="object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-encre/15 transition-colors duration-150 group-hover:bg-encre/25" />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div
+                className="flex items-center justify-center rounded-full transition-transform duration-150 group-hover:scale-[1.07]"
+                style={{
+                  width: 56,
+                  height: 56,
+                  background: "rgba(255,255,255,0.94)",
+                  boxShadow:
+                    "0 1px 2px rgba(19,20,23,0.10), 0 4px 12px rgba(19,20,23,0.16)",
+                }}
+              >
+                <Play
+                  size={22}
+                  fill="#131417"
+                  color="#131417"
+                  style={{ marginLeft: 3 }}
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+          </button>
+        )}
+        {embedUrl && playing && (
           <iframe
-            src={toYouTubeEmbedUrl(fond.documentFileUrl)}
+            src={`${embedUrl}?autoplay=1`}
             title={fond.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 w-full h-full"
             style={{ border: 0 }}
+          />
+        )}
+        {isLocalVideo && (
+          <video
+            src={fond.videoUrl}
+            poster={fond.images?.[0]}
+            controls
+            preload="metadata"
+            className="absolute inset-0 w-full h-full"
           />
         )}
       </div>
@@ -229,9 +402,9 @@ function VideoLayout({
           >
             Vidéo
           </p>
-          {fond.documentFileUrl && (
+          {embedUrl ? (
             <a
-              href={fond.documentFileUrl}
+              href={fond.videoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-plume hover:underline"
@@ -239,8 +412,22 @@ function VideoLayout({
             >
               Ouvrir sur YouTube ↗
             </a>
+          ) : isLocalVideo ? (
+            <a
+              href={fond.videoUrl}
+              download
+              className="font-mono text-plume hover:underline"
+              style={{ fontSize: 12 }}
+            >
+              Télécharger la vidéo ↓
+            </a>
+          ) : (
+            <span className="font-mono text-gris" style={{ fontSize: 12 }}>
+              Vidéo non disponible
+            </span>
           )}
         </div>
+        <DocumentsSection documents={fond.documents} />
       </div>
     </div>
   );
@@ -254,34 +441,15 @@ function EcritLayout({
   chapitreName: string;
 }) {
   return (
-    <div style={{ padding: "32px 40px 40px" }}>
-      <ModalContent fond={fond} chapitreName={chapitreName} />
-      <div className="mt-6">
-        <p
-          className="font-mono text-gris mb-1"
-          style={{
-            fontSize: 10,
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-          }}
-        >
-          Fichier
-        </p>
-        {fond.documentFileUrl ? (
-          <a
-            href={fond.documentFileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-plume hover:underline"
-            style={{ fontSize: 12 }}
-          >
-            Ouvrir le document complet ↗
-          </a>
-        ) : (
-          <span className="font-mono text-gris" style={{ fontSize: 12 }}>
-            Document non disponible
-          </span>
-        )}
+    <div className="flex flex-col">
+      <ImageGallery
+        key={fond.id}
+        images={fond.images ?? []}
+        title={fond.title}
+      />
+      <div style={{ padding: "32px 40px 40px" }}>
+        <ModalContent fond={fond} chapitreName={chapitreName} />
+        <DocumentsSection documents={fond.documents} />
       </div>
     </div>
   );
@@ -294,6 +462,8 @@ function SonLayout({
   fond: Fond;
   chapitreName: string;
 }) {
+  const images = fond.images ?? [];
+
   const downloadLink = (
     <div className="mt-6">
       <p
@@ -323,71 +493,20 @@ function SonLayout({
     </div>
   );
 
-  if (fond.imageSrc) {
-    return (
-      <div className="grid md:grid-cols-[1fr_1.1fr]">
-        <div
-          className="md:hidden relative overflow-hidden bg-placeholder"
-          style={{ height: 208 }}
-          aria-hidden="true"
-        >
-          <Image
-            src={fond.imageSrc}
-            alt=""
-            fill
-            sizes="100vw"
-            placeholder="blur"
-            blurDataURL={shimmerBlurDataUrl()}
-            className="object-cover"
-          />
-        </div>
-        <div
-          className="hidden md:block bg-placeholder relative overflow-hidden"
-          style={{
-            minHeight: 400,
-            clipPath:
-              "polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 26px))",
-          }}
-          aria-hidden="true"
-        >
-          <Image
-            src={fond.imageSrc}
-            alt=""
-            fill
-            sizes="(min-width: 768px) 360px, 0px"
-            placeholder="blur"
-            blurDataURL={shimmerBlurDataUrl()}
-            className="object-cover"
-          />
-        </div>
-        <div className="flex flex-col">
-          <div
-            style={{ background: "#EEF1F5", paddingTop: 20, paddingBottom: 16 }}
-          >
-            <AudioPlayer
-              audioSrc={fond.audioSrc}
-              audioPeaks={fond.audioPeaks}
-            />
-          </div>
-          <div style={{ padding: "32px 40px 40px", flex: 1 }}>
-            <ModalContent fond={fond} chapitreName={chapitreName} />
-            {downloadLink}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <>
+    <div className="flex flex-col">
+      {images.length > 0 && (
+        <ImageGallery key={fond.id} images={images} title={fond.title} />
+      )}
       <div style={{ background: "#EEF1F5", paddingTop: 24, paddingBottom: 20 }}>
         <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
       </div>
       <div style={{ padding: "32px 40px 40px" }}>
         <ModalContent fond={fond} chapitreName={chapitreName} />
         {downloadLink}
+        <DocumentsSection documents={fond.documents} />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -797,14 +916,17 @@ function ModalContent({
         className="font-display text-encre mb-4"
         style={{ fontSize: 28, lineHeight: 1.15 }}
       >
-        {fond.title}
+        {renderOrdinalTitle(fond.title)}
       </h2>
-      <p
-        className="font-body text-secondaire mb-6"
-        style={{ fontSize: 15, lineHeight: 1.6 }}
-      >
-        {fond.desc}
-      </p>
+      {(fond.fullText ?? fond.desc).split(/\n\n+/).map((paragraph, i) => (
+        <p
+          key={i}
+          className="font-body text-secondaire mb-4 last:mb-6"
+          style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line" }}
+        >
+          {renderTextWithLinks(paragraph)}
+        </p>
+      ))}
       <p
         className="font-mono text-gris mb-1"
         style={{

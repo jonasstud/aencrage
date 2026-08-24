@@ -3,8 +3,8 @@ import Link from "next/link";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
+import { buildFondMetaItems } from "@/lib/typeFondIcons";
 import FadeIn from "@/components/FadeIn";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const options = { next: { revalidate: 60 } };
 
@@ -16,9 +16,7 @@ export default async function EnEvidenceSection() {
   const { title, annee, typeFond, donateur, chapo, couverture } = fond;
   const hasCouverture = Boolean(couverture?.asset);
 
-  const metaParts = [annee?.toString(), typeFond, donateur].filter(
-    Boolean,
-  ) as string[];
+  const metaItems = buildFondMetaItems(annee, typeFond, donateur);
 
   return (
     <section
@@ -41,12 +39,13 @@ export default async function EnEvidenceSection() {
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 items-center">
           {/* Left — text */}
           <div>
-            {metaParts.length > 0 && (
+            {metaItems.length > 0 && (
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-4">
-                {metaParts.map((part, i) => (
-                  <span key={i} className="flex items-center gap-2">
+                {metaItems.map((item, i) => (
+                  <span key={item.key} className="flex items-center gap-1.5">
                     {i > 0 && <span aria-hidden="true">·</span>}
-                    {part}
+                    {item.icon && <item.icon size={12} />}
+                    {item.label}
                   </span>
                 ))}
               </div>
@@ -79,8 +78,6 @@ export default async function EnEvidenceSection() {
                 alt={couverture.alt ?? title}
                 fill
                 sizes="(min-width: 768px) 40vw, 100vw"
-                placeholder="blur"
-                blurDataURL={shimmerBlurDataUrl()}
                 className="object-cover"
               />
             ) : (

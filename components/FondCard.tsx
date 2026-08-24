@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
-import { shimmerBlurDataUrl } from "@/lib/blur";
+import { renderOrdinalTitle } from "@/lib/formatTitle";
 
 const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "Photographie",
@@ -25,6 +25,7 @@ function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" | "video" }) {
   return <FileText size={14} />;
 }
 import type { Fond } from "@/lib/fondsThemes";
+import { getYouTubeThumbnail } from "@/lib/video";
 
 type Props = {
   fond: Fond;
@@ -32,35 +33,38 @@ type Props = {
 };
 
 export default function FondCard({ fond, onOpen }: Props) {
-  const hasImage = fond.type === "photo" || (fond.type === "son" && !!fond.imageSrc);
+  const coverImage =
+    fond.images?.[0] ??
+    (fond.type === "video" && fond.videoUrl
+      ? getYouTubeThumbnail(fond.videoUrl)
+      : null) ??
+    undefined;
+  const isLogo = coverImage?.toLowerCase().endsWith(".svg") ?? false;
 
   return (
     <div
       className="border border-encre flex flex-col"
       style={{ borderTop: `3px solid ${TYPE_BORDER[fond.type]}` }}
     >
-      {hasImage && (
+      {coverImage && (
         <div
-          className="w-full bg-placeholder relative overflow-hidden"
+          className={`w-full relative overflow-hidden ${isLogo ? "bg-papier" : "bg-placeholder"}`}
           style={{ aspectRatio: "16 / 9" }}
           aria-hidden="true"
         >
-          {fond.imageSrc && (
-            <Image
-              src={fond.imageSrc}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
-              placeholder="blur"
-              blurDataURL={shimmerBlurDataUrl()}
-              className="object-cover"
-            />
-          )}
+          <Image
+            src={coverImage}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
+            className={isLogo ? "object-contain p-8" : "object-cover"}
+            unoptimized={isLogo}
+          />
         </div>
       )}
       <div
         className="flex flex-col flex-1"
-        style={{ padding: hasImage ? "16px 22px 22px" : "24px 22px 22px" }}
+        style={{ padding: coverImage ? "16px 22px 22px" : "24px 22px 22px" }}
       >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-1.5 text-gris">
@@ -73,7 +77,7 @@ export default function FondCard({ fond, onOpen }: Props) {
         </div>
 
         <h3 className="font-display text-[19px] leading-[1.2] text-encre mb-2">
-          {fond.title}
+          {renderOrdinalTitle(fond.title)}
         </h3>
 
         <p className="font-body text-[14px] leading-[1.55] text-secondaire mb-4 flex-1">

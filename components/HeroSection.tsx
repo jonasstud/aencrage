@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { shimmerBlurDataUrl } from "@/lib/blur";
 
 const heroImages = [
   "/images/hero/hero-1.webp",
@@ -104,8 +103,6 @@ export default function HeroSection() {
               alt=""
               fill
               sizes="(min-width: 768px) 45vw, 100vw"
-              placeholder="blur"
-              blurDataURL={shimmerBlurDataUrl()}
               className="object-cover"
               preload={index === 0}
             />
