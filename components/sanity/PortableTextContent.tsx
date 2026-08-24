@@ -19,7 +19,9 @@ const components: PortableTextComponents = {
       </h3>
     ),
     normal: ({ children }) => (
-      <p className="font-body text-[17px] leading-[1.75] text-secondaire mb-8">{children}</p>
+      <p className="font-body text-[17px] leading-[1.75] text-secondaire mb-8">
+        {children}
+      </p>
     ),
   },
   marks: {
@@ -54,20 +56,28 @@ const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       if (!value?.asset) return null;
-      const imageUrl = urlForImage(value).width(1400).fit("max").auto("format").url();
+      const imageUrl = urlForImage(value)
+        .width(1400)
+        .fit("max")
+        .auto("format")
+        .url();
+      const dimensions = value.asset.metadata?.dimensions;
+      const width = dimensions?.width ?? 1400;
+      const height = dimensions?.height ?? 933;
       return (
         <figure className="mb-9">
-          <div className="relative bg-placeholder" style={{ aspectRatio: "3 / 2" }}>
+          <div className="relative">
             <Image
               src={imageUrl}
               alt={value.alt ?? ""}
-              fill
+              width={width}
+              height={height}
               sizes="(min-width: 768px) 700px, 100vw"
-              className="object-cover"
+              className="max-w-full h-auto mx-auto"
             />
           </div>
           {value.alt && (
-            <figcaption className="font-body text-[14px] text-gris mt-2.5">
+            <figcaption className="hidden font-body text-[14px] text-gris mt-2.5 text-center">
               {value.alt}
             </figcaption>
           )}

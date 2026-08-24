@@ -5,6 +5,7 @@ import { FileText, AudioLines, Download } from "lucide-react";
 import { client } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
 import { FOND_DU_MOIS_QUERY } from "@/lib/sanity/queries";
+import { buildFondMetaItems } from "@/lib/typeFondIcons";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import ActiviteGallery from "@/components/ActiviteGallery";
 import FadeIn from "@/components/FadeIn";
@@ -53,15 +54,30 @@ type SanityAsset = {
 
 type GalleryPhoto = { _key: string; alt?: string; asset?: SanityAsset };
 type FondDocument = { _key: string; title?: string; asset?: SanityAsset };
-type FondAudio = { _key: string; title?: string; duree?: string; asset?: SanityAsset };
+type FondAudio = {
+  _key: string;
+  title?: string;
+  duree?: string;
+  asset?: SanityAsset;
+};
 
 export default async function FondDuMoisPage() {
   const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
 
   if (!fond) return notFound();
 
-  const { title, annee, typeFond, donateur, chapo, couverture, content, gallery, documents, audioFiles } =
-    fond;
+  const {
+    title,
+    annee,
+    typeFond,
+    donateur,
+    chapo,
+    couverture,
+    content,
+    gallery,
+    documents,
+    audioFiles,
+  } = fond;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -77,7 +93,7 @@ export default async function FondDuMoisPage() {
     inLanguage: "fr-CH",
   };
 
-  const metaParts = [annee?.toString(), typeFond, donateur].filter(Boolean) as string[];
+  const metaItems = buildFondMetaItems(annee, typeFond, donateur);
   const hasCouverture = Boolean(couverture?.asset);
   const galleryPhotos = (Array.isArray(gallery) ? gallery : [])
     .filter((photo: GalleryPhoto) => photo.asset)
@@ -89,7 +105,7 @@ export default async function FondDuMoisPage() {
     }));
 
   return (
-    <main className="px-6 md:px-14 max-w-350 mx-auto">
+    <main className="px-6 md:px-14 pb-14 max-w-450 mx-auto">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -98,7 +114,7 @@ export default async function FondDuMoisPage() {
       <section
         className={
           hasCouverture
-            ? "grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 md:gap-16 items-end pt-8 md:pt-12 pb-10 md:pb-16"
+            ? "md:min-h-[calc(100dvh-5rem)] grid grid-cols-1 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:grid-rows-1 gap-8 md:gap-16 items-end pt-8 md:pt-12 pb-10 md:pb-16"
             : "pt-8 md:pt-12 pb-10 md:pb-16"
         }
       >
@@ -113,13 +129,14 @@ export default async function FondDuMoisPage() {
               {title}
             </h1>
           </FadeIn>
-          {metaParts.length > 0 && (
+          {metaItems.length > 0 && (
             <FadeIn delay={0.16}>
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-5.5">
-                {metaParts.map((part, i) => (
-                  <span key={i} className="flex items-center gap-2">
+                {metaItems.map((item, i) => (
+                  <span key={item.key} className="flex items-center gap-1.5">
                     {i > 0 && <span aria-hidden="true">·</span>}
-                    {part}
+                    {item.icon && <item.icon size={12} />}
+                    {item.label}
                   </span>
                 ))}
               </div>
@@ -135,19 +152,26 @@ export default async function FondDuMoisPage() {
         </div>
 
         {hasCouverture && (
-          <FadeIn delay={0.1}>
+          <FadeIn
+            delay={0.1}
+            className="order-first md:order-last self-stretch"
+          >
             <div
-              className="order-first md:order-last relative w-full self-stretch bg-placeholder h-64 md:h-110"
+              className="relative w-full bg-placeholder h-64 md:h-full "
               style={{
                 clipPath:
                   "polygon(0 0, 100% 0, 100% 100%, 130px 100%, 0 calc(100% - 47px))",
               }}
             >
               <Image
-                src={urlForImage(couverture).width(1200).fit("max").auto("format").url()}
+                src={urlForImage(couverture)
+                  .width(1200)
+                  .fit("max")
+                  .auto("format")
+                  .url()}
                 alt={couverture.alt ?? ""}
                 fill
-                sizes="(min-width: 768px) 45vw, 100vw"
+                sizes="(min-width: 768px) 55vw, 100vw"
                 className="object-cover"
                 priority
               />
@@ -200,7 +224,10 @@ export default async function FondDuMoisPage() {
                     {doc.title || doc.asset?.originalFilename}
                   </span>
                   <span className="block font-mono text-[11px] text-gris mt-1">
-                    {[doc.asset?.extension?.toUpperCase(), formatFileSize(doc.asset?.size)]
+                    {[
+                      doc.asset?.extension?.toUpperCase(),
+                      formatFileSize(doc.asset?.size),
+                    ]
                       .filter(Boolean)
                       .join(" · ")}
                   </span>
@@ -239,10 +266,14 @@ export default async function FondDuMoisPage() {
                     </span>
                   </div>
                   {audio.duree && (
-                    <span className="font-mono text-[11px] text-gris">{audio.duree}</span>
+                    <span className="font-mono text-[11px] text-gris">
+                      {audio.duree}
+                    </span>
                   )}
                 </div>
-                <div className="font-display text-[18px] text-encre mb-3.5">{audio.title}</div>
+                <div className="font-display text-[18px] text-encre mb-3.5">
+                  {audio.title}
+                </div>
                 <audio
                   controls
                   preload="none"
