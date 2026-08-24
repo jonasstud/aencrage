@@ -100,7 +100,7 @@ const fondationItems = [
     href: "/",
   },
   {
-    label: "Soutenir la Fondation",
+    label: "Nous soutenir",
     desc: "Faire un don par TWINT ou par virement",
     href: "/soutenir",
   },
@@ -258,7 +258,9 @@ function ActivitesDesktopContent({ pathname }: { pathname: string }) {
           >
             <span
               className={`block font-body text-[12.5px] ${
-                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                isActive
+                  ? "font-semibold text-secondaire"
+                  : "font-normal text-encre"
               }`}
             >
               {label}
@@ -304,7 +306,9 @@ function ActivitesMobileContent({
             >
               <span
                 className={`block font-body text-[14px] ${
-                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                  isActive
+                    ? "font-semibold text-secondaire"
+                    : "font-normal text-encre"
                 }`}
               >
                 {label}
@@ -347,7 +351,9 @@ function FondationDesktopContent({ pathname }: { pathname: string }) {
           >
             <span
               className={`block font-body text-[12.5px] ${
-                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                isActive
+                  ? "font-semibold text-secondaire"
+                  : "font-normal text-encre"
               }`}
             >
               {label}
@@ -393,7 +399,9 @@ function FondationMobileContent({
             >
               <span
                 className={`block font-body text-[14px] ${
-                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                  isActive
+                    ? "font-semibold text-secondaire"
+                    : "font-normal text-encre"
                 }`}
               >
                 {label}
@@ -436,7 +444,9 @@ function FondsDesktopContent({ pathname }: { pathname: string }) {
           >
             <span
               className={`block font-body text-[12.5px] ${
-                isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                isActive
+                  ? "font-semibold text-secondaire"
+                  : "font-normal text-encre"
               }`}
             >
               {label}
@@ -482,7 +492,9 @@ function FondsMobileContent({
             >
               <span
                 className={`block font-body text-[14px] ${
-                  isActive ? "font-semibold text-secondaire" : "font-normal text-encre"
+                  isActive
+                    ? "font-semibold text-secondaire"
+                    : "font-normal text-encre"
                 }`}
               >
                 {label}
