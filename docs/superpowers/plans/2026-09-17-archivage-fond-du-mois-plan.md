@@ -744,9 +744,11 @@ import type {DocumentActionComponent, DocumentActionProps} from 'sanity'
 import {useToast} from '@sanity/ui'
 import {ArchiveIcon} from '@sanity/icons/Archive'
 
+// Note: 'annee' (number) is deliberately excluded — `fond` has no `annee`
+// field, it has `dates` (string), which `onHandle` below derives from
+// `published.annee` instead of copying it verbatim.
 const ARCHIVABLE_FIELDS = [
   'title',
-  'annee',
   'typeFond',
   'donateur',
   'chapo',
@@ -758,7 +760,10 @@ const ARCHIVABLE_FIELDS = [
   'videoUrl',
 ] as const
 
-const FIELDS_TO_CLEAR = [...ARCHIVABLE_FIELDS, 'theme', 'chapitre']
+// Everything on fondDuMois that should go back to empty once archived —
+// a superset of ARCHIVABLE_FIELDS, since 'annee' lives only on fondDuMois
+// (it becomes `fond.dates` above, not a same-named field).
+const FIELDS_TO_CLEAR = [...ARCHIVABLE_FIELDS, 'annee', 'theme', 'chapitre']
 
 export const newFondDuMoisAction: DocumentActionComponent = (
   props: DocumentActionProps,
@@ -798,6 +803,8 @@ export const newFondDuMoisAction: DocumentActionComponent = (
           _type: 'fond',
           theme: {_type: 'reference', _ref: themeRef._ref},
           chapitre,
+          dates:
+            typeof published.annee === 'number' ? String(published.annee) : undefined,
         }
         for (const field of ARCHIVABLE_FIELDS) {
           if (published[field] !== undefined) {
