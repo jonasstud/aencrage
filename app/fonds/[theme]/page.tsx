@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { themes } from "@/lib/fondsThemes";
+import { client } from "@/lib/sanity/client";
+import { THEMES_QUERY, THEME_BY_SLUG_QUERY } from "@/lib/sanity/queries";
+import { adaptTheme } from "@/lib/sanity/adapters";
 import ThemeHero from "@/components/ThemeHero";
 import ThemePageBody from "@/components/ThemePageBody";
 
 const SITE_URL = "https://www.fondationaencrage.ch";
+const options = { next: { revalidate: 60 } };
 
-export function generateStaticParams() {
-  return themes.map((t) => ({ theme: t.slug }));
+export async function generateStaticParams() {
+  const themes = await client.fetch(THEMES_QUERY, {}, options);
+  return themes.map((t: { slug: string }) => ({ theme: t.slug }));
 }
 
 export async function generateMetadata({
@@ -16,9 +20,10 @@ export async function generateMetadata({
   params: Promise<{ theme: string }>;
 }): Promise<Metadata> {
   const { theme: slug } = await params;
-  const theme = themes.find((t) => t.slug === slug);
-  if (!theme) return {};
+  const raw = await client.fetch(THEME_BY_SLUG_QUERY, { slug }, options);
+  if (!raw) return {};
 
+  const theme = adaptTheme(raw);
   const canonical = `/fonds/${theme.slug}`;
 
   return {
@@ -41,8 +46,10 @@ export default async function ThemePage({
   params: Promise<{ theme: string }>;
 }) {
   const { theme: slug } = await params;
-  const theme = themes.find((t) => t.slug === slug);
-  if (!theme) notFound();
+  const raw = await client.fetch(THEME_BY_SLUG_QUERY, { slug }, options);
+  if (!raw) notFound();
+
+  const theme = adaptTheme(raw);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
