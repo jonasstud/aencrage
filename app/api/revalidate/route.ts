@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (!body?.path) {
-      return new Response(JSON.stringify({ message: "Bad Request", body }), {
-        status: 400,
+      return NextResponse.json({
+        revalidated: false,
+        reason: "no path in payload",
       });
     }
 
