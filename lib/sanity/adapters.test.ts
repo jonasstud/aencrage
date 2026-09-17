@@ -85,3 +85,77 @@ test('returns an empty chapitre list when the theme has none', () => {
   const result = adaptTheme({_id: 't1', title: 'Thème', slug: 'theme', fonds: []})
   assert.deepEqual(result.chapitres, [])
 })
+
+test('processes couverture when present', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Photo'],
+        couverture: {alt: 'Cover'},
+        gallery: [
+          {_key: 'g1', alt: 'Photo 1'},
+        ],
+      },
+    ],
+  })
+
+  // Verify fond adapts without errors when couverture is present
+  const fond = result.chapitres[0].fonds[0]
+  assert.equal(fond.type, 'photo')
+  assert.equal(fond.title, 'Fond')
+  // images will be undefined since no asset URLs were provided
+  assert.equal(fond.images, undefined)
+})
+
+test('processes gallery-only fonds', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Photo'],
+        gallery: [
+          {_key: 'g1', alt: 'Photo 1'},
+        ],
+      },
+    ],
+  })
+
+  // Verify gallery-only fonds still adapt correctly
+  const fond = result.chapitres[0].fonds[0]
+  assert.equal(fond.type, 'photo')
+  assert.equal(fond.title, 'Fond')
+  assert.equal(fond.images, undefined)
+})
+
+test('disambiguates fallback chapitre ids on collision', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'autres', name: 'Autres'}],
+    fonds: [
+      {_id: 'f1', title: 'Fond 1', chapitre: 'autres', typeFond: ['Écrit']},
+      {_id: 'f2', title: 'Fond 2', chapitre: 'Autres', typeFond: ['Écrit']},
+      {_id: 'f3', title: 'Fond 3', chapitre: 'AUTRES', typeFond: ['Écrit']},
+    ],
+  })
+
+  const ids = result.chapitres.map((c) => c.id)
+  assert.ok(ids.includes('autres'))
+  assert.ok(ids.includes('autres-2'))
+  assert.ok(ids.includes('autres-3'))
+  assert.equal(new Set(ids).size, ids.length, 'all ids must be unique')
+})

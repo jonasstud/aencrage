@@ -53,11 +53,19 @@ function slugify(value: string): string {
 }
 
 function adaptFond(raw: SanityFond): Fond {
-  const images = (raw.gallery ?? [])
+  const couvertureUrl = raw.couverture?.asset?.url
+    ? urlForImage(raw.couverture).width(1200).fit("max").auto("format").url()
+    : undefined;
+
+  const galleryUrls = (raw.gallery ?? [])
     .filter((photo) => photo.asset?.url)
     .map((photo) =>
       urlForImage(photo).width(1200).fit("max").auto("format").url(),
     );
+
+  const images = [couvertureUrl, ...galleryUrls].filter(
+    (url): url is string => Boolean(url),
+  );
 
   const audio = (raw.audioFiles ?? []).find((a) => a.asset?.url);
 
@@ -97,10 +105,17 @@ export function adaptTheme(raw: SanityTheme): ThemePage {
     fonds: byChapitre.get(c.name) ?? [],
   }));
 
+  const usedIds = new Set(chapitres.map((c) => c.id));
   for (const [name, fonds] of byChapitre) {
-    if (!knownNames.has(name)) {
-      chapitres.push({ id: slugify(name), name, fonds });
+    if (knownNames.has(name)) continue;
+    let id = slugify(name);
+    let suffix = 2;
+    while (usedIds.has(id)) {
+      id = `${slugify(name)}-${suffix}`;
+      suffix += 1;
     }
+    usedIds.add(id);
+    chapitres.push({ id, name, fonds });
   }
 
   return {
