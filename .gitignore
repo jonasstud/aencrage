@@ -44,3 +44,6 @@ next-env.d.ts
 
 # superpowers subagent-driven-development scratch state
 /.superpowers/
+
+# local git worktrees
+/.worktrees/
