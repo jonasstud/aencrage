@@ -221,6 +221,48 @@ test('still runs a non-SVG asset through urlForImage even when extension is pres
   assert.doesNotMatch(images[0], /\.jpg$/)
 })
 
+test('dedupes images when couverture and a gallery entry resolve to the same url', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Photo'],
+        couverture: {
+          alt: 'Cover',
+          extension: 'svg',
+          asset: {url: 'https://cdn.sanity.io/images/x/y/dup-abc123.svg'},
+        },
+        gallery: [
+          {
+            _key: 'g1',
+            alt: 'Same as cover',
+            extension: 'svg',
+            asset: {url: 'https://cdn.sanity.io/images/x/y/dup-abc123.svg'},
+          },
+          {
+            _key: 'g2',
+            alt: 'Gallery 2',
+            extension: 'svg',
+            asset: {url: 'https://cdn.sanity.io/images/x/y/gallery2-abc123.svg'},
+          },
+        ],
+      },
+    ],
+  })
+
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 2)
+  assert.equal(images[0], 'https://cdn.sanity.io/images/x/y/dup-abc123.svg')
+  assert.equal(images[1], 'https://cdn.sanity.io/images/x/y/gallery2-abc123.svg')
+})
+
 test('disambiguates fallback chapitre ids on collision', () => {
   const result = adaptTheme({
     _id: 't1',

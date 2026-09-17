@@ -71,8 +71,12 @@ function adaptFond(raw: SanityFond): Fond {
     .map((photo) => resolveImageUrl(photo))
     .filter((url): url is string => Boolean(url));
 
-  const images = [couvertureUrl, ...galleryUrls].filter(
-    (url): url is string => Boolean(url),
+  const images = Array.from(
+    new Set(
+      [couvertureUrl, ...galleryUrls].filter(
+        (url): url is string => Boolean(url),
+      ),
+    ),
   );
 
   const audio = (raw.audioFiles ?? []).find((a) => a.asset?.url);
