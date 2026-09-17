@@ -86,7 +86,7 @@ test('returns an empty chapitre list when the theme has none', () => {
   assert.deepEqual(result.chapitres, [])
 })
 
-test('processes couverture when present', () => {
+test('prepends couverture to images when both couverture and gallery are present', () => {
   const result = adaptTheme({
     _id: 't1',
     title: 'Thème',
@@ -98,23 +98,47 @@ test('processes couverture when present', () => {
         title: 'Fond',
         chapitre: 'C',
         typeFond: ['Photo'],
-        couverture: {alt: 'Cover'},
+        couverture: {alt: 'Cover', asset: {url: 'https://cdn.sanity.io/images/x/y/couverture-800x600.jpg'}},
         gallery: [
-          {_key: 'g1', alt: 'Photo 1'},
+          {_key: 'g1', alt: 'Gallery 1', asset: {url: 'https://cdn.sanity.io/images/x/y/gallery1-800x600.jpg'}},
+          {_key: 'g2', alt: 'Gallery 2', asset: {url: 'https://cdn.sanity.io/images/x/y/gallery2-800x600.jpg'}},
         ],
       },
     ],
   })
 
-  // Verify fond adapts without errors when couverture is present
-  const fond = result.chapitres[0].fonds[0]
-  assert.equal(fond.type, 'photo')
-  assert.equal(fond.title, 'Fond')
-  // images will be undefined since no asset URLs were provided
-  assert.equal(fond.images, undefined)
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 3)
+  assert.match(images[0], /couverture/)
+  assert.match(images[1], /gallery1/)
+  assert.match(images[2], /gallery2/)
 })
 
-test('processes gallery-only fonds', () => {
+test('uses couverture as the only image when gallery is absent', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Photo'],
+        couverture: {alt: 'Cover', asset: {url: 'https://cdn.sanity.io/images/x/y/couverture-800x600.jpg'}},
+      },
+    ],
+  })
+
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 1)
+  assert.match(images[0], /couverture/)
+})
+
+test('uses first gallery photo as images[0] when couverture is absent', () => {
   const result = adaptTheme({
     _id: 't1',
     title: 'Thème',
@@ -127,17 +151,18 @@ test('processes gallery-only fonds', () => {
         chapitre: 'C',
         typeFond: ['Photo'],
         gallery: [
-          {_key: 'g1', alt: 'Photo 1'},
+          {_key: 'g1', alt: 'Gallery 1', asset: {url: 'https://cdn.sanity.io/images/x/y/gallery1-800x600.jpg'}},
+          {_key: 'g2', alt: 'Gallery 2', asset: {url: 'https://cdn.sanity.io/images/x/y/gallery2-800x600.jpg'}},
         ],
       },
     ],
   })
 
-  // Verify gallery-only fonds still adapt correctly
-  const fond = result.chapitres[0].fonds[0]
-  assert.equal(fond.type, 'photo')
-  assert.equal(fond.title, 'Fond')
-  assert.equal(fond.images, undefined)
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 2)
+  assert.match(images[0], /gallery1/)
+  assert.match(images[1], /gallery2/)
 })
 
 test('disambiguates fallback chapitre ids on collision', () => {
