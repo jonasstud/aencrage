@@ -21,6 +21,7 @@ import type { Fond, FondDocument } from "@/lib/fondsThemes";
 import { renderOrdinalTitle } from "@/lib/formatTitle";
 import { renderTextWithLinks } from "@/lib/richText";
 import { getYouTubeVideoId, getYouTubeThumbnail } from "@/lib/video";
+import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "#A88C5A",
@@ -918,15 +919,21 @@ function ModalContent({
       >
         {renderOrdinalTitle(fond.title)}
       </h2>
-      {(fond.fullText ?? fond.desc).split(/\n\n+/).map((paragraph, i) => (
-        <p
-          key={i}
-          className="font-body text-secondaire mb-4 last:mb-6"
-          style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line" }}
-        >
-          {renderTextWithLinks(paragraph)}
-        </p>
-      ))}
+      {Array.isArray(fond.content) && fond.content.length > 0 ? (
+        <div className="mb-4 last:mb-6 [&_p]:font-body [&_p]:text-secondaire [&_p]:text-[15px] [&_p]:leading-[1.6]">
+          <PortableTextContent value={fond.content} />
+        </div>
+      ) : (
+        (fond.fullText ?? fond.desc).split(/\n\n+/).map((paragraph, i) => (
+          <p
+            key={i}
+            className="font-body text-secondaire mb-4 last:mb-6"
+            style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line" }}
+          >
+            {renderTextWithLinks(paragraph)}
+          </p>
+        ))
+      )}
       <p
         className="font-mono text-gris mb-1"
         style={{
