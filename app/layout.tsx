@@ -3,6 +3,8 @@ import { Newsreader, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import NavHeader from "@/components/NavHeader";
 import DeposerSection from "@/components/DeposerSection";
+import { client } from "@/lib/sanity/client";
+import { THEMES_QUERY } from "@/lib/sanity/queries";
 
 const newsreader = Newsreader({
   weight: ["400", "500"],
@@ -84,11 +86,17 @@ const organizationJsonLd = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const rawThemes = await client.fetch(THEMES_QUERY, {}, { next: { revalidate: 60 } });
+  const navThemes = rawThemes.map((t: { slug: string; title: string }) => ({
+    slug: t.slug,
+    name: t.title,
+  }));
+
   return (
     <html
       lang="fr"
@@ -99,7 +107,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <NavHeader />
+        <NavHeader themes={navThemes} />
         {children}
         <DeposerSection />
       </body>
