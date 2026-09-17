@@ -40,10 +40,13 @@ files directly).
 - `lib/fondsThemes.ts` and `audio-peaks.json` are kept in the repo as
   reference/backup and must keep compiling — do not remove fields from
   their exported types, only add optional ones.
-- `studio-aencrage/` has **no git repository** (confirmed: `git status`
-  there returns "not a git repository"). Tasks touching that folder have no
-  commit step — mention this to the user and suggest `git init` there
-  separately; do not run it as part of this plan.
+- `studio-aencrage/` now has its own git repository (initialized at setup
+  time, separate from `aencrage/`'s, with its own initial commit and a
+  `.gitignore` for `node_modules/`, `dist/`, `.sanity/`, `*.log`). It has
+  no worktree isolation — commits there land directly on its `master`
+  branch. Tasks touching that folder DO include a commit step, run
+  directly `cd studio-aencrage && git add ... && git commit ...` (not
+  inside the `aencrage` worktree).
 
 ---
 
@@ -192,7 +195,13 @@ create a throwaway `theme` document (title, slug auto-fills, add one
 chapitre entry), save it, confirm the preview line shows "1 chapitre(s)".
 Delete the throwaway document afterwards.
 
-(No commit step — `studio-aencrage` has no git repository.)
+- [ ] **Step 5: Commit**
+
+```bash
+cd studio-aencrage
+git add schemaTypes/theme.ts schemaTypes/index.ts structure/index.ts
+git commit -m "feat: add theme document schema and desk structure entry"
+```
 
 ---
 
@@ -487,7 +496,13 @@ Create a throwaway `theme`, then a throwaway `fond` referencing it with
 `content` paragraph. Confirm the preview line shows "Nom thématique ·
 chapitre". Delete both throwaway documents afterwards.
 
-(No commit step.)
+- [ ] **Step 5: Commit**
+
+```bash
+cd studio-aencrage
+git add schemaTypes/fond.ts schemaTypes/index.ts structure/index.ts
+git commit -m "feat: add fond document schema and desk structure entry"
+```
 
 ---
 
@@ -550,7 +565,13 @@ correctly in the document list — the two inserts don't touch
 `preview.prepare`, this just confirms the edits didn't break the
 surrounding `fields` array syntax (trailing commas, matching brackets).
 
-(No commit step.)
+- [ ] **Step 3: Commit**
+
+```bash
+cd studio-aencrage
+git add schemaTypes/fondDuMois.ts
+git commit -m "feat: add theme, chapitre and videoUrl fields to fondDuMois"
+```
 
 ---
 
@@ -690,7 +711,11 @@ Expected: PASS, 6 tests.
 
 - [ ] **Step 5: Commit**
 
-(No git repo in `studio-aencrage` — skip. Confirm the two files are saved.)
+```bash
+cd studio-aencrage
+git add lib/textToPortableText.ts lib/textToPortableText.test.ts
+git commit -m "feat: add textToPortableText converter with tests"
+```
 
 ---
 
@@ -861,7 +886,13 @@ Run: `cd studio-aencrage && npm run dev` (if not already running).
 3. Clean up: delete any throwaway `fond`/`theme` documents created during
    verification.
 
-(No commit step.)
+- [ ] **Step 4: Commit**
+
+```bash
+cd studio-aencrage
+git add actions/newFondDuMois.ts sanity.config.ts
+git commit -m "feat: add Nouveau fond du mois archiving action"
+```
 
 ---
 
@@ -1097,7 +1128,17 @@ Portable Text editor, check `couverture`/`gallery` images loaded, check PDF
 file plays. Manually attach the `ecurie-chevres` video file as described
 in Step 1's note.
 
-(No commit step.)
+- [ ] **Step 5: Commit the script**
+
+```bash
+cd studio-aencrage
+git add scripts/migrate-fonds-themes.ts
+git commit -m "chore: add one-off fondsThemes.ts to Sanity migration script"
+```
+
+(Commit the script itself for the record — never commit the write token
+from Step 2, and there is nothing else to commit here since Step 3's
+effect lives in the `production` dataset, not in the working tree.)
 
 ---
 
@@ -1972,10 +2013,11 @@ git commit -m "feat: add Sanity webhook route for on-demand ISR revalidation"
 
 ## Post-plan notes for the user
 
-- `studio-aencrage/` has no git history at all. Worth running `git init`
-  there (with a `.gitignore` for `node_modules`) so the new schemas/action
-  are versioned — not done as part of this plan since it's a standalone
-  decision, not required by this feature.
+- `studio-aencrage/` was git-initialized at execution setup time (own repo,
+  own `master` branch, no worktree isolation — commits there land directly)
+  so the new schemas/action are versioned. Unlike `aencrage/`, this repo has
+  no remote and no isolation branch; review its `git log` directly when
+  checking this feature's Studio-side history.
 - Task 6's migration script is the one genuinely irreversible step in this
   plan (writes real content to the production dataset). Confirm before
   running it, and keep the write token out of shell history / committed
