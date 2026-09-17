@@ -54,7 +54,7 @@ export const THEME_BY_SLUG_QUERY = defineQuery(`
     "slug": slug.current,
     intro,
     chapitres[]{ id, name },
-    "fonds": *[_type == "fond" && references(^._id)]{
+    "fonds": *[_type == "fond" && references(^._id)] | order(_createdAt desc) {
       _id,
       title,
       typeFond,
