@@ -12,6 +12,8 @@ export type Fond = {
   desc: string;
   /** Texte long — affiché dans la modale (repli sur `desc` si absent). */
   fullText?: string;
+  /** Contenu riche Portable Text (fonds Sanity) — préféré à `fullText` quand présent. */
+  content?: unknown[];
   dates: string;
   provenance: string;
   type: "photo" | "ecrit" | "son" | "video";
