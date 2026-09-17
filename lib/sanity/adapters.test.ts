@@ -165,6 +165,62 @@ test('uses first gallery photo as images[0] when couverture is absent', () => {
   assert.match(images[1], /gallery2/)
 })
 
+test('passes an SVG asset url through unmodified instead of using urlForImage', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Écrit'],
+        couverture: {
+          alt: 'Logo',
+          extension: 'svg',
+          asset: {url: 'https://cdn.sanity.io/images/x/y-100x100.svg'},
+        },
+      },
+    ],
+  })
+
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 1)
+  assert.equal(images[0], 'https://cdn.sanity.io/images/x/y-100x100.svg')
+})
+
+test('still runs a non-SVG asset through urlForImage even when extension is present', () => {
+  const result = adaptTheme({
+    _id: 't1',
+    title: 'Thème',
+    slug: 'theme',
+    chapitres: [{id: 'c', name: 'C'}],
+    fonds: [
+      {
+        _id: 'f1',
+        title: 'Fond',
+        chapitre: 'C',
+        typeFond: ['Photo'],
+        couverture: {
+          alt: 'Cover',
+          extension: 'jpg',
+          asset: {url: 'https://cdn.sanity.io/images/x/y/couverture-800x600.jpg'},
+        },
+      },
+    ],
+  })
+
+  const images = result.chapitres[0].fonds[0].images
+  assert.ok(images)
+  assert.equal(images.length, 1)
+  assert.match(images[0], /couverture/)
+  assert.match(images[0], /[?&]w=1200/)
+  assert.doesNotMatch(images[0], /\.jpg$/)
+})
+
 test('disambiguates fallback chapitre ids on collision', () => {
   const result = adaptTheme({
     _id: 't1',

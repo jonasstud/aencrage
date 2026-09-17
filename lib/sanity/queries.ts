@@ -65,7 +65,8 @@ export const THEME_BY_SLUG_QUERY = defineQuery(`
       videoUrl,
       couverture{
         ...,
-        "asset": asset->
+        "asset": asset->,
+        "extension": asset->extension
       },
       content[]{
         ...,
@@ -77,7 +78,8 @@ export const THEME_BY_SLUG_QUERY = defineQuery(`
       gallery[]{
         _key,
         alt,
-        "asset": asset->
+        "asset": asset->,
+        "extension": asset->extension
       },
       documents[]{
         _key,

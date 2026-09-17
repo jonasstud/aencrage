@@ -2,7 +2,7 @@ import { urlForImage } from "./image";
 import type { Fond, Chapitre, ThemePage } from "@/lib/fondsThemes";
 
 type SanityAsset = { url?: string; originalFilename?: string };
-type SanityImageRef = { alt?: string; asset?: SanityAsset };
+type SanityImageRef = { alt?: string; asset?: SanityAsset; extension?: string };
 type SanityFileRef = { _key: string; title?: string; asset?: SanityAsset };
 type SanityAudioRef = {
   _key: string;
@@ -52,16 +52,24 @@ function slugify(value: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+function isSvg(extension?: string): boolean {
+  return extension?.toLowerCase() === "svg";
+}
+
+function resolveImageUrl(image: SanityImageRef): string | undefined {
+  if (!image.asset?.url) return undefined;
+  if (isSvg(image.extension)) return image.asset.url;
+  return urlForImage(image).width(1200).fit("max").auto("format").url();
+}
+
 function adaptFond(raw: SanityFond): Fond {
-  const couvertureUrl = raw.couverture?.asset?.url
-    ? urlForImage(raw.couverture).width(1200).fit("max").auto("format").url()
+  const couvertureUrl = raw.couverture
+    ? resolveImageUrl(raw.couverture)
     : undefined;
 
   const galleryUrls = (raw.gallery ?? [])
-    .filter((photo) => photo.asset?.url)
-    .map((photo) =>
-      urlForImage(photo).width(1200).fit("max").auto("format").url(),
-    );
+    .map((photo) => resolveImageUrl(photo))
+    .filter((url): url is string => Boolean(url));
 
   const images = [couvertureUrl, ...galleryUrls].filter(
     (url): url is string => Boolean(url),
