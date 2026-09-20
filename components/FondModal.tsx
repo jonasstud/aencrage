@@ -23,6 +23,7 @@ import { renderTextWithLinks } from "@/lib/richText";
 import { getYouTubeVideoId, getYouTubeThumbnail } from "@/lib/video";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
 import { resolveAudioFetchUrl } from "@/lib/audioProxy";
+import { computePeaksFromAudioBuffer } from "@/lib/audioPeaks";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "#A88C5A",
@@ -530,6 +531,7 @@ function AudioPlayer({
   const hideVolumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
+  const [computedPeaks, setComputedPeaks] = useState<number[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -540,7 +542,9 @@ function AudioPlayer({
   const [seekingRatio, setSeekingRatio] = useState<number | null>(null);
 
   const peaks =
-    audioPeaks && audioPeaks.length > 0 ? audioPeaks : DEFAULT_PEAKS;
+    audioPeaks && audioPeaks.length > 0
+      ? audioPeaks
+      : (computedPeaks ?? DEFAULT_PEAKS);
   const duration = audioBuffer?.duration ?? 0;
   const progress =
     seekingRatio !== null
@@ -582,6 +586,7 @@ function AudioPlayer({
     setCurrentTime(0);
     setHasError(false);
     setAudioBuffer(null);
+    setComputedPeaks(null);
     startOffsetRef.current = 0;
 
     if (!audioSrc) return;
@@ -604,6 +609,7 @@ function AudioPlayer({
       .then((buf) => ctx.decodeAudioData(buf))
       .then((decoded) => {
         setAudioBuffer(decoded);
+        setComputedPeaks(computePeaksFromAudioBuffer(decoded, NUM_BARS));
         setIsLoading(false);
       })
       .catch((err) => {
