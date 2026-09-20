@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { Camera, FileText, AudioLines, Video, ChevronRight } from "lucide-react";
+import {
+  Camera,
+  FileText,
+  AudioLines,
+  Video,
+  ChevronRight,
+} from "lucide-react";
 import { renderOrdinalTitle } from "@/lib/formatTitle";
 
 const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
@@ -12,10 +18,10 @@ const TYPE_LABELS: Record<"photo" | "ecrit" | "son" | "video", string> = {
 };
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
-  photo:  "#A88C5A",
-  ecrit:  "#758FB2",
-  son:    "#7A9E87",
-  video:  "#B07060",
+  photo: "#A88C5A",
+  ecrit: "#758FB2",
+  son: "#7A9E87",
+  video: "#B07060",
 };
 
 function FondTypeIcon({ type }: { type: "photo" | "ecrit" | "son" | "video" }) {
@@ -56,7 +62,7 @@ export default function FondCard({ fond, onOpen }: Props) {
             src={coverImage}
             alt=""
             fill
-            sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 65vw, 100vw"
             className={isLogo ? "object-contain p-8" : "object-cover"}
             unoptimized={isLogo}
           />
