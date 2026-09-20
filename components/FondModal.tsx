@@ -22,6 +22,7 @@ import { renderOrdinalTitle } from "@/lib/formatTitle";
 import { renderTextWithLinks } from "@/lib/richText";
 import { getYouTubeVideoId, getYouTubeThumbnail } from "@/lib/video";
 import { PortableTextContent } from "@/components/sanity/PortableTextContent";
+import { resolveAudioFetchUrl } from "@/lib/audioProxy";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "#A88C5A",
@@ -598,7 +599,7 @@ function AudioPlayer({
     const ctx = audioCtxRef.current;
     const controller = new AbortController();
 
-    fetch(audioSrc, { signal: controller.signal })
+    fetch(resolveAudioFetchUrl(audioSrc), { signal: controller.signal })
       .then((r) => r.arrayBuffer())
       .then((buf) => ctx.decodeAudioData(buf))
       .then((decoded) => {
