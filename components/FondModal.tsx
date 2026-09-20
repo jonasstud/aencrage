@@ -21,6 +21,9 @@ import type { Fond, FondDocument } from "@/lib/fondsThemes";
 import { renderOrdinalTitle } from "@/lib/formatTitle";
 import { renderTextWithLinks } from "@/lib/richText";
 import { getYouTubeVideoId, getYouTubeThumbnail } from "@/lib/video";
+import { PortableTextContent } from "@/components/sanity/PortableTextContent";
+import { resolveAudioFetchUrl } from "@/lib/audioProxy";
+import { computePeaksFromAudioBuffer } from "@/lib/audioPeaks";
 
 const TYPE_BORDER: Record<"photo" | "ecrit" | "son" | "video", string> = {
   photo: "#A88C5A",
@@ -498,9 +501,11 @@ function SonLayout({
       {images.length > 0 && (
         <ImageGallery key={fond.id} images={images} title={fond.title} />
       )}
-      <div style={{ background: "#EEF1F5", paddingTop: 24, paddingBottom: 20 }}>
-        <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
-      </div>
+      {fond.audioSrc && (
+        <div style={{ background: "#EEF1F5", paddingTop: 24, paddingBottom: 20 }}>
+          <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
+        </div>
+      )}
       <div style={{ padding: "32px 40px 40px" }}>
         <ModalContent fond={fond} chapitreName={chapitreName} />
         {downloadLink}
@@ -528,6 +533,7 @@ function AudioPlayer({
   const hideVolumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
+  const [computedPeaks, setComputedPeaks] = useState<number[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -538,7 +544,9 @@ function AudioPlayer({
   const [seekingRatio, setSeekingRatio] = useState<number | null>(null);
 
   const peaks =
-    audioPeaks && audioPeaks.length > 0 ? audioPeaks : DEFAULT_PEAKS;
+    audioPeaks && audioPeaks.length > 0
+      ? audioPeaks
+      : (computedPeaks ?? DEFAULT_PEAKS);
   const duration = audioBuffer?.duration ?? 0;
   const progress =
     seekingRatio !== null
@@ -580,6 +588,7 @@ function AudioPlayer({
     setCurrentTime(0);
     setHasError(false);
     setAudioBuffer(null);
+    setComputedPeaks(null);
     startOffsetRef.current = 0;
 
     if (!audioSrc) return;
@@ -597,11 +606,12 @@ function AudioPlayer({
     const ctx = audioCtxRef.current;
     const controller = new AbortController();
 
-    fetch(audioSrc, { signal: controller.signal })
+    fetch(resolveAudioFetchUrl(audioSrc), { signal: controller.signal })
       .then((r) => r.arrayBuffer())
       .then((buf) => ctx.decodeAudioData(buf))
       .then((decoded) => {
         setAudioBuffer(decoded);
+        setComputedPeaks(computePeaksFromAudioBuffer(decoded, NUM_BARS));
         setIsLoading(false);
       })
       .catch((err) => {
@@ -918,15 +928,21 @@ function ModalContent({
       >
         {renderOrdinalTitle(fond.title)}
       </h2>
-      {(fond.fullText ?? fond.desc).split(/\n\n+/).map((paragraph, i) => (
-        <p
-          key={i}
-          className="font-body text-secondaire mb-4 last:mb-6"
-          style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line" }}
-        >
-          {renderTextWithLinks(paragraph)}
-        </p>
-      ))}
+      {Array.isArray(fond.content) && fond.content.length > 0 ? (
+        <div className="mb-4 last:mb-6 [&_p]:font-body [&_p]:text-secondaire [&_p]:text-[15px] [&_p]:leading-[1.6]">
+          <PortableTextContent value={fond.content} />
+        </div>
+      ) : (
+        (fond.fullText ?? fond.desc).split(/\n\n+/).map((paragraph, i) => (
+          <p
+            key={i}
+            className="font-body text-secondaire mb-4 last:mb-6"
+            style={{ fontSize: 15, lineHeight: 1.6, whiteSpace: "pre-line" }}
+          >
+            {renderTextWithLinks(paragraph)}
+          </p>
+        ))
+      )}
       <p
         className="font-mono text-gris mb-1"
         style={{

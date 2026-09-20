@@ -15,11 +15,12 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { themes } from "@/lib/fondsThemes";
 
 // ---------------------------------------------------------------------------
 // Data
 // ---------------------------------------------------------------------------
+
+type NavTheme = { slug: string; name: string };
 
 type NavLinkId =
   "fondation" | "activites" | "thematiques" | "fonds" | "contact";
@@ -137,7 +138,7 @@ const MOBILE_BAR_HEIGHT = 88;
 // Dropdown content components
 // ---------------------------------------------------------------------------
 
-function ThematiquesDesktopContent({ pathname }: { pathname: string }) {
+function ThematiquesDesktopContent({ pathname, themes }: { pathname: string; themes: NavTheme[] }) {
   return (
     <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-75 px-4.5 pt-3.5 pb-1.5">
       {thematiqueCategories.map((cat, catIdx) => (
@@ -183,9 +184,11 @@ function ThematiquesDesktopContent({ pathname }: { pathname: string }) {
 function ThematiquesMobileContent({
   pathname,
   onClose,
+  themes,
 }: {
   pathname: string;
   onClose: () => void;
+  themes: NavTheme[];
 }) {
   return (
     <>
@@ -513,16 +516,18 @@ function FondsMobileContent({
 function DesktopDropdownContent({
   link,
   pathname,
+  themes,
 }: {
   link: NavLink;
   pathname: string;
+  themes: NavTheme[];
 }) {
   if (link.id === "fondation")
     return <FondationDesktopContent pathname={pathname} />;
   if (link.id === "activites")
     return <ActivitesDesktopContent pathname={pathname} />;
   if (link.id === "thematiques")
-    return <ThematiquesDesktopContent pathname={pathname} />;
+    return <ThematiquesDesktopContent pathname={pathname} themes={themes} />;
   if (link.id === "fonds") return <FondsDesktopContent pathname={pathname} />;
   return (
     <div className="bg-papier border border-encre min-w-50 p-3">
@@ -540,17 +545,19 @@ function MobileDropdownContent({
   link,
   pathname,
   onClose,
+  themes,
 }: {
   link: NavLink;
   pathname: string;
   onClose: () => void;
+  themes: NavTheme[];
 }) {
   if (link.id === "fondation")
     return <FondationMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "activites")
     return <ActivitesMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "thematiques")
-    return <ThematiquesMobileContent pathname={pathname} onClose={onClose} />;
+    return <ThematiquesMobileContent pathname={pathname} onClose={onClose} themes={themes} />;
   if (link.id === "fonds")
     return <FondsMobileContent pathname={pathname} onClose={onClose} />;
   return (
@@ -568,7 +575,7 @@ function MobileDropdownContent({
 // Main component
 // ---------------------------------------------------------------------------
 
-export default function NavHeader() {
+export default function NavHeader({ themes }: { themes: NavTheme[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<NavLinkId | null>(null);
   const [openMobileItem, setOpenMobileItem] = useState<NavLinkId | null>(null);
@@ -642,7 +649,7 @@ export default function NavHeader() {
                       : "opacity-0 pointer-events-none"
                   }`}
                 >
-                  <DesktopDropdownContent link={link} pathname={pathname} />
+                  <DesktopDropdownContent link={link} pathname={pathname} themes={themes} />
                 </div>
               </div>
             ) : (
@@ -730,6 +737,7 @@ export default function NavHeader() {
                           link={link}
                           pathname={pathname}
                           onClose={closeMobileMenu}
+                          themes={themes}
                         />
                       </div>
                     )}
