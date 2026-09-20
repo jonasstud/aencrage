@@ -501,9 +501,11 @@ function SonLayout({
       {images.length > 0 && (
         <ImageGallery key={fond.id} images={images} title={fond.title} />
       )}
-      <div style={{ background: "#EEF1F5", paddingTop: 24, paddingBottom: 20 }}>
-        <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
-      </div>
+      {fond.audioSrc && (
+        <div style={{ background: "#EEF1F5", paddingTop: 24, paddingBottom: 20 }}>
+          <AudioPlayer audioSrc={fond.audioSrc} audioPeaks={fond.audioPeaks} />
+        </div>
+      )}
       <div style={{ padding: "32px 40px 40px" }}>
         <ModalContent fond={fond} chapitreName={chapitreName} />
         {downloadLink}
