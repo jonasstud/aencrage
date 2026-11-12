@@ -110,7 +110,7 @@ const fondationItems = [
 const activitesSection = { icon: CalendarDays, label: "Au programme" };
 const activitesItems = [
   {
-    label: "Fond du mois",
+    label: "Fonds du mois",
     desc: "Une pièce des archives, commentée",
     href: "/fond-du-mois",
   },
@@ -138,7 +138,13 @@ const MOBILE_BAR_HEIGHT = 88;
 // Dropdown content components
 // ---------------------------------------------------------------------------
 
-function ThematiquesDesktopContent({ pathname, themes }: { pathname: string; themes: NavTheme[] }) {
+function ThematiquesDesktopContent({
+  pathname,
+  themes,
+}: {
+  pathname: string;
+  themes: NavTheme[];
+}) {
   return (
     <div className="bg-papier border border-gris/20 shadow-[0_14px_28px_rgba(20,30,40,0.10)] w-75 px-4.5 pt-3.5 pb-1.5">
       {thematiqueCategories.map((cat, catIdx) => (
@@ -557,7 +563,13 @@ function MobileDropdownContent({
   if (link.id === "activites")
     return <ActivitesMobileContent pathname={pathname} onClose={onClose} />;
   if (link.id === "thematiques")
-    return <ThematiquesMobileContent pathname={pathname} onClose={onClose} themes={themes} />;
+    return (
+      <ThematiquesMobileContent
+        pathname={pathname}
+        onClose={onClose}
+        themes={themes}
+      />
+    );
   if (link.id === "fonds")
     return <FondsMobileContent pathname={pathname} onClose={onClose} />;
   return (
@@ -649,7 +661,11 @@ export default function NavHeader({ themes }: { themes: NavTheme[] }) {
                       : "opacity-0 pointer-events-none"
                   }`}
                 >
-                  <DesktopDropdownContent link={link} pathname={pathname} themes={themes} />
+                  <DesktopDropdownContent
+                    link={link}
+                    pathname={pathname}
+                    themes={themes}
+                  />
                 </div>
               </div>
             ) : (

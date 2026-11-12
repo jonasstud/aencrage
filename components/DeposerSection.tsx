@@ -11,7 +11,7 @@ export default function DeposerSection() {
         {/* Left — deposit */}
         <div>
           <p className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-laiton mb-3 m-0">
-            Déposer un fond
+            Déposer un fonds
           </p>
           <h2 className="font-display font-normal text-[32px] leading-[1.2] max-w-130 m-0 mb-5">
             Confiez vos écrits, photographies ou enregistrements à la fondation

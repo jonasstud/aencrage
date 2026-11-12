@@ -35,57 +35,57 @@ export default async function EnEvidenceSection() {
       </FadeIn>
 
       <FadeIn delay={0.18}>
-      <div className="border border-[rgba(19,20,23,0.12)] p-10">
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 items-center">
-          {/* Left — text */}
-          <div>
-            {metaItems.length > 0 && (
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-4">
-                {metaItems.map((item, i) => (
-                  <span key={item.key} className="flex items-center gap-1.5">
-                    {i > 0 && <span aria-hidden="true">·</span>}
-                    {item.icon && <item.icon size={12} />}
-                    {item.label}
-                  </span>
-                ))}
-              </div>
-            )}
-            <h3 className="font-display font-normal text-[26px] leading-[1.2] text-encre mb-4">
-              {title}
-            </h3>
-            {chapo && (
-              <p className="font-body text-[15px] leading-[1.65] text-secondaire m-0 mb-6">
-                {chapo}
-              </p>
-            )}
-            <Link
-              href="/fond-du-mois"
-              className="font-mono text-[12px] tracking-[0.14em] uppercase text-encre border-b border-encre pb-px hover:border-transparent transition-colors"
-            >
-              Voir le fond du mois →
-            </Link>
-          </div>
+        <div className="border border-[rgba(19,20,23,0.12)] p-10">
+          <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-14 items-center">
+            {/* Left — text */}
+            <div>
+              {metaItems.length > 0 && (
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-[0.14em] uppercase text-gris mb-4">
+                  {metaItems.map((item, i) => (
+                    <span key={item.key} className="flex items-center gap-1.5">
+                      {i > 0 && <span aria-hidden="true">·</span>}
+                      {item.icon && <item.icon size={12} />}
+                      {item.label}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <h3 className="font-display font-normal text-[26px] leading-[1.2] text-encre mb-4">
+                {title}
+              </h3>
+              {chapo && (
+                <p className="font-body text-[15px] leading-[1.65] text-secondaire m-0 mb-6">
+                  {chapo}
+                </p>
+              )}
+              <Link
+                href="/fond-du-mois"
+                className="font-mono text-[12px] tracking-[0.14em] uppercase text-encre border-b border-encre pb-px hover:border-transparent transition-colors"
+              >
+                Voir le fonds du mois →
+              </Link>
+            </div>
 
-          {/* Right — image */}
-          <div className="aspect-4/3 relative overflow-hidden bg-placeholder">
-            {hasCouverture ? (
-              <Image
-                src={urlForImage(couverture)
-                  .width(900)
-                  .fit("max")
-                  .auto("format")
-                  .url()}
-                alt={couverture.alt ?? title}
-                fill
-                sizes="(min-width: 768px) 40vw, 100vw"
-                className="object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-placeholder" />
-            )}
+            {/* Right — image */}
+            <div className="aspect-4/3 relative overflow-hidden bg-placeholder">
+              {hasCouverture ? (
+                <Image
+                  src={urlForImage(couverture)
+                    .width(900)
+                    .fit("max")
+                    .auto("format")
+                    .url()}
+                  alt={couverture.alt ?? title}
+                  fill
+                  sizes="(min-width: 768px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-placeholder" />
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </FadeIn>
     </section>
   );

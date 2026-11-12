@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const fond = await client.fetch(FOND_DU_MOIS_QUERY, {}, options);
   if (!fond) {
     return {
-      title: "Fond du mois",
+      title: "Fonds du mois",
       alternates: { canonical: "/fond-du-mois" },
     };
   }
